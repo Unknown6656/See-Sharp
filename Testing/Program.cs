@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Runtime.ExceptionServices;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Drawing.Imaging;
 using System.Drawing;
@@ -16,21 +17,46 @@ namespace Testing
     {
         public static readonly string dir = $@"{new FileInfo(typeof(Program).Assembly.Location).Directory.FullName}\output\";
 
+        [STAThread, HandleProcessCorruptedStateExceptions]
         public static int Main(string[] args)
         {
-            Bitmap src = Properties.Resources.test_image;
-
             Directory.SetCurrentDirectory($@"{dir}..\");
 
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
 
-            int main()
-            {
+            bool res = InnerMain(Properties.Resources.test_image_1, Properties.Resources.test_image_2);
+
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.ReadKey(true);
+
+            return res ? 0 : 1;
+        }
+
+        private static bool InnerMain(Bitmap src1, Bitmap src2)
+        {
+            bool err = false;
+
+            foreach ((IBitmapEffect fx, Type t) in from t in typeof(IBitmapEffect).Assembly.GetTypes()
+                                                   where !t.IsAbstract
+                                                   where t.IsClass
+                                                   where typeof(IBitmapEffect).IsAssignableFrom(t)
+                                                   orderby t.Name ascending
+                                                   let attr = t.GetCustomAttributes(true)
+                                                   let obs = from a in attr
+                                                             where a is ObsoleteAttribute
+                                                             select a
+                                                   where !obs.Any()
+                                                   let cons = from c in t.GetConstructors()
+                                                              where c.GetParameters().Length == 0
+                                                              select c
+                                                   where cons.Any()
+                                                   select (Activator.CreateInstance(t) as IBitmapEffect, t))
                 try
                 {
-                    src.ApplyEffect<NashvilleBitmapEffect>()
-                       .Save($"{dir}{DateTime.Now:yyyy-MM-dd-HH-mm-ss-ffffff}.png", ImageFormat.Png);
+                    Bitmap dst = fx is BitmapBlendEffect blend ? blend.Blend(src1, src2) : src1.ApplyEffect(fx);
+
+                    dst.Save($"{dir}[{DateTime.Now:yyyy-MM-dd HH-mm-ss}] {t.FullName}.png", ImageFormat.Png);
 
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("OK.");
@@ -46,18 +72,10 @@ namespace Testing
                         ex = ex.InnerException;
                     }
 
-                    return -1;
+                    err |= true;
                 }
 
-                return 0;
-            }
-
-            int res = main();
-
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.ReadKey(true);
-
-            return res;
+            return err;
         }
     }
 }

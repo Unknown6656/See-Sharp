@@ -20,15 +20,25 @@ namespace SeeSharp
     {
         #region BASIC COLOR EFFECTS
 
+        /// <summary>
+        /// Represents a grayscale bitmap effect
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class GrayscaleBitmapEffect
             : BitmapColorEffect
         {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public GrayscaleBitmapEffect()
                 : this(1.0)
             {
             }
 
+            /// <summary>
+            /// Creates a new instance, which applies the current effect to the given amount
+            /// </summary>
+            /// <param name="amount">Amount [0..1]</param>
             public GrayscaleBitmapEffect(double amount)
             {
                 double i = amount.Normalize() / 3.0;
@@ -44,15 +54,25 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// Represents an opacity bitmap effect
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class OpacityBitmapEffect
             : BitmapColorEffect
         {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public OpacityBitmapEffect()
                 : this(1.0)
             {
             }
 
+            /// <summary>
+            /// Creates a new instance, which applies the current effect to the given amount
+            /// </summary>
+            /// <param name="amount">Amount [0..1]</param>
             public OpacityBitmapEffect(double amount)
             {
                 this.ColorMatrix = new double[5, 5] {
@@ -65,15 +85,25 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// Represents an inversion bitmap effect
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class InvertBitmapEffect
             : BitmapColorEffect
         {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public InvertBitmapEffect()
                 : this(1.0)
             {
             }
 
+            /// <summary>
+            /// Creates a new instance, which applies the current effect to the given amount
+            /// </summary>
+            /// <param name="amount">Amount [0..1]</param>
             public InvertBitmapEffect(double amount)
             {
                 double a = amount.Normalize();
@@ -88,6 +118,9 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// Represents a brightness bitmap effect
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class BrightnessBitmapEffect
     #if USE_HSL_BRIGHTNESS
@@ -96,10 +129,9 @@ namespace SeeSharp
             : BitmapColorEffect
     #endif
         {
-            public double Amount { internal set; get; }
-
-    #if USE_HSL_BRIGHTNESS
-            public Bitmap Apply(Bitmap bmp)
+            internal double Amount;
+#if USE_HSL_BRIGHTNESS
+            public override Bitmap Apply(Bitmap bmp)
             {
                 BitmapLockInfo src = bmp.LockBitmap();
                 BitmapLockInfo dst = new Bitmap(bmp.Width, bmp.Height, bmp.PixelFormat).LockBitmap();
@@ -120,12 +152,19 @@ namespace SeeSharp
 
                 return dst.Unlock();
             }
-    #endif
+#endif
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public BrightnessBitmapEffect()
                 : this(1.0)
             {
             }
 
+            /// <summary>
+            /// Creates a new instance, which applies the current effect to the given amount
+            /// </summary>
+            /// <param name="amount">Amount [0..1]</param>
             public BrightnessBitmapEffect(double amount)
             {
                 double a = Amount = amount < 0 ? 0 : amount;
@@ -141,12 +180,23 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// Represents a saturation bitmap effect
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class SaturationBitmapEffect
             : RangeEffect
         {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public double Amount { internal set; get; }
 
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp)
             {
                 double a = Amount;
@@ -184,23 +234,40 @@ namespace SeeSharp
     #endif
             }
 
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public SaturationBitmapEffect()
                 : this(1.0)
             {
             }
 
+            /// <summary>
+            /// Creates a new instance, which applies the current effect to the given amount
+            /// </summary>
+            /// <param name="amount">Amount [0..1]</param>
             public SaturationBitmapEffect(double amount) => this.Amount = amount < 0 ? 0 : amount;
         }
 
+        /// <summary>
+        /// Represents a contrast bitmap effect
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class ContrastBitmapEffect
             : BitmapColorEffect
         {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public ContrastBitmapEffect()
                 : this(1.0)
             {
             }
 
+            /// <summary>
+            /// Creates a new instance, which applies the current effect to the given amount
+            /// </summary>
+            /// <param name="amount">Amount [0..1]</param>
             public ContrastBitmapEffect(double amount)
             {
                 double c = amount < 0 ? 0 : amount;
@@ -216,15 +283,25 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// Represents a sepia bitmap effect
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class SepiaBitmapEffect
             : BitmapColorEffect
         {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public SepiaBitmapEffect()
                 : this(1.0)
             {
             }
 
+            /// <summary>
+            /// Creates a new instance, which applies the current effect to the given amount
+            /// </summary>
+            /// <param name="amount">Amount [0..1]</param>
             public SepiaBitmapEffect(double amount)
             {
                 double a = amount.Normalize();
@@ -242,45 +319,99 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// Represents an overlay bitmap effect
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class OverlayBitmapEffect
             : BitmapColorEffect
         {
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="color"></param>
             public OverlayBitmapEffect(Color color)
                 : this(color, 1.0)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="color"></param>
+            /// <param name="amount"></param>
             public OverlayBitmapEffect(Color color, double amount)
                 : this(color.A / 255.0, color.R / 255.0, color.G / 255.0, color.B / 255.0, 1.0)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public OverlayBitmapEffect(byte r, byte g, byte b)
                 : this(1.0, r / 255.0, g / 255.0, b / 255.0, 1.0)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
+            /// <param name="amount"></param>
             public OverlayBitmapEffect(byte r, byte g, byte b, double amount)
                 : this(1.0, r / 255.0, g / 255.0, b / 255.0, amount)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="a"></param>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
+            /// <param name="amount"></param>
             public OverlayBitmapEffect(byte a, byte r, byte g, byte b, byte amount)
                 : this(a / 255.0, r / 255.0, g / 255.0, b / 255.0, amount)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public OverlayBitmapEffect(double r, double g, double b)
                 : this(1.0, r, g, b, 1.0)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
+            /// <param name="amount"></param>
             public OverlayBitmapEffect(double r, double g, double b, double amount)
                 : this(1.0, r, g, b, amount)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="a"></param>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
+            /// <param name="amount"></param>
             public OverlayBitmapEffect(double a, double r, double g, double b, double amount)
                 : this(a.Normalize(), r.Normalize(), g.Normalize(), b.Normalize(), amount.Normalize(), 1 - amount.Normalize())
             {
@@ -298,13 +429,27 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// Represents a tint bitmap effect
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class TintBitmapEffect
             : RangeEffect
         {
+            /// <summary>
+            /// The tint degree [0..2π]
+            /// </summary>
             public double Degree { internal set; get; }
+            /// <summary>
+            /// The tint amount
+            /// </summary>
             public double Amount { internal set; get; }
 
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp)
             {
                 BitmapLockInfo src = bmp.LockBitmap();
@@ -378,16 +523,28 @@ namespace SeeSharp
                 return dst.Unlock();
             }
 
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public TintBitmapEffect()
                 : this(-PI, 1)
             {
             }
 
+            /// <summary>
+            /// Creates a new instance with the given tinting degree
+            /// </summary>
+            /// <param name="degree">The tint degree [0..2π]</param>
             public TintBitmapEffect(double degree)
                 : this(degree, 1)
             {
             }
 
+            /// <summary>
+            /// Creates a new instance with the given tinting degree and amount
+            /// </summary>
+            /// <param name="degree">The tint degree [0..2π]</param>
+            /// <param name="amount">The tint amount</param>
             public TintBitmapEffect(double degree, double amount)
             {
                 this.Amount = amount;
@@ -395,13 +552,27 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// Represents a smiple glow bitmap effect
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class SimpleGlowBitmapEffect
             : RangeEffect
         {
+            /// <summary>
+            /// 
+            /// </summary>
             public double Radius { internal set; get; }
+            /// <summary>
+            /// The glow radius
+            /// </summary>
             public double Amount { internal set; get; }
-
+            
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp)
             {
                 bmp = bmp.ToARGB32();
@@ -413,16 +584,28 @@ namespace SeeSharp
                           .Average(bmp, Amount);
             }
 
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public SimpleGlowBitmapEffect()
                 : this(5)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="radius"></param>
             public SimpleGlowBitmapEffect(double radius)
                 : this(radius, 1)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="radius"></param>
+            /// <param name="amount"></param>
             public SimpleGlowBitmapEffect(double radius, double amount)
             {
                 this.Radius = radius < 0 ? 0 : radius;
@@ -433,12 +616,23 @@ namespace SeeSharp
         #endregion
         #region PORTED INSTAGRAM CSS COLOR FILTERS
 
+        /// <summary>
+        /// Represents the Instagram 'Nashville' CSS bitmap effect
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class NashvilleBitmapEffect
             : InstagramEffect
         {
+            /// <summary>
+            /// The tint amount (between -1 and +1)
+            /// </summary>
             public double Tint { internal set; get; }
 
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp) => bmp.ToARGB32()
                                                            .ApplyEffectRange<BitmapColorEffect>(Range, new double[5, 5] {
                                                                { 1,0,0,0,-.50, },
@@ -464,18 +658,33 @@ namespace SeeSharp
             // sepia(.2) contrast(1.2) brightness(1.05) saturate(1.2);
             // lighten rgba(0, 70, 150, .4);
 
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public NashvilleBitmapEffect()
                 : this(0)
             {
             }
 
+            /// <summary>
+            /// Creates a new instance with the given tint amount
+            /// </summary>
+            /// <param name="tint">The tint amount (between -1 and +1)</param>
             public NashvilleBitmapEffect(double tint) => this.Tint = tint.Constrain(-1, 1);
         }
 
+        /// <summary>
+        /// Represents the Instagram additive 'Nashville' CSS bitmap effect
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class AdditiveNashvilleBitmapEffect
             : InstagramEffect
         {
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp) => bmp.ToARGB32()
                                                            .ApplyEffectRange<BitmapColorEffect>(Range, new double[5, 5] {
                                                                { 1,0,0,0,-.50, },
@@ -502,10 +711,18 @@ namespace SeeSharp
             // mix more with solid 0/70/150/255 ---> maybe up to 30% lighter color?
         }
 
+        /// <summary>
+        /// Represents the Instagram 'Aden' CSS bitmap effect
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class AdenBitmapEffect
             : InstagramEffect
         {
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp) => bmp.ToARGB32()
                                                            .ApplyEffectRange<TintBitmapEffect>(Range, -PI / 9)
                                                            .ApplyEffectRange<ContrastBitmapEffect>(Range, .9)
@@ -522,10 +739,18 @@ namespace SeeSharp
             // rgba(66, 10, 14, .2) darken
         }
 
+        /// <summary>
+        /// Represents the Instagram 'Inkwell' CSS bitmap effect
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class InkwellBitmapEffect
             : InstagramEffect
         {
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp) => bmp.ToARGB32()
                                                            .ApplyEffectRange<SepiaBitmapEffect>(Range, .3)
                                                            .ApplyEffectRange<ContrastBitmapEffect>(Range, 1.2)
@@ -534,10 +759,18 @@ namespace SeeSharp
             // sepia(.3) contrast(1.1) brightness(1.1) grayscale(1)
         }
 
+        /// <summary>
+        /// Represents the Instagram 'Reyes' CSS bitmap effect
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class ReyesBitmapEffect
             : InstagramEffect
         {
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp) => bmp.ToARGB32()
                                                            .ApplyEffectRange<SepiaBitmapEffect>(Range, .22)
                                                            .ApplyEffectRange<BrightnessBitmapEffect>(Range, 1.1)
@@ -546,10 +779,18 @@ namespace SeeSharp
             // sepia(.22) brightness(1.1) contrast(.85) saturate(.75);
         }
 
+        /// <summary>
+        /// Represents the Instagram smooth 'Walden' CSS bitmap effect
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class SmoothWaldenBitmapEffect
             : InstagramEffect
         {
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp) => bmp.ApplyEffectRange<BrightnessBitmapEffect>(Range, 1.1)
                                                            .ApplyEffectRange<TintBitmapEffect>(Range, -PI)
                                                            .ApplyEffectRange<SepiaBitmapEffect>(Range, .3)
@@ -560,10 +801,18 @@ namespace SeeSharp
             // screen #04c .3
         }
 
+        /// <summary>
+        /// Represents the Instagram 'Walden' CSS bitmap effect
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class WaldenBitmapEffect
             : InstagramEffect
         {
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp) => bmp.ApplyEffectRange<SepiaBitmapEffect>(Range, .35)
                                                            .ApplyEffectRange<ContrastBitmapEffect>(Range, 1.2)
                                                            .ApplyEffectRange<BrightnessBitmapEffect>(Range, 1.1)
@@ -575,10 +824,18 @@ namespace SeeSharp
             // sepia(0.35) contrast(0.9) brightness(1.1) hue-rotate(-10deg) saturate(1.5);
         }
 
+        /// <summary>
+        /// Represents the Instagram 'LoFi' CSS bitmap effect
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class LoFiBitmapEffect
             : InstagramEffect
         {
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp) => bmp.ApplyEffectRange<ContrastBitmapEffect>(Range, 1.5)
                                                            .ApplyEffectRange<BrightnessBitmapEffect>(Range, 1.7)
                                                            .ApplyEffectRange<SaturationBitmapEffect>(Range, 1.1)
@@ -589,10 +846,18 @@ namespace SeeSharp
         #endregion
         #region COLOR BLEND EFFECTS
 
+        /// <summary>
+        /// Represents a screen (inverse multiplicative) bitmap blend effect
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class ScreenBlendColorEffect
             : BlendColorEffect
         {
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp)
             {
                 BitmapLockInfo src = bmp.LockBitmap();
@@ -622,30 +887,58 @@ namespace SeeSharp
                 return dst.Unlock();
             }
 
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public ScreenBlendColorEffect()
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="clr"></param>
             public ScreenBlendColorEffect(Color clr)
                 : base(clr)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public ScreenBlendColorEffect(double r, double g, double b)
                 : base(0, r, g, b)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="a"></param>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public ScreenBlendColorEffect(double a, double r, double g, double b)
                 : base(a, r, g, b)
             {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class MultiplyBlendColorEffect
             : BlendColorEffect
         {
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp)
             {
                 BitmapLockInfo src = bmp.LockBitmap();
@@ -674,30 +967,58 @@ namespace SeeSharp
                 return dst.Unlock();
             }
 
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public MultiplyBlendColorEffect()
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="clr"></param>
             public MultiplyBlendColorEffect(Color clr)
                 : base(clr)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public MultiplyBlendColorEffect(double r, double g, double b)
                 : base(0, r, g, b)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="a"></param>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public MultiplyBlendColorEffect(double a, double r, double g, double b)
                 : base(a, r, g, b)
             {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class DivideBlendColorEffect
             : BlendColorEffect
         {
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp)
             {
                 BitmapLockInfo src = bmp.LockBitmap();
@@ -726,30 +1047,58 @@ namespace SeeSharp
                 return dst.Unlock();
             }
 
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public DivideBlendColorEffect()
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="clr"></param>
             public DivideBlendColorEffect(Color clr)
                 : base(clr)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public DivideBlendColorEffect(double r, double g, double b)
                 : base(0, r, g, b)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="a"></param>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public DivideBlendColorEffect(double a, double r, double g, double b)
                 : base(a, r, g, b)
             {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class OverlayBlendColorEffect
             : BlendColorEffect
         {
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp)
             {
                 BitmapLockInfo src = bmp.LockBitmap();
@@ -785,30 +1134,58 @@ namespace SeeSharp
                 return dst.Unlock();
             }
 
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public OverlayBlendColorEffect()
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="clr"></param>
             public OverlayBlendColorEffect(Color clr)
                 : base(clr)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public OverlayBlendColorEffect(double r, double g, double b)
                 : base(0, r, g, b)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="a"></param>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public OverlayBlendColorEffect(double a, double r, double g, double b)
                 : base(a, r, g, b)
             {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class HardLightBlendColorEffect
             : BlendColorEffect
         {
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp)
             {
                 BitmapLockInfo src = bmp.LockBitmap();
@@ -844,30 +1221,58 @@ namespace SeeSharp
                 return dst.Unlock();
             }
 
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public HardLightBlendColorEffect()
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="clr"></param>
             public HardLightBlendColorEffect(Color clr)
                 : base(clr)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public HardLightBlendColorEffect(double r, double g, double b)
                 : base(0, r, g, b)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="a"></param>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public HardLightBlendColorEffect(double a, double r, double g, double b)
                 : base(a, r, g, b)
             {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class SoftLightBlendColorEffect
             : BlendColorEffect
         {
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp)
             {
                 BitmapLockInfo src = bmp.LockBitmap();
@@ -898,30 +1303,58 @@ namespace SeeSharp
                 return dst.Unlock();
             }
 
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public SoftLightBlendColorEffect()
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="clr"></param>
             public SoftLightBlendColorEffect(Color clr)
                 : base(clr)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public SoftLightBlendColorEffect(double r, double g, double b)
                 : base(0, r, g, b)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="a"></param>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public SoftLightBlendColorEffect(double a, double r, double g, double b)
                 : base(a, r, g, b)
             {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class AddBlendColorEffect
             : BlendColorEffect
         {
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp)
             {
                 BitmapLockInfo src = bmp.LockBitmap();
@@ -950,30 +1383,58 @@ namespace SeeSharp
                 return dst.Unlock();
             }
 
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public AddBlendColorEffect()
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="clr"></param>
             public AddBlendColorEffect(Color clr)
                 : base(clr)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public AddBlendColorEffect(double r, double g, double b)
                 : base(0, r, g, b)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="a"></param>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public AddBlendColorEffect(double a, double r, double g, double b)
                 : base(a, r, g, b)
             {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class SubtractBlendColorEffect
             : BlendColorEffect
         {
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp)
             {
                 BitmapLockInfo src = bmp.LockBitmap();
@@ -1002,30 +1463,58 @@ namespace SeeSharp
                 return dst.Unlock();
             }
 
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public SubtractBlendColorEffect()
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="clr"></param>
             public SubtractBlendColorEffect(Color clr)
                 : base(clr)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public SubtractBlendColorEffect(double r, double g, double b)
                 : base(0, r, g, b)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="a"></param>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public SubtractBlendColorEffect(double a, double r, double g, double b)
                 : base(a, r, g, b)
             {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class DifferenceBlendColorEffect
             : BlendColorEffect
         {
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp)
             {
                 BitmapLockInfo src = bmp.LockBitmap();
@@ -1054,30 +1543,58 @@ namespace SeeSharp
                 return dst.Unlock();
             }
 
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public DifferenceBlendColorEffect()
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="clr"></param>
             public DifferenceBlendColorEffect(Color clr)
                 : base(clr)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public DifferenceBlendColorEffect(double r, double g, double b)
                 : base(0, r, g, b)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="a"></param>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public DifferenceBlendColorEffect(double a, double r, double g, double b)
                 : base(a, r, g, b)
             {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class DarkerOnlyBlendColorEffect
             : BlendColorEffect
         {
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp)
             {
                 BitmapLockInfo src = bmp.LockBitmap();
@@ -1106,30 +1623,58 @@ namespace SeeSharp
                 return dst.Unlock();
             }
 
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public DarkerOnlyBlendColorEffect()
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="clr"></param>
             public DarkerOnlyBlendColorEffect(Color clr)
                 : base(clr)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public DarkerOnlyBlendColorEffect(double r, double g, double b)
                 : base(0, r, g, b)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="a"></param>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public DarkerOnlyBlendColorEffect(double a, double r, double g, double b)
                 : base(a, r, g, b)
             {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class LighterOnlyBlendColorEffect
             : BlendColorEffect
         {
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp)
             {
                 BitmapLockInfo src = bmp.LockBitmap();
@@ -1158,20 +1703,40 @@ namespace SeeSharp
                 return dst.Unlock();
             }
 
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public LighterOnlyBlendColorEffect()
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="clr"></param>
             public LighterOnlyBlendColorEffect(Color clr)
                 : base(clr)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public LighterOnlyBlendColorEffect(double r, double g, double b)
                 : base(0, r, g, b)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="a"></param>
+            /// <param name="r"></param>
+            /// <param name="g"></param>
+            /// <param name="b"></param>
             public LighterOnlyBlendColorEffect(double a, double r, double g, double b)
                 : base(a, r, g, b)
             {
@@ -1181,10 +1746,20 @@ namespace SeeSharp
         #endregion
         #region BLEND EFFECTS
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public unsafe sealed class LighterBitmapBlendEffect
             : BitmapBlendEffect
         {
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="src1"></param>
+            /// <param name="src2"></param>
+            /// <param name="dst"></param>
+            /// <param name="inrange"></param>
             protected internal override void __blend(ref BitmapLockInfo src1, ref BitmapLockInfo src2, ref BitmapLockInfo dst, Func<int, int, bool> inrange)
             {
                 int t = src1.DAT.Stride;
@@ -1213,10 +1788,20 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public unsafe sealed class AddBitmapBlendEffect
             : BitmapBlendEffect
         {
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="src1"></param>
+            /// <param name="src2"></param>
+            /// <param name="dst"></param>
+            /// <param name="inrange"></param>
             protected internal override void __blend(ref BitmapLockInfo src1, ref BitmapLockInfo src2, ref BitmapLockInfo dst, Func<int, int, bool> inrange)
             {
                 int t = src1.DAT.Stride;
@@ -1246,10 +1831,20 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public unsafe sealed class MultiplyBitmapBlendEffect
             : BitmapBlendEffect
         {
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="src1"></param>
+            /// <param name="src2"></param>
+            /// <param name="dst"></param>
+            /// <param name="inrange"></param>
             protected internal override void __blend(ref BitmapLockInfo src1, ref BitmapLockInfo src2, ref BitmapLockInfo dst, Func<int, int, bool> inrange)
             {
                 int t = src1.DAT.Stride;
@@ -1283,15 +1878,25 @@ namespace SeeSharp
         #endregion
         #region DOUBLE MATRIX CONVOLUTION EFFECTS
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class SobelBitmapEffect
             : MatrixConvolutionBitmapEffect
         {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public SobelBitmapEffect()
                 : this(false)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="grayscale"></param>
             public SobelBitmapEffect(bool grayscale)
                 : base(new double[3, 3] {
                     { -1, 0, 1 },
@@ -1306,15 +1911,25 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class PrewittBitmapEffect
             : MatrixConvolutionBitmapEffect
         {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public PrewittBitmapEffect()
                 : this(false)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="grayscale"></param>
             public PrewittBitmapEffect(bool grayscale)
                 : base(new double[3, 3] {
                     { -1, 0, 1 },
@@ -1329,15 +1944,25 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class ScharrBitmapEffect
             : MatrixConvolutionBitmapEffect
         {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public ScharrBitmapEffect()
                 : this(false)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="grayscale"></param>
             public ScharrBitmapEffect(bool grayscale)
                 : base(new double[3, 3] {
                     { 3, 10, 3 },
@@ -1352,25 +1977,44 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class KirschBitmapEffect
             : MatrixConvolutionBitmapEffect
         {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public KirschBitmapEffect()
                 : this(1, false)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="grayscale"></param>
             public KirschBitmapEffect(bool grayscale)
                 : this(1, grayscale)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="amount"></param>
             public KirschBitmapEffect(double amount)
                 : this(amount, false)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="amount"></param>
+            /// <param name="grayscale"></param>
             public KirschBitmapEffect(double amount, bool grayscale)
                 : base(null, null, grayscale)
             {
@@ -1392,15 +2036,25 @@ namespace SeeSharp
         #endregion
         #region SINGLE MATRIX CONVOLUTION EFFECTS
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class SharpenerBitmapEffect
             : SingleMatrixConvolutionBitmapEffect
         {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public SharpenerBitmapEffect()
                 : this(3d)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="radius"></param>
             public unsafe SharpenerBitmapEffect(double radius)
                 : base(null, 1, 0, false)
             {
@@ -1418,15 +2072,25 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class FastBlurBitmapEffect
             : SingleMatrixConvolutionBitmapEffect
         {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public FastBlurBitmapEffect()
                 : this(3d)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="radius"></param>
             public unsafe FastBlurBitmapEffect(double radius)
                 : base(null, 1, 0, false)
             {
@@ -1440,15 +2104,25 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class FastSharpenerBitmapEffect
             : SingleMatrixConvolutionBitmapEffect
         {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public FastSharpenerBitmapEffect()
                 : this(3d)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="radius"></param>
             public unsafe FastSharpenerBitmapEffect(double radius)
                 : base(null, 1, 0, false)
             {
@@ -1475,10 +2149,16 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class EdgeDetectionBitmapEffect
             : SingleMatrixConvolutionBitmapEffect
         {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public EdgeDetectionBitmapEffect()
                 : base(new double[3, 3] {
                     { -1,-1,-1, },
@@ -1489,10 +2169,16 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class EmbossBitmapEffect
             : SingleMatrixConvolutionBitmapEffect
         {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public EmbossBitmapEffect()
                 : base(new double[3, 3] {
                     { -2,-1,0, },
@@ -1503,10 +2189,16 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class EngraveBitmapEffect
             : SingleMatrixConvolutionBitmapEffect
         {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public EngraveBitmapEffect()
                 : base(new double[3, 3] {
                     { -2,0,0, },
@@ -1517,10 +2209,16 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class Laplace5x5BitmapEffect
             : SingleMatrixConvolutionBitmapEffect
         {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public Laplace5x5BitmapEffect()
                 : base(new double[5, 5] {
                     { -1, -1, -1, -1, -1, },
@@ -1533,10 +2231,16 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class Gaussian5x5BitmapEffect
             : SingleMatrixConvolutionBitmapEffect
         {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public Gaussian5x5BitmapEffect()
                 : base(new double[5, 5] {
                     { 1, 4, 6, 4, 1, },
@@ -1549,15 +2253,25 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class GaussianBlurBitmapEffect
             : SingleMatrixConvolutionBitmapEffect
         {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public GaussianBlurBitmapEffect()
                 : this(5)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="radius"></param>
             public GaussianBlurBitmapEffect(double radius)
                 : base(null, 1, 0, false)
             {
@@ -1586,15 +2300,25 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class ED88BitmapEffect
             : SingleMatrixConvolutionBitmapEffect
         {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public ED88BitmapEffect()
                 : this(false)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="grayscale"></param>
             public ED88BitmapEffect(bool grayscale)
                 : base(new double[5, 5] {
                     { 1,0,-2,-1,1, },
@@ -1610,14 +2334,31 @@ namespace SeeSharp
         #endregion
         #region OTHER EFFECTS
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public unsafe sealed class NormalMapBitmapEffect
             : BitmapEffect
         {
+            /// <summary>
+            /// 
+            /// </summary>
             public bool Grayscale { internal set; get; }
+            /// <summary>
+            /// 
+            /// </summary>
             public double BlurRadius { internal set; get; }
+            /// <summary>
+            /// 
+            /// </summary>
             public NormalFilter Filter { internal set; get; }
 
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp)
             {
                 if (Grayscale)
@@ -1691,21 +2432,39 @@ namespace SeeSharp
                 return bmp;
             }
 
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public NormalMapBitmapEffect()
                 : this(false, 0, NormalFilter.Sobel)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="grayscale"></param>
             public NormalMapBitmapEffect(bool grayscale)
                 : this(grayscale, 0, NormalFilter.Sobel)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="grayscale"></param>
+            /// <param name="radius"></param>
             public NormalMapBitmapEffect(bool grayscale, double radius)
                 : this(grayscale, radius, NormalFilter.Sobel)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="grayscale"></param>
+            /// <param name="radius"></param>
+            /// <param name="filter"></param>
             public NormalMapBitmapEffect(bool grayscale, double radius, NormalFilter filter)
             {
                 this.Filter = filter;
@@ -1714,13 +2473,27 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public unsafe sealed partial class RGBSplitBitmapEffect
             : BitmapEffect
         {
+            /// <summary>
+            /// 
+            /// </summary>
             public double Direction { internal set; get; }
+            /// <summary>
+            /// 
+            /// </summary>
             public double Amount { internal set; get; }
 
+            /// <summary>
+            /// Applies the current effect to the given bitmap and returns the result
+            /// </summary>
+            /// <param name="bmp">Input bitmap</param>
+            /// <returns>Output bitmap</returns>
             public override Bitmap Apply(Bitmap bmp)
             {
                 Bitmap bmp1 = bmp.ToARGB32().ApplyEffect<BitmapColorEffect>(new double[5, 5] {
@@ -1777,7 +2550,7 @@ namespace SeeSharp
                 return bmp;
             }
 
-            [Obsolete("", true)]
+            [Obsolete("Use `Apply` instead.", true)]
             internal Bitmap __OLD__Apply(Bitmap bmp)
             {
                 Func<double, double, double, double> MatrixValue = new Func<double, double, double, double>((x, y, θ) =>
@@ -1840,16 +2613,28 @@ namespace SeeSharp
                 return bmp1.Merge(bmp2);
             }
 
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
             public RGBSplitBitmapEffect()
                 : this(1, 0)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="amount"></param>
             public RGBSplitBitmapEffect(double amount)
                 : this(amount, 0)
             {
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="amount"></param>
+            /// <param name="direction"></param>
             public RGBSplitBitmapEffect(double amount, double direction)
             {
                 const double π2 = PI * 2;
@@ -1933,14 +2718,23 @@ namespace SeeSharp
 
     #region EFFECT BASE DEFINITIONS
 
+    /// <summary>
+    /// 
+    /// </summary>
     [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
     public unsafe sealed class MatrixConvolutionColorBitmapEffect
         : MatrixConvolutionBitmapEffect
         , IColorEffect
     {
         internal const int MATRIX_SIZE = BitmapColorEffect.MATRIX_SIZE;
+        /// <summary>
+        /// 
+        /// </summary>
         public double[,] ColorMatrix { internal set; get; }
 
+        /// <summary>
+        /// Disposes the current instance
+        /// </summary>
         public new void Dispose()
         {
             this.ColorMatrix = null;
@@ -1964,6 +2758,11 @@ namespace SeeSharp
             va *= matr[19];
         }
 
+        /// <summary>
+        /// Applies the current effect to the given bitmap and returns the result
+        /// </summary>
+        /// <param name="bmp">Input bitmap</param>
+        /// <returns>Output bitmap</returns>
         public override Bitmap Apply(Bitmap bmp)
         {
             if (Grayscale)
@@ -2047,18 +2846,34 @@ namespace SeeSharp
             return dst.Unlock();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hmatrix"></param>
+        /// <param name="vmatrix"></param>
+        /// <param name="cmatrix"></param>
+        /// <param name="grayscale"></param>
         public MatrixConvolutionColorBitmapEffect(double[,] hmatrix, double[,] vmatrix, double[,] cmatrix, bool grayscale)
             : base(hmatrix, vmatrix, grayscale) => this.ColorMatrix = cmatrix;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
     public unsafe sealed class SingleMatrixConvolutionColorBitmapEffect
         : SingleMatrixConvolutionBitmapEffect
         , IColorEffect
     {
         internal const int MATRIX_SIZE = BitmapColorEffect.MATRIX_SIZE;
+        /// <summary>
+        /// 
+        /// </summary>
         public double[,] ColorMatrix { internal set; get; }
 
+        /// <summary>
+        /// Disposes the current instance
+        /// </summary>
         public new void Dispose()
         {
             this.ColorMatrix = null;
@@ -2082,6 +2897,11 @@ namespace SeeSharp
             va *= matr[19];
         }
 
+        /// <summary>
+        /// Applies the current effect to the given bitmap and returns the result
+        /// </summary>
+        /// <param name="bmp">Input bitmap</param>
+        /// <returns>Output bitmap</returns>
         public override Bitmap Apply(Bitmap bmp)
         {
             if (Grayscale)
@@ -2159,25 +2979,53 @@ namespace SeeSharp
             return dst.Unlock();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tmatrix"></param>
+        /// <param name="cmatrix"></param>
+        /// <param name="factor"></param>
+        /// <param name="bias"></param>
+        /// <param name="grayscale"></param>
         public SingleMatrixConvolutionColorBitmapEffect(double[,] tmatrix, double[,] cmatrix, double factor, double bias, bool grayscale)
             : base(tmatrix, factor, bias, grayscale) => this.ColorMatrix = cmatrix;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
     public unsafe class MatrixConvolutionBitmapEffect
         : RangeEffect
         , IDisposable
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public double[,] HorizontalMatrix { protected internal set; get; }
+        /// <summary>
+        /// 
+        /// </summary>
         public double[,] VerticalMatrix { protected internal set; get; }
+        /// <summary>
+        /// 
+        /// </summary>
         public bool Grayscale { protected internal set; get; }
 
+        /// <summary>
+        /// Disposes the current instance
+        /// </summary>
         public void Dispose()
         {
             this.HorizontalMatrix =
             this.VerticalMatrix = null;
         }
 
+        /// <summary>
+        /// Applies the current effect to the given bitmap and returns the result
+        /// </summary>
+        /// <param name="bmp">Input bitmap</param>
+        /// <returns>Output bitmap</returns>
         public override Bitmap Apply(Bitmap bmp)
         {
             if (Grayscale)
@@ -2280,11 +3128,22 @@ namespace SeeSharp
             return dst.Unlock();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="matrix"></param>
+        /// <param name="grayscale"></param>
         public MatrixConvolutionBitmapEffect(double[,] matrix, bool grayscale)
             : this(matrix, matrix, grayscale)
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hmatrix"></param>
+        /// <param name="vmatrix"></param>
+        /// <param name="grayscale"></param>
         public MatrixConvolutionBitmapEffect(double[,] hmatrix, double[,] vmatrix, bool grayscale)
         {
             this.HorizontalMatrix = hmatrix;
@@ -2293,18 +3152,41 @@ namespace SeeSharp
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
     public unsafe class SingleMatrixConvolutionBitmapEffect
         : RangeEffect
         , IDisposable
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public double[,] Matrix { protected internal set; get; }
+        /// <summary>
+        /// 
+        /// </summary>
         public bool Grayscale { protected internal set; get; }
+        /// <summary>
+        /// 
+        /// </summary>
         public double Factor { protected internal set; get; }
+        /// <summary>
+        /// 
+        /// </summary>
         public double Bias { protected internal set; get; }
 
+        /// <summary>
+        /// Disposes the current instance
+        /// </summary>
         public void Dispose() => this.Matrix = null;
 
+        /// <summary>
+        /// Applies the current effect to the given bitmap and returns the result
+        /// </summary>
+        /// <param name="bmp">Input bitmap</param>
+        /// <returns>Output bitmap</returns>
         public override Bitmap Apply(Bitmap bmp)
         {
             if (Grayscale)
@@ -2401,6 +3283,13 @@ namespace SeeSharp
             return dst.Unlock();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="matrix"></param>
+        /// <param name="fac"></param>
+        /// <param name="bia"></param>
+        /// <param name="grayscale"></param>
         public SingleMatrixConvolutionBitmapEffect(double[,] matrix, double fac, double bia, bool grayscale)
         {
             this.Bias = bia;
@@ -2410,17 +3299,34 @@ namespace SeeSharp
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     [DebuggerStepThrough, DebuggerNonUserCode]
     public unsafe class BitmapColorEffect
         : RangeEffect
         , IColorEffect
         , IDisposable
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public const int MATRIX_SIZE = 5;
+        /// <summary>
+        /// 
+        /// </summary>
         public double[,] ColorMatrix { protected internal set; get; }
 
+        /// <summary>
+        /// Disposes the current instance
+        /// </summary>
         public void Dispose() => this.ColorMatrix = null;
 
+        /// <summary>
+        /// Applies the current effect to the given bitmap and returns the result
+        /// </summary>
+        /// <param name="bmp">Input bitmap</param>
+        /// <returns>Output bitmap</returns>
         public override sealed Bitmap Apply(Bitmap bmp)
         {
             if ((ColorMatrix.GetLength(0) != MATRIX_SIZE) || (ColorMatrix.GetLength(1) != MATRIX_SIZE))
@@ -2489,6 +3395,9 @@ namespace SeeSharp
             return dst.Unlock();
         }
 
+        /// <summary>
+        /// Creates a new instance
+        /// </summary>
         public BitmapColorEffect()
             : this(new double[5, 5] {
                 { 1,0,0,0,0, },
@@ -2500,20 +3409,41 @@ namespace SeeSharp
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="matrix"></param>
         public BitmapColorEffect(double[,] matrix) => this.ColorMatrix = matrix;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     [DebuggerStepThrough, DebuggerNonUserCode]
     public unsafe class HSLBitmapColorEffect
         : BitmapEffect
         , IColorEffect
         , IDisposable
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public const int MATRIX_SIZE = 5;
+        /// <summary>
+        /// 
+        /// </summary>
         public double[,] ColorMatrix { protected internal set; get; }
 
+        /// <summary>
+        /// Disposes the current instance
+        /// </summary>
         public void Dispose() => this.ColorMatrix = null;
 
+        /// <summary>
+        /// Applies the current effect to the given bitmap and returns the result
+        /// </summary>
+        /// <param name="bmp">Input bitmap</param>
+        /// <returns>Output bitmap</returns>
         public override sealed Bitmap Apply(Bitmap bmp)
         {
             if ((ColorMatrix.GetLength(0) != MATRIX_SIZE) || (ColorMatrix.GetLength(1) != MATRIX_SIZE))
@@ -2561,6 +3491,9 @@ namespace SeeSharp
             return dst.Unlock();
         }
 
+        /// <summary>
+        /// Creates a new instance
+        /// </summary>
         public HSLBitmapColorEffect()
             : this(new double[5, 5] {
                 { 1,0,0,0,0, },
@@ -2572,20 +3505,41 @@ namespace SeeSharp
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="matrix"></param>
         public HSLBitmapColorEffect(double[,] matrix) => this.ColorMatrix = matrix;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     [DebuggerStepThrough, DebuggerNonUserCode]
     public unsafe class BitmapTransformEffect
         : BitmapEffect
         , ITransformEffect
         , IDisposable
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public const int MATRIX_SIZE = 2;
+        /// <summary>
+        /// 
+        /// </summary>
         public double[,] TransformMatrix { protected internal set; get; }
 
+        /// <summary>
+        /// Disposes the current instance
+        /// </summary>
         public void Dispose() => this.TransformMatrix = null;
 
+        /// <summary>
+        /// Applies the current effect to the given bitmap and returns the result
+        /// </summary>
+        /// <param name="bmp">Input bitmap</param>
+        /// <returns>Output bitmap</returns>
         public override sealed Bitmap Apply(Bitmap bmp)
         {
             if ((TransformMatrix.GetLength(0) != 2) || (TransformMatrix.GetLength(1) != 2))
@@ -2628,6 +3582,9 @@ namespace SeeSharp
             return dst.Unlock();
         }
 
+        /// <summary>
+        /// Creates a new instance
+        /// </summary>
         public BitmapTransformEffect()
             : this(new double[2,2] {
                 { 1, 0 },
@@ -2636,19 +3593,40 @@ namespace SeeSharp
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="matrix"></param>
         public BitmapTransformEffect(double[,] matrix) => this.TransformMatrix = matrix;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public unsafe abstract class BitmapBlendEffect
         : RangeEffect
         , IDisposable
     {
         internal Bitmap Second { set; get; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <param name="dst"></param>
+        /// <param name="inrange"></param>
         protected internal abstract void __blend(ref BitmapLockInfo src1, ref BitmapLockInfo src2, ref BitmapLockInfo dst, Func<int, int, bool> inrange);
 
+        /// <summary>
+        /// Disposes the current instance
+        /// </summary>
         public void Dispose() => Second?.Dispose();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         protected Func<int, int, bool> __inrange2()
         {
             if (Range == null)
@@ -2664,8 +3642,19 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// Applies the current effect to the given bitmap and returns the result
+        /// </summary>
+        /// <param name="bmp">Input bitmap</param>
+        /// <returns>Output bitmap</returns>
         public sealed override Bitmap Apply(Bitmap bmp) => Blend(bmp, Second);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="bmp1"></param>
+        /// <param name="bmp2"></param>
+        /// <returns></returns>
         public virtual Bitmap Blend(Bitmap bmp1, Bitmap bmp2)
         {
             if ((bmp1.Width != bmp2.Width) || (bmp1.Height != bmp2.Height))
@@ -2693,11 +3682,23 @@ namespace SeeSharp
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public unsafe abstract class BlendColorEffect
         : RangeEffect
     {
+        /// <summary>
+        /// 
+        /// </summary>
         protected double[] refcolor = new double[4] { 0, 0, 0, 0 };
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="psz"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
         protected Func<int, bool> __inrange1(int psz, int t)
         {
             if (Range == null)
@@ -2719,6 +3720,10 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         protected Func<int, int, bool> __inrange2()
         {
             if (Range == null)
@@ -2734,21 +3739,41 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// Creates a new instance
+        /// </summary>
         public BlendColorEffect()
             : this(Color.Black)
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="clr"></param>
         public BlendColorEffect(Color clr)
             : this(clr.A / 255.0, clr.R / 255.0, clr.G / 255.0, clr.B / 255.0)
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="g"></param>
+        /// <param name="b"></param>
         public BlendColorEffect(double r, double g, double b)
             : this(0, r, g, b)
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="r"></param>
+        /// <param name="g"></param>
+        /// <param name="b"></param>
         public BlendColorEffect(double a, double r, double g, double b) =>
             refcolor = new double[4] { b.Normalize(), g.Normalize(), r.Normalize(), a.Normalize() };
     }

@@ -77,7 +77,7 @@
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.PartialApplyEffectRange(System.Drawing.Bitmap,SeeSharp.BitmapEffect,System.Nullable{System.Drawing.Rectangle},System.Double)">
             <summary>
-            Applies the given bitmap effect to the given bitmap to a certain amount and interpolates the result with the input bitmap
+            Applies the given bitmap effect to a given range/section of the given bitmap to a certain amount and interpolates the result with the input bitmap
             </summary>
             <param name="effect">Bitmap effect</param>
             <param name="bmp">Bitmap, to which the effect shall be (partially) applied</param>
@@ -87,40 +87,40 @@
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.PartialApplyEffectRange``1(System.Drawing.Bitmap,System.Nullable{System.Drawing.Rectangle},System.Double)">
             <summary>
-            
+            Applies the given bitmap effect to a given range/section of the given bitmap to a certain amount and interpolates the result with the input bitmap
             </summary>
-            <typeparam name="T"></typeparam>
-            <param name="bmp"></param>
-            <param name="rect"></param>
-            <param name="amount"></param>
+            <typeparam name="T">Bitmap effect</typeparam>
+            <param name="bmp">Bitmap, to which the effect shall be (partially) applied</param>
+            <param name="rect">Region, in which the effect shall be applied (a null-value applies the effect to the entire bitmap)</param>
+            <param name="amount">Amount to which the effect shall be applied (1 = fully ... 0 = do not apply)</param>
             <returns>Result bitmap</returns>
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.PartialApplyEffectRange``1(System.Drawing.Bitmap,System.Nullable{System.Drawing.Rectangle},System.Double,System.Object[])">
             <summary>
             
             </summary>
-            <typeparam name="T"></typeparam>
-            <param name="bmp"></param>
-            <param name="rect"></param>
-            <param name="amount"></param>
-            <param name="args"></param>
+            <typeparam name="T">Bitmap effect</typeparam>
+            <param name="bmp">Bitmap, to which the effect shall be (partially) applied</param>
+            <param name="rect">Region, in which the effect shall be applied (a null-value applies the effect to the entire bitmap)</param>
+            <param name="amount">Amount to which the effect shall be applied (1 = fully ... 0 = do not apply)</param>
+            <param name="args">Effect initialization parameters</param>
             <returns>Result bitmap</returns>
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.PartialApplyEffect(System.Drawing.Bitmap,SeeSharp.BitmapEffect,System.Double)">
             <summary>
             
             </summary>
-            <param name="bmp"></param>
-            <param name="effect"></param>
-            <param name="amount"></param>
+            <param name="bmp">Bitmap, to which the effect shall be (partially) applied</param>
+            <param name="effect">Bitmap effect</param>
+            <param name="amount">Amount to which the effect shall be applied (1 = fully ... 0 = do not apply)</param>
             <returns>Result bitmap</returns>
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.PartialApplyEffect``1(System.Drawing.Bitmap,System.Double)">
             <summary>
             
             </summary>
-            <typeparam name="T"></typeparam>
-            <param name="bmp"></param>
+            <typeparam name="T">Bitmap effect</typeparam>
+            <param name="bmp">Bitmap, to which the effect shall be (partially) applied</param>
             <param name="amount"></param>
             <returns>Result bitmap</returns>
         </member>
@@ -128,36 +128,36 @@
             <summary>
             
             </summary>
-            <typeparam name="T"></typeparam>
-            <param name="bmp"></param>
+            <typeparam name="T">Bitmap effect</typeparam>
+            <param name="bmp">Bitmap, to which the effect shall be (partially) applied</param>
             <param name="amount"></param>
-            <param name="args"></param>
+            <param name="args">Effect initialization parameters</param>
             <returns>Result bitmap</returns>
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.ApplyBlendEffect``1(System.Drawing.Bitmap,System.Drawing.Bitmap)">
             <summary>
-            
+            Applies the given bitmap blending effect to the two given bitmaps
             </summary>
-            <typeparam name="T"></typeparam>
-            <param name="bmp1"></param>
-            <param name="bmp2"></param>
+            <typeparam name="T">Bitmap effect</typeparam>
+            <param name="bmp1">First bitmap</param>
+            <param name="bmp2">Second bitmap</param>
             <returns>Result bitmap</returns>
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.ApplyBlendEffect``1(System.Drawing.Bitmap,System.Drawing.Bitmap,System.Object[])">
             <summary>
-            
+            Applies the given bitmap blending effect to the two given bitmaps
             </summary>
-            <typeparam name="T"></typeparam>
-            <param name="bmp1"></param>
-            <param name="bmp2"></param>
-            <param name="args"></param>
+            <typeparam name="T">Bitmap effect</typeparam>
+            <param name="bmp1">First bitmap</param>
+            <param name="bmp2">Second bitmap</param>
+            <param name="args">Effect initialization parameters</param>
             <returns>Result bitmap</returns>
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.ApplyEffect``1(System.Drawing.Bitmap)">
             <summary>
             
             </summary>
-            <typeparam name="T"></typeparam>
+            <typeparam name="T">Bitmap effect</typeparam>
             <param name="bmp"></param>
             <returns>Result bitmap</returns>
         </member>
@@ -165,9 +165,9 @@
             <summary>
             
             </summary>
-            <typeparam name="T"></typeparam>
+            <typeparam name="T">Bitmap effect</typeparam>
             <param name="bmp"></param>
-            <param name="args"></param>
+            <param name="args">Effect initialization parameters</param>
             <returns>Result bitmap</returns>
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.ApplyEffect(System.Drawing.Bitmap,SeeSharp.BitmapEffect)">
@@ -175,7 +175,7 @@
             
             </summary>
             <param name="bmp"></param>
-            <param name="effect"></param>
+            <param name="effect">Bitmap effect</param>
             <returns>Result bitmap</returns>
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.ApplyEffectRange(System.Drawing.Bitmap,SeeSharp.BitmapEffect,System.Nullable{System.Drawing.Rectangle})">
@@ -183,88 +183,88 @@
             
             </summary>
             <param name="bmp"></param>
-            <param name="effect"></param>
-            <param name="rect"></param>
+            <param name="effect">Bitmap effect</param>
+            <param name="rect">Region, in which the effect shall be applied (a null-value applies the effect to the entire bitmap)</param>
             <returns>Result bitmap</returns>
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.ApplyBlendEffectRange(System.Drawing.Bitmap,System.Drawing.Bitmap,SeeSharp.BitmapBlendEffect,System.Nullable{System.Drawing.Rectangle})">
             <summary>
-            
+            Applies the given bitmap blending effect to a given range/section of the two given bitmaps
             </summary>
-            <param name="bmp1"></param>
-            <param name="bmp2"></param>
-            <param name="effect"></param>
-            <param name="rect"></param>
+            <param name="bmp1">First bitmap</param>
+            <param name="bmp2">Second bitmap</param>
+            <param name="effect">Bitmap effect</param>
+            <param name="rect">Region, in which the effect shall be applied (a null-value applies the effect to the entire bitmap)</param>
             <returns>Result bitmap</returns>
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.ApplyBlendEffectRange``1(System.Drawing.Bitmap,System.Drawing.Bitmap,System.Nullable{System.Drawing.Rectangle})">
             <summary>
-            
+            Applies the given bitmap blending effect to a given range/section of the two given bitmaps
             </summary>
-            <typeparam name="T"></typeparam>
-            <param name="bmp1"></param>
-            <param name="bmp2"></param>
-            <param name="rect"></param>
+            <typeparam name="T">Bitmap effect</typeparam>
+            <param name="bmp1">First bitmap</param>
+            <param name="bmp2">Second bitmap</param>
+            <param name="rect">Region, in which the effect shall be applied (a null-value applies the effect to the entire bitmap)</param>
             <returns>Result bitmap</returns>
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.ApplyBlendEffectRange``1(System.Drawing.Bitmap,System.Drawing.Bitmap,System.Nullable{System.Drawing.Rectangle},System.Object[])">
             <summary>
-            
+            Applies the given parameterized bitmap blending effect to a given range/section of the two given bitmaps
             </summary>
-            <typeparam name="T"></typeparam>
-            <param name="bmp1"></param>
-            <param name="bmp2"></param>
-            <param name="rect"></param>
-            <param name="args"></param>
+            <typeparam name="T">Bitmap effect</typeparam>
+            <param name="bmp1">First bitmap</param>
+            <param name="bmp2">Second bitmap</param>
+            <param name="rect">Region, in which the effect shall be applied (a null-value applies the effect to the entire bitmap)</param>
+            <param name="args">Effect initialization parameters</param>
             <returns>Result bitmap</returns>
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.Average(System.Drawing.Bitmap,System.Drawing.Bitmap,System.Double)">
             <summary>
-            
+            Merges the given two bitmaps by averaging each pixel's color information (even the α-channel)
             </summary>
-            <param name="bmp1"></param>
-            <param name="bmp2"></param>
+            <param name="bmp1">First bitmap</param>
+            <param name="bmp2">Second bitmap</param>
             <param name="bmp1fac"></param>
-            <returns>Result bitmap</returns>
+            <returns>Merged bitmap</returns>
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.Merge(System.Drawing.Bitmap,System.Drawing.Bitmap)">
             <summary>
-            
+            Merges the given two bitmaps by averaging each pixel's color information (even the α-channel)
             </summary>
-            <param name="bmp1"></param>
-            <param name="bmp2"></param>
-            <returns>Result bitmap</returns>
+            <param name="bmp1">First bitmap</param>
+            <param name="bmp2">Second bitmap</param>
+            <returns>Merged bitmap</returns>
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.Merge(System.Drawing.Bitmap,System.Drawing.Bitmap,System.Boolean,System.Boolean)">
             <summary>
-            
+            Merges the given two bitmaps by interpolating each pixel's color information
             </summary>
-            <param name="bmp1"></param>
-            <param name="bmp2"></param>
-            <param name="α"></param>
-            <param name="avg"></param>
-            <returns>Result bitmap</returns>
+            <param name="bmp1">First bitmap</param>
+            <param name="bmp2">Second bitmap</param>
+            <param name="α">Decides, whether the alpha-channel should also be interpolated</param>
+            <param name="avg">Decides, whether the pixel information shall be averaged instead of being added</param>
+            <returns>Merged bitmap</returns>
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.Unlock(SeeSharp.BitmapLockInfo)">
             <summary>
-            
+            Unlocks the bitmap from the given lock information and returns it
             </summary>
-            <param name="nfo"></param>
-            <returns>Result bitmap</returns>
+            <param name="nfo">Bitmap lock information</param>
+            <returns>Unlocked bitmap</returns>
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.LockBitmap(System.Drawing.Bitmap)">
             <summary>
-            
+            Locks the given bitmap and returns the corresponding locking structure
             </summary>
-            <param name="bmp"></param>
-            <returns></returns>
+            <param name="bmp">Bitmap to be locked</param>
+            <returns>Bimap lock information</returns>
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.ToARGB32(System.Drawing.Bitmap)">
             <summary>
-            
+            Converts the given bitmap to an 32-Bit ARGB (alpha, red, green and blue) bitmap
             </summary>
-            <param name="bmp"></param>
-            <returns></returns>
+            <param name="bmp">Input bitmap (any pixel format)</param>
+            <returns>32-Bit bitmap</returns>
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.DifferenceMask(System.Drawing.Bitmap,System.Drawing.Bitmap,System.Double,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
@@ -280,25 +280,25 @@
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.RGBtoHSL(System.Byte,System.Byte,System.Byte,System.Double@,System.Double@,System.Double@)">
             <summary>
-            
+            Converts the given RGB-color to a HSL-color
             </summary>
-            <param name="r"></param>
-            <param name="g"></param>
-            <param name="b"></param>
-            <param name="h"></param>
-            <param name="s"></param>
-            <param name="l"></param>
+            <param name="r">The RGB-color's red channel</param>
+            <param name="g">The RGB-color's green channel</param>
+            <param name="b">The RGB-color's blue channel</param>
+            <param name="h">The HSL-color's hue channel</param>
+            <param name="s">The HSL-color's saturation channel</param>
+            <param name="l">The HSL-color's luminosity channel</param>
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.HSLtoRGB(System.Double,System.Double,System.Double,System.Byte@,System.Byte@,System.Byte@)">
             <summary>
-            
+            Converts the given HSL-color to a RGB-color
             </summary>
-            <param name="h"></param>
-            <param name="s"></param>
-            <param name="l"></param>
-            <param name="r"></param>
-            <param name="g"></param>
-            <param name="b"></param>
+            <param name="r">The RGB-color's red channel</param>
+            <param name="g">The RGB-color's green channel</param>
+            <param name="b">The RGB-color's blue channel</param>
+            <param name="h">The HSL-color's hue channel</param>
+            <param name="s">The HSL-color's saturation channel</param>
+            <param name="l">The HSL-color's luminosity channel</param>
         </member>
         <member name="T:SeeSharp.BitmapLockInfo">
             <summary>
@@ -446,6 +446,1538 @@
             <param name="r">Red value</param>
             <param name="g">Green value</param>
             <param name="b">Blue value</param>
+        </member>
+        <member name="T:SeeSharp.Effects.GrayscaleBitmapEffect">
+            <summary>
+            Represents a grayscale bitmap effect
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.GrayscaleBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.GrayscaleBitmapEffect.#ctor(System.Double)">
+            <summary>
+            Creates a new instance, which applies the current effect to the given amount
+            </summary>
+            <param name="amount">Amount [0..1]</param>
+        </member>
+        <member name="T:SeeSharp.Effects.OpacityBitmapEffect">
+            <summary>
+            Represents an opacity bitmap effect
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.OpacityBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.OpacityBitmapEffect.#ctor(System.Double)">
+            <summary>
+            Creates a new instance, which applies the current effect to the given amount
+            </summary>
+            <param name="amount">Amount [0..1]</param>
+        </member>
+        <member name="T:SeeSharp.Effects.InvertBitmapEffect">
+            <summary>
+            Represents an inversion bitmap effect
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.InvertBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.InvertBitmapEffect.#ctor(System.Double)">
+            <summary>
+            Creates a new instance, which applies the current effect to the given amount
+            </summary>
+            <param name="amount">Amount [0..1]</param>
+        </member>
+        <member name="T:SeeSharp.Effects.BrightnessBitmapEffect">
+            <summary>
+            Represents a brightness bitmap effect
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.BrightnessBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.BrightnessBitmapEffect.#ctor(System.Double)">
+            <summary>
+            Creates a new instance, which applies the current effect to the given amount
+            </summary>
+            <param name="amount">Amount [0..1]</param>
+        </member>
+        <member name="T:SeeSharp.Effects.SaturationBitmapEffect">
+            <summary>
+            Represents a saturation bitmap effect
+            </summary>
+        </member>
+        <member name="P:SeeSharp.Effects.SaturationBitmapEffect.Amount">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.SaturationBitmapEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.Effects.SaturationBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.SaturationBitmapEffect.#ctor(System.Double)">
+            <summary>
+            Creates a new instance, which applies the current effect to the given amount
+            </summary>
+            <param name="amount">Amount [0..1]</param>
+        </member>
+        <member name="T:SeeSharp.Effects.ContrastBitmapEffect">
+            <summary>
+            Represents a contrast bitmap effect
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.ContrastBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.ContrastBitmapEffect.#ctor(System.Double)">
+            <summary>
+            Creates a new instance, which applies the current effect to the given amount
+            </summary>
+            <param name="amount">Amount [0..1]</param>
+        </member>
+        <member name="T:SeeSharp.Effects.SepiaBitmapEffect">
+            <summary>
+            Represents a sepia bitmap effect
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.SepiaBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.SepiaBitmapEffect.#ctor(System.Double)">
+            <summary>
+            Creates a new instance, which applies the current effect to the given amount
+            </summary>
+            <param name="amount">Amount [0..1]</param>
+        </member>
+        <member name="T:SeeSharp.Effects.OverlayBitmapEffect">
+            <summary>
+            Represents an overlay bitmap effect
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.OverlayBitmapEffect.#ctor(System.Drawing.Color)">
+            <summary>
+            
+            </summary>
+            <param name="color"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.OverlayBitmapEffect.#ctor(System.Drawing.Color,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="color"></param>
+            <param name="amount"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.OverlayBitmapEffect.#ctor(System.Byte,System.Byte,System.Byte)">
+            <summary>
+            
+            </summary>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.OverlayBitmapEffect.#ctor(System.Byte,System.Byte,System.Byte,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+            <param name="amount"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.OverlayBitmapEffect.#ctor(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte)">
+            <summary>
+            
+            </summary>
+            <param name="a"></param>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+            <param name="amount"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.OverlayBitmapEffect.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.OverlayBitmapEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+            <param name="amount"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.OverlayBitmapEffect.#ctor(System.Double,System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="a"></param>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+            <param name="amount"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.TintBitmapEffect">
+            <summary>
+            Represents a tint bitmap effect
+            </summary>
+        </member>
+        <member name="P:SeeSharp.Effects.TintBitmapEffect.Degree">
+            <summary>
+            The tint degree [0..2π]
+            </summary>
+        </member>
+        <member name="P:SeeSharp.Effects.TintBitmapEffect.Amount">
+            <summary>
+            The tint amount
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.TintBitmapEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.Effects.TintBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.TintBitmapEffect.#ctor(System.Double)">
+            <summary>
+            Creates a new instance with the given tinting degree
+            </summary>
+            <param name="degree">The tint degree [0..2π]</param>
+        </member>
+        <member name="M:SeeSharp.Effects.TintBitmapEffect.#ctor(System.Double,System.Double)">
+            <summary>
+            Creates a new instance with the given tinting degree and amount
+            </summary>
+            <param name="degree">The tint degree [0..2π]</param>
+            <param name="amount">The tint amount</param>
+        </member>
+        <member name="T:SeeSharp.Effects.SimpleGlowBitmapEffect">
+            <summary>
+            Represents a smiple glow bitmap effect
+            </summary>
+        </member>
+        <member name="P:SeeSharp.Effects.SimpleGlowBitmapEffect.Radius">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SeeSharp.Effects.SimpleGlowBitmapEffect.Amount">
+            <summary>
+            The glow radius
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.SimpleGlowBitmapEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.Effects.SimpleGlowBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.SimpleGlowBitmapEffect.#ctor(System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="radius"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.SimpleGlowBitmapEffect.#ctor(System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="radius"></param>
+            <param name="amount"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.NashvilleBitmapEffect">
+            <summary>
+            Represents the Instagram 'Nashville' CSS bitmap effect
+            </summary>
+        </member>
+        <member name="P:SeeSharp.Effects.NashvilleBitmapEffect.Tint">
+            <summary>
+            The tint amount (between -1 and +1)
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.NashvilleBitmapEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.Effects.NashvilleBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.NashvilleBitmapEffect.#ctor(System.Double)">
+            <summary>
+            Creates a new instance with the given tint amount
+            </summary>
+            <param name="tint">The tint amount (between -1 and +1)</param>
+        </member>
+        <member name="T:SeeSharp.Effects.AdditiveNashvilleBitmapEffect">
+            <summary>
+            Represents the Instagram additive 'Nashville' CSS bitmap effect
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.AdditiveNashvilleBitmapEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="T:SeeSharp.Effects.AdenBitmapEffect">
+            <summary>
+            Represents the Instagram 'Aden' CSS bitmap effect
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.AdenBitmapEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="T:SeeSharp.Effects.InkwellBitmapEffect">
+            <summary>
+            Represents the Instagram 'Inkwell' CSS bitmap effect
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.InkwellBitmapEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="T:SeeSharp.Effects.ReyesBitmapEffect">
+            <summary>
+            Represents the Instagram 'Reyes' CSS bitmap effect
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.ReyesBitmapEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="T:SeeSharp.Effects.SmoothWaldenBitmapEffect">
+            <summary>
+            Represents the Instagram smooth 'Walden' CSS bitmap effect
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.SmoothWaldenBitmapEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="T:SeeSharp.Effects.WaldenBitmapEffect">
+            <summary>
+            Represents the Instagram 'Walden' CSS bitmap effect
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.WaldenBitmapEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="T:SeeSharp.Effects.LoFiBitmapEffect">
+            <summary>
+            Represents the Instagram 'LoFi' CSS bitmap effect
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.LoFiBitmapEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="T:SeeSharp.Effects.ScreenBlendColorEffect">
+            <summary>
+            Represents a screen (inverse multiplicative) bitmap blend effect
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.ScreenBlendColorEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.Effects.ScreenBlendColorEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.ScreenBlendColorEffect.#ctor(System.Drawing.Color)">
+            <summary>
+            
+            </summary>
+            <param name="clr"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.ScreenBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.ScreenBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="a"></param>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.MultiplyBlendColorEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.MultiplyBlendColorEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.Effects.MultiplyBlendColorEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.MultiplyBlendColorEffect.#ctor(System.Drawing.Color)">
+            <summary>
+            
+            </summary>
+            <param name="clr"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.MultiplyBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.MultiplyBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="a"></param>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.DivideBlendColorEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.DivideBlendColorEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.Effects.DivideBlendColorEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.DivideBlendColorEffect.#ctor(System.Drawing.Color)">
+            <summary>
+            
+            </summary>
+            <param name="clr"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.DivideBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.DivideBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="a"></param>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.OverlayBlendColorEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.OverlayBlendColorEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.Effects.OverlayBlendColorEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.OverlayBlendColorEffect.#ctor(System.Drawing.Color)">
+            <summary>
+            
+            </summary>
+            <param name="clr"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.OverlayBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.OverlayBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="a"></param>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.HardLightBlendColorEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.HardLightBlendColorEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.Effects.HardLightBlendColorEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.HardLightBlendColorEffect.#ctor(System.Drawing.Color)">
+            <summary>
+            
+            </summary>
+            <param name="clr"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.HardLightBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.HardLightBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="a"></param>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.SoftLightBlendColorEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.SoftLightBlendColorEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.Effects.SoftLightBlendColorEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.SoftLightBlendColorEffect.#ctor(System.Drawing.Color)">
+            <summary>
+            
+            </summary>
+            <param name="clr"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.SoftLightBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.SoftLightBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="a"></param>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.AddBlendColorEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.AddBlendColorEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.Effects.AddBlendColorEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.AddBlendColorEffect.#ctor(System.Drawing.Color)">
+            <summary>
+            
+            </summary>
+            <param name="clr"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.AddBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.AddBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="a"></param>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.SubtractBlendColorEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.SubtractBlendColorEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.Effects.SubtractBlendColorEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.SubtractBlendColorEffect.#ctor(System.Drawing.Color)">
+            <summary>
+            
+            </summary>
+            <param name="clr"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.SubtractBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.SubtractBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="a"></param>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.DifferenceBlendColorEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.DifferenceBlendColorEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.Effects.DifferenceBlendColorEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.DifferenceBlendColorEffect.#ctor(System.Drawing.Color)">
+            <summary>
+            
+            </summary>
+            <param name="clr"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.DifferenceBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.DifferenceBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="a"></param>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.DarkerOnlyBlendColorEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.DarkerOnlyBlendColorEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.Effects.DarkerOnlyBlendColorEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.DarkerOnlyBlendColorEffect.#ctor(System.Drawing.Color)">
+            <summary>
+            
+            </summary>
+            <param name="clr"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.DarkerOnlyBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.DarkerOnlyBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="a"></param>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.LighterOnlyBlendColorEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.LighterOnlyBlendColorEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.Effects.LighterOnlyBlendColorEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.LighterOnlyBlendColorEffect.#ctor(System.Drawing.Color)">
+            <summary>
+            
+            </summary>
+            <param name="clr"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.LighterOnlyBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.LighterOnlyBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="a"></param>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.LighterBitmapBlendEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.LighterBitmapBlendEffect.__blend(SeeSharp.BitmapLockInfo@,SeeSharp.BitmapLockInfo@,SeeSharp.BitmapLockInfo@,System.Func{System.Int32,System.Int32,System.Boolean})">
+            <summary>
+            
+            </summary>
+            <param name="src1"></param>
+            <param name="src2"></param>
+            <param name="dst"></param>
+            <param name="inrange"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.AddBitmapBlendEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.AddBitmapBlendEffect.__blend(SeeSharp.BitmapLockInfo@,SeeSharp.BitmapLockInfo@,SeeSharp.BitmapLockInfo@,System.Func{System.Int32,System.Int32,System.Boolean})">
+            <summary>
+            
+            </summary>
+            <param name="src1"></param>
+            <param name="src2"></param>
+            <param name="dst"></param>
+            <param name="inrange"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.MultiplyBitmapBlendEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.MultiplyBitmapBlendEffect.__blend(SeeSharp.BitmapLockInfo@,SeeSharp.BitmapLockInfo@,SeeSharp.BitmapLockInfo@,System.Func{System.Int32,System.Int32,System.Boolean})">
+            <summary>
+            
+            </summary>
+            <param name="src1"></param>
+            <param name="src2"></param>
+            <param name="dst"></param>
+            <param name="inrange"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.SobelBitmapEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.SobelBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.SobelBitmapEffect.#ctor(System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="grayscale"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.PrewittBitmapEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.PrewittBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.PrewittBitmapEffect.#ctor(System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="grayscale"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.ScharrBitmapEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.ScharrBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.ScharrBitmapEffect.#ctor(System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="grayscale"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.KirschBitmapEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.KirschBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.KirschBitmapEffect.#ctor(System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="grayscale"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.KirschBitmapEffect.#ctor(System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="amount"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.KirschBitmapEffect.#ctor(System.Double,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="amount"></param>
+            <param name="grayscale"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.SharpenerBitmapEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.SharpenerBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.SharpenerBitmapEffect.#ctor(System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="radius"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.FastBlurBitmapEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.FastBlurBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.FastBlurBitmapEffect.#ctor(System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="radius"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.FastSharpenerBitmapEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.FastSharpenerBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.FastSharpenerBitmapEffect.#ctor(System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="radius"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.EdgeDetectionBitmapEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.EdgeDetectionBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="T:SeeSharp.Effects.EmbossBitmapEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.EmbossBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="T:SeeSharp.Effects.EngraveBitmapEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.EngraveBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="T:SeeSharp.Effects.Laplace5x5BitmapEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.Laplace5x5BitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="T:SeeSharp.Effects.Gaussian5x5BitmapEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.Gaussian5x5BitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="T:SeeSharp.Effects.GaussianBlurBitmapEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.GaussianBlurBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.GaussianBlurBitmapEffect.#ctor(System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="radius"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.ED88BitmapEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.ED88BitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.ED88BitmapEffect.#ctor(System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="grayscale"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.NormalMapBitmapEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SeeSharp.Effects.NormalMapBitmapEffect.Grayscale">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SeeSharp.Effects.NormalMapBitmapEffect.BlurRadius">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SeeSharp.Effects.NormalMapBitmapEffect.Filter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.NormalMapBitmapEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.Effects.NormalMapBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.NormalMapBitmapEffect.#ctor(System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="grayscale"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.NormalMapBitmapEffect.#ctor(System.Boolean,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="grayscale"></param>
+            <param name="radius"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.NormalMapBitmapEffect.#ctor(System.Boolean,System.Double,SeeSharp.NormalFilter)">
+            <summary>
+            
+            </summary>
+            <param name="grayscale"></param>
+            <param name="radius"></param>
+            <param name="filter"></param>
+        </member>
+        <member name="T:SeeSharp.Effects.RGBSplitBitmapEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SeeSharp.Effects.RGBSplitBitmapEffect.Direction">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SeeSharp.Effects.RGBSplitBitmapEffect.Amount">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.RGBSplitBitmapEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.Effects.RGBSplitBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.RGBSplitBitmapEffect.#ctor(System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="amount"></param>
+        </member>
+        <member name="M:SeeSharp.Effects.RGBSplitBitmapEffect.#ctor(System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="amount"></param>
+            <param name="direction"></param>
+        </member>
+        <member name="T:SeeSharp.MatrixConvolutionColorBitmapEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SeeSharp.MatrixConvolutionColorBitmapEffect.ColorMatrix">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.MatrixConvolutionColorBitmapEffect.Dispose">
+            <summary>
+            Disposes the current instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.MatrixConvolutionColorBitmapEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.MatrixConvolutionColorBitmapEffect.#ctor(System.Double[0:,0:],System.Double[0:,0:],System.Double[0:,0:],System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="hmatrix"></param>
+            <param name="vmatrix"></param>
+            <param name="cmatrix"></param>
+            <param name="grayscale"></param>
+        </member>
+        <member name="T:SeeSharp.SingleMatrixConvolutionColorBitmapEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SeeSharp.SingleMatrixConvolutionColorBitmapEffect.ColorMatrix">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.SingleMatrixConvolutionColorBitmapEffect.Dispose">
+            <summary>
+            Disposes the current instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.SingleMatrixConvolutionColorBitmapEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.SingleMatrixConvolutionColorBitmapEffect.#ctor(System.Double[0:,0:],System.Double[0:,0:],System.Double,System.Double,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="tmatrix"></param>
+            <param name="cmatrix"></param>
+            <param name="factor"></param>
+            <param name="bias"></param>
+            <param name="grayscale"></param>
+        </member>
+        <member name="T:SeeSharp.MatrixConvolutionBitmapEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SeeSharp.MatrixConvolutionBitmapEffect.HorizontalMatrix">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SeeSharp.MatrixConvolutionBitmapEffect.VerticalMatrix">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SeeSharp.MatrixConvolutionBitmapEffect.Grayscale">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.MatrixConvolutionBitmapEffect.Dispose">
+            <summary>
+            Disposes the current instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.MatrixConvolutionBitmapEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.MatrixConvolutionBitmapEffect.#ctor(System.Double[0:,0:],System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="matrix"></param>
+            <param name="grayscale"></param>
+        </member>
+        <member name="M:SeeSharp.MatrixConvolutionBitmapEffect.#ctor(System.Double[0:,0:],System.Double[0:,0:],System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="hmatrix"></param>
+            <param name="vmatrix"></param>
+            <param name="grayscale"></param>
+        </member>
+        <member name="T:SeeSharp.SingleMatrixConvolutionBitmapEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SeeSharp.SingleMatrixConvolutionBitmapEffect.Matrix">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SeeSharp.SingleMatrixConvolutionBitmapEffect.Grayscale">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SeeSharp.SingleMatrixConvolutionBitmapEffect.Factor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SeeSharp.SingleMatrixConvolutionBitmapEffect.Bias">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.SingleMatrixConvolutionBitmapEffect.Dispose">
+            <summary>
+            Disposes the current instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.SingleMatrixConvolutionBitmapEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.SingleMatrixConvolutionBitmapEffect.#ctor(System.Double[0:,0:],System.Double,System.Double,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="matrix"></param>
+            <param name="fac"></param>
+            <param name="bia"></param>
+            <param name="grayscale"></param>
+        </member>
+        <member name="T:SeeSharp.BitmapColorEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SeeSharp.BitmapColorEffect.MATRIX_SIZE">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SeeSharp.BitmapColorEffect.ColorMatrix">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.BitmapColorEffect.Dispose">
+            <summary>
+            Disposes the current instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.BitmapColorEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapColorEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.BitmapColorEffect.#ctor(System.Double[0:,0:])">
+            <summary>
+            
+            </summary>
+            <param name="matrix"></param>
+        </member>
+        <member name="T:SeeSharp.HSLBitmapColorEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SeeSharp.HSLBitmapColorEffect.MATRIX_SIZE">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SeeSharp.HSLBitmapColorEffect.ColorMatrix">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.HSLBitmapColorEffect.Dispose">
+            <summary>
+            Disposes the current instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.HSLBitmapColorEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.HSLBitmapColorEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.HSLBitmapColorEffect.#ctor(System.Double[0:,0:])">
+            <summary>
+            
+            </summary>
+            <param name="matrix"></param>
+        </member>
+        <member name="T:SeeSharp.BitmapTransformEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SeeSharp.BitmapTransformEffect.MATRIX_SIZE">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SeeSharp.BitmapTransformEffect.TransformMatrix">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.BitmapTransformEffect.Dispose">
+            <summary>
+            Disposes the current instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.BitmapTransformEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapTransformEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.BitmapTransformEffect.#ctor(System.Double[0:,0:])">
+            <summary>
+            
+            </summary>
+            <param name="matrix"></param>
+        </member>
+        <member name="T:SeeSharp.BitmapBlendEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.BitmapBlendEffect.__blend(SeeSharp.BitmapLockInfo@,SeeSharp.BitmapLockInfo@,SeeSharp.BitmapLockInfo@,System.Func{System.Int32,System.Int32,System.Boolean})">
+            <summary>
+            
+            </summary>
+            <param name="src1"></param>
+            <param name="src2"></param>
+            <param name="dst"></param>
+            <param name="inrange"></param>
+        </member>
+        <member name="M:SeeSharp.BitmapBlendEffect.Dispose">
+            <summary>
+            Disposes the current instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.BitmapBlendEffect.__inrange2">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SeeSharp.BitmapBlendEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapBlendEffect.Blend(System.Drawing.Bitmap,System.Drawing.Bitmap)">
+            <summary>
+            
+            </summary>
+            <param name="bmp1"></param>
+            <param name="bmp2"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SeeSharp.BlendColorEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:SeeSharp.BlendColorEffect.refcolor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.BlendColorEffect.__inrange1(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="psz"></param>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SeeSharp.BlendColorEffect.__inrange2">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SeeSharp.BlendColorEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.BlendColorEffect.#ctor(System.Drawing.Color)">
+            <summary>
+            
+            </summary>
+            <param name="clr"></param>
+        </member>
+        <member name="M:SeeSharp.BlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="M:SeeSharp.BlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="a"></param>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
         </member>
         <member name="T:SeeSharp.NormalFilter">
             <summary>

@@ -108,7 +108,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// Applies the given bitmap effect to the given bitmap to a certain amount and interpolates the result with the input bitmap
+        /// Applies the given bitmap effect to a given range/section of the given bitmap to a certain amount and interpolates the result with the input bitmap
         /// </summary>
         /// <param name="effect">Bitmap effect</param>
         /// <param name="bmp">Bitmap, to which the effect shall be (partially) applied</param>
@@ -136,12 +136,12 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Applies the given bitmap effect to a given range/section of the given bitmap to a certain amount and interpolates the result with the input bitmap
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="bmp"></param>
-        /// <param name="rect"></param>
-        /// <param name="amount"></param>
+        /// <typeparam name="T">Bitmap effect</typeparam>
+        /// <param name="bmp">Bitmap, to which the effect shall be (partially) applied</param>
+        /// <param name="rect">Region, in which the effect shall be applied (a null-value applies the effect to the entire bitmap)</param>
+        /// <param name="amount">Amount to which the effect shall be applied (1 = fully ... 0 = do not apply)</param>
         /// <returns>Result bitmap</returns>
         public static Bitmap PartialApplyEffectRange<T>(this Bitmap bmp, Rectangle? rect, double amount)
             where T : RangeEffect, new() => bmp.PartialApplyEffect(new T() { Range = rect }, amount);
@@ -149,11 +149,11 @@ namespace SeeSharp
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="bmp"></param>
-        /// <param name="rect"></param>
-        /// <param name="amount"></param>
-        /// <param name="args"></param>
+        /// <typeparam name="T">Bitmap effect</typeparam>
+        /// <param name="bmp">Bitmap, to which the effect shall be (partially) applied</param>
+        /// <param name="rect">Region, in which the effect shall be applied (a null-value applies the effect to the entire bitmap)</param>
+        /// <param name="amount">Amount to which the effect shall be applied (1 = fully ... 0 = do not apply)</param>
+        /// <param name="args">Effect initialization parameters</param>
         /// <returns>Result bitmap</returns>
         [method: MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Bitmap PartialApplyEffectRange<T>(this Bitmap bmp, Rectangle? rect, double amount, params object[] args)
@@ -169,9 +169,9 @@ namespace SeeSharp
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="bmp"></param>
-        /// <param name="effect"></param>
-        /// <param name="amount"></param>
+        /// <param name="bmp">Bitmap, to which the effect shall be (partially) applied</param>
+        /// <param name="effect">Bitmap effect</param>
+        /// <param name="amount">Amount to which the effect shall be applied (1 = fully ... 0 = do not apply)</param>
         /// <returns>Result bitmap</returns>
         [method: MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Bitmap PartialApplyEffect(this Bitmap bmp, BitmapEffect effect, double amount)
@@ -192,8 +192,8 @@ namespace SeeSharp
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="bmp"></param>
+        /// <typeparam name="T">Bitmap effect</typeparam>
+        /// <param name="bmp">Bitmap, to which the effect shall be (partially) applied</param>
         /// <param name="amount"></param>
         /// <returns>Result bitmap</returns>
         public static Bitmap PartialApplyEffect<T>(this Bitmap bmp, double amount)
@@ -202,31 +202,31 @@ namespace SeeSharp
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="bmp"></param>
+        /// <typeparam name="T">Bitmap effect</typeparam>
+        /// <param name="bmp">Bitmap, to which the effect shall be (partially) applied</param>
         /// <param name="amount"></param>
-        /// <param name="args"></param>
+        /// <param name="args">Effect initialization parameters</param>
         /// <returns>Result bitmap</returns>
         public static Bitmap PartialApplyEffect<T>(this Bitmap bmp, double amount, params object[] args)
             where T : BitmapEffect => bmp.PartialApplyEffect(Activator.CreateInstance(typeof(T), args) as T, amount);
 
         /// <summary>
-        /// 
+        /// Applies the given bitmap blending effect to the two given bitmaps
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="bmp1"></param>
-        /// <param name="bmp2"></param>
+        /// <typeparam name="T">Bitmap effect</typeparam>
+        /// <param name="bmp1">First bitmap</param>
+        /// <param name="bmp2">Second bitmap</param>
         /// <returns>Result bitmap</returns>
         public static Bitmap ApplyBlendEffect<T>(this Bitmap bmp1, Bitmap bmp2)
             where T : BitmapBlendEffect, new() => new T().Blend(bmp1, bmp2);
 
         /// <summary>
-        /// 
+        /// Applies the given bitmap blending effect to the two given bitmaps
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="bmp1"></param>
-        /// <param name="bmp2"></param>
-        /// <param name="args"></param>
+        /// <typeparam name="T">Bitmap effect</typeparam>
+        /// <param name="bmp1">First bitmap</param>
+        /// <param name="bmp2">Second bitmap</param>
+        /// <param name="args">Effect initialization parameters</param>
         /// <returns>Result bitmap</returns>
         public static Bitmap ApplyBlendEffect<T>(this Bitmap bmp1, Bitmap bmp2, params object[] args)
             where T : BitmapBlendEffect => (Activator.CreateInstance(typeof(T), args) as T).Blend(bmp1, bmp2);
@@ -234,7 +234,7 @@ namespace SeeSharp
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">Bitmap effect</typeparam>
         /// <param name="bmp"></param>
         /// <returns>Result bitmap</returns>
         public static Bitmap ApplyEffect<T>(this Bitmap bmp)
@@ -243,9 +243,9 @@ namespace SeeSharp
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">Bitmap effect</typeparam>
         /// <param name="bmp"></param>
-        /// <param name="args"></param>
+        /// <param name="args">Effect initialization parameters</param>
         /// <returns>Result bitmap</returns>
         public static Bitmap ApplyEffect<T>(this Bitmap bmp, params object[] args)
             where T : BitmapEffect => ApplyEffect(bmp, (T)Activator.CreateInstance(typeof(T), args));
@@ -254,7 +254,7 @@ namespace SeeSharp
         /// 
         /// </summary>
         /// <param name="bmp"></param>
-        /// <param name="effect"></param>
+        /// <param name="effect">Bitmap effect</param>
         /// <returns>Result bitmap</returns>
         public static Bitmap ApplyEffect(this Bitmap bmp, BitmapEffect effect) => effect.Apply(bmp);
 
@@ -262,8 +262,8 @@ namespace SeeSharp
         /// 
         /// </summary>
         /// <param name="bmp"></param>
-        /// <param name="effect"></param>
-        /// <param name="rect"></param>
+        /// <param name="effect">Bitmap effect</param>
+        /// <param name="rect">Region, in which the effect shall be applied (a null-value applies the effect to the entire bitmap)</param>
         /// <returns>Result bitmap</returns>
         [method: MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Bitmap ApplyEffectRange(this Bitmap bmp, BitmapEffect effect, Rectangle? rect)
@@ -275,12 +275,12 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Applies the given bitmap blending effect to a given range/section of the two given bitmaps
         /// </summary>
-        /// <param name="bmp1"></param>
-        /// <param name="bmp2"></param>
-        /// <param name="effect"></param>
-        /// <param name="rect"></param>
+        /// <param name="bmp1">First bitmap</param>
+        /// <param name="bmp2">Second bitmap</param>
+        /// <param name="effect">Bitmap effect</param>
+        /// <param name="rect">Region, in which the effect shall be applied (a null-value applies the effect to the entire bitmap)</param>
         /// <returns>Result bitmap</returns>
         [method: MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Bitmap ApplyBlendEffectRange(this Bitmap bmp1, Bitmap bmp2, BitmapBlendEffect effect, Rectangle? rect = null)
@@ -292,24 +292,24 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Applies the given bitmap blending effect to a given range/section of the two given bitmaps
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="bmp1"></param>
-        /// <param name="bmp2"></param>
-        /// <param name="rect"></param>
+        /// <typeparam name="T">Bitmap effect</typeparam>
+        /// <param name="bmp1">First bitmap</param>
+        /// <param name="bmp2">Second bitmap</param>
+        /// <param name="rect">Region, in which the effect shall be applied (a null-value applies the effect to the entire bitmap)</param>
         /// <returns>Result bitmap</returns>
         public static Bitmap ApplyBlendEffectRange<T>(this Bitmap bmp1, Bitmap bmp2, Rectangle? rect)
             where T : BitmapBlendEffect, new() => new T() { Range = rect }.Blend(bmp1, bmp2);
 
         /// <summary>
-        /// 
+        /// Applies the given parameterized bitmap blending effect to a given range/section of the two given bitmaps
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="bmp1"></param>
-        /// <param name="bmp2"></param>
-        /// <param name="rect"></param>
-        /// <param name="args"></param>
+        /// <typeparam name="T">Bitmap effect</typeparam>
+        /// <param name="bmp1">First bitmap</param>
+        /// <param name="bmp2">Second bitmap</param>
+        /// <param name="rect">Region, in which the effect shall be applied (a null-value applies the effect to the entire bitmap)</param>
+        /// <param name="args">Effect initialization parameters</param>
         /// <returns>Result bitmap</returns>
         [method: MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Bitmap ApplyBlendEffectRange<T>(this Bitmap bmp1, Bitmap bmp2, Rectangle? rect, params object[] args)
@@ -323,12 +323,12 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Merges the given two bitmaps by averaging each pixel's color information (even the α-channel)
         /// </summary>
-        /// <param name="bmp1"></param>
-        /// <param name="bmp2"></param>
+        /// <param name="bmp1">First bitmap</param>
+        /// <param name="bmp2">Second bitmap</param>
         /// <param name="bmp1fac"></param>
-        /// <returns>Result bitmap</returns>
+        /// <returns>Merged bitmap</returns>
         [method: MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Bitmap Average(this Bitmap bmp1, Bitmap bmp2, double bmp1fac)
         {
@@ -362,21 +362,21 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Merges the given two bitmaps by averaging each pixel's color information (even the α-channel)
         /// </summary>
-        /// <param name="bmp1"></param>
-        /// <param name="bmp2"></param>
-        /// <returns>Result bitmap</returns>
+        /// <param name="bmp1">First bitmap</param>
+        /// <param name="bmp2">Second bitmap</param>
+        /// <returns>Merged bitmap</returns>
         public static Bitmap Merge(this Bitmap bmp1, Bitmap bmp2) => bmp1.Merge(bmp2, true, true);
 
         /// <summary>
-        /// 
+        /// Merges the given two bitmaps by interpolating each pixel's color information
         /// </summary>
-        /// <param name="bmp1"></param>
-        /// <param name="bmp2"></param>
-        /// <param name="α"></param>
-        /// <param name="avg"></param>
-        /// <returns>Result bitmap</returns>
+        /// <param name="bmp1">First bitmap</param>
+        /// <param name="bmp2">Second bitmap</param>
+        /// <param name="α">Decides, whether the alpha-channel should also be interpolated</param>
+        /// <param name="avg">Decides, whether the pixel information shall be averaged instead of being added</param>
+        /// <returns>Merged bitmap</returns>
         [method: MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Bitmap Merge(this Bitmap bmp1, Bitmap bmp2, bool α, bool avg)
         {
@@ -400,10 +400,10 @@ namespace SeeSharp
                     {
                         val = (fac * ptr1[i + j]) + (fac * ptr2[i + j]);
 
-                        ptrd[i + j] = (byte)(val < 0 ? 0 : val > 255 ? 255 : val);
+                        ptrd[i + j] = (byte)val.Constrain(0, 255);
 
                         if (j > 2)
-                            ptrd[i + j] = (byte)(α ? val < 0 ? 0 : val > 255 ? 255 : val : ptr1[i + j]);
+                            ptrd[i + j] = (byte)(α ? val.Constrain(0, 255) : ptr1[i + j]);
                     }
 
             nfod.Unlock();
@@ -414,10 +414,10 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Unlocks the bitmap from the given lock information and returns it
         /// </summary>
-        /// <param name="nfo"></param>
-        /// <returns>Result bitmap</returns>
+        /// <param name="nfo">Bitmap lock information</param>
+        /// <returns>Unlocked bitmap</returns>
         [method: MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Bitmap Unlock(this BitmapLockInfo nfo)
         {
@@ -429,10 +429,10 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Locks the given bitmap and returns the corresponding locking structure
         /// </summary>
-        /// <param name="bmp"></param>
-        /// <returns></returns>
+        /// <param name="bmp">Bitmap to be locked</param>
+        /// <returns>Bimap lock information</returns>
         public static BitmapLockInfo LockBitmap(this Bitmap bmp)
         {
             BitmapData dat = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
@@ -451,10 +451,10 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Converts the given bitmap to an 32-Bit ARGB (alpha, red, green and blue) bitmap
         /// </summary>
-        /// <param name="bmp"></param>
-        /// <returns></returns>
+        /// <param name="bmp">Input bitmap (any pixel format)</param>
+        /// <returns>32-Bit bitmap</returns>
         public static Bitmap ToARGB32(this Bitmap bmp)
         {
             Bitmap res = new Bitmap(bmp.Width, bmp.Height, PixelFormat.Format32bppArgb);
@@ -521,14 +521,14 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Converts the given RGB-color to a HSL-color
         /// </summary>
-        /// <param name="r"></param>
-        /// <param name="g"></param>
-        /// <param name="b"></param>
-        /// <param name="h"></param>
-        /// <param name="s"></param>
-        /// <param name="l"></param>
+        /// <param name="r">The RGB-color's red channel</param>
+        /// <param name="g">The RGB-color's green channel</param>
+        /// <param name="b">The RGB-color's blue channel</param>
+        /// <param name="h">The HSL-color's hue channel</param>
+        /// <param name="s">The HSL-color's saturation channel</param>
+        /// <param name="l">The HSL-color's luminosity channel</param>
         public static void RGBtoHSL(byte r, byte g, byte b, out double h, out double s, out double l)
         {
             double _R = r / 255d;
@@ -551,14 +551,14 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Converts the given HSL-color to a RGB-color
         /// </summary>
-        /// <param name="h"></param>
-        /// <param name="s"></param>
-        /// <param name="l"></param>
-        /// <param name="r"></param>
-        /// <param name="g"></param>
-        /// <param name="b"></param>
+        /// <param name="r">The RGB-color's red channel</param>
+        /// <param name="g">The RGB-color's green channel</param>
+        /// <param name="b">The RGB-color's blue channel</param>
+        /// <param name="h">The HSL-color's hue channel</param>
+        /// <param name="s">The HSL-color's saturation channel</param>
+        /// <param name="l">The HSL-color's luminosity channel</param>
         public static void HSLtoRGB(double h, double s, double l, out byte r, out byte g, out byte b)
         {
             if (s == 0)

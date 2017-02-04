@@ -1,0 +1,471 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SeeSharp</name>
+    </assembly>
+    <members>
+        <member name="T:SeeSharp.BitmapEffect">
+            <summary>
+            Represents an abstract bitmap effect
+            </summary>
+        </member>
+        <member name="M:SeeSharp.BitmapEffect.Apply(System.Drawing.Bitmap)">
+            <summary>
+            Applies the current effect to the given bitmap and returns the result
+            </summary>
+            <param name="bmp">Input bitmap</param>
+            <returns>Output bitmap</returns>
+        </member>
+        <member name="T:SeeSharp.IColorEffect">
+            <summary>
+            Represents an abstract bitmap effect wich applies a stored color matrix to each of the bitmap's pixel
+            </summary>
+        </member>
+        <member name="P:SeeSharp.IColorEffect.ColorMatrix">
+            <summary>
+            Color matrix to be applied to the bitmap
+            </summary>
+        </member>
+        <member name="T:SeeSharp.ITransformEffect">
+            <summary>
+            Represents an abstract bitmap effect wich applies a stored transformation matrix to each of the bitmap's pixel
+            </summary>
+        </member>
+        <member name="P:SeeSharp.ITransformEffect.TransformMatrix">
+            <summary>
+            Transformation matrix to be applied to the bitmap
+            </summary>
+        </member>
+        <member name="T:SeeSharp.RangeEffect">
+            <summary>
+            Represents an abstract bitmap effect which applies the underlying algorithm only to a specific rage of the bitmap
+            </summary>
+        </member>
+        <member name="P:SeeSharp.RangeEffect.Range">
+            <summary>
+            The range, to which the effect should be applied (a null-value applies the effect to the entire image)
+            </summary>
+        </member>
+        <member name="T:SeeSharp.InstagramEffect">
+            <summary>
+            Represents an Instagram-photo effect, which has been ported from the instagramm service's CSS code
+            </summary>
+        </member>
+        <member name="T:SeeSharp.BitmapEffectFunctions">
+            <summary>
+            Contains all basic functions needed to apply effects to bitmaps
+            </summary>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.ApplyEffectRange``1(System.Drawing.Bitmap,System.Nullable{System.Drawing.Rectangle})">
+            <summary>
+            Applies the given bitmap effect to a given range/section of the given bitmap
+            </summary>
+            <typeparam name="T">Bitmap effect</typeparam>
+            <param name="bmp">Bitmap, to which the effect shall be (partially) applied</param>
+            <param name="rect">Region, in which the effect shall be applied (a null-value applies the effect to the entire bitmap)</param>
+            <returns>Result bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.ApplyEffectRange``1(System.Drawing.Bitmap,System.Nullable{System.Drawing.Rectangle},System.Object[])">
+            <summary>
+            Applies the given parameterized bitmap effect to a given range/section of the given bitmap
+            </summary>
+            <typeparam name="T">Bitmap effect</typeparam>
+            <param name="bmp">Bitmap, to which the effect shall be (partially) applied</param>
+            <param name="rect">Region, in which the effect shall be applied (a null-value applies the effect to the entire bitmap)</param>
+            <param name="args">Effect initialization parameters</param>
+            <returns>Result bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.PartialApplyEffectRange(System.Drawing.Bitmap,SeeSharp.BitmapEffect,System.Nullable{System.Drawing.Rectangle},System.Double)">
+            <summary>
+            Applies the given bitmap effect to the given bitmap to a certain amount and interpolates the result with the input bitmap
+            </summary>
+            <param name="effect">Bitmap effect</param>
+            <param name="bmp">Bitmap, to which the effect shall be (partially) applied</param>
+            <param name="rect">Region, in which the effect shall be applied (a null-value applies the effect to the entire bitmap)</param>
+            <param name="amount">Amount to which the effect shall be applied (1 = fully ... 0 = do not apply)</param>
+            <returns>Result bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.PartialApplyEffectRange``1(System.Drawing.Bitmap,System.Nullable{System.Drawing.Rectangle},System.Double)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="bmp"></param>
+            <param name="rect"></param>
+            <param name="amount"></param>
+            <returns>Result bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.PartialApplyEffectRange``1(System.Drawing.Bitmap,System.Nullable{System.Drawing.Rectangle},System.Double,System.Object[])">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="bmp"></param>
+            <param name="rect"></param>
+            <param name="amount"></param>
+            <param name="args"></param>
+            <returns>Result bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.PartialApplyEffect(System.Drawing.Bitmap,SeeSharp.BitmapEffect,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="bmp"></param>
+            <param name="effect"></param>
+            <param name="amount"></param>
+            <returns>Result bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.PartialApplyEffect``1(System.Drawing.Bitmap,System.Double)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="bmp"></param>
+            <param name="amount"></param>
+            <returns>Result bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.PartialApplyEffect``1(System.Drawing.Bitmap,System.Double,System.Object[])">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="bmp"></param>
+            <param name="amount"></param>
+            <param name="args"></param>
+            <returns>Result bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.ApplyBlendEffect``1(System.Drawing.Bitmap,System.Drawing.Bitmap)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="bmp1"></param>
+            <param name="bmp2"></param>
+            <returns>Result bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.ApplyBlendEffect``1(System.Drawing.Bitmap,System.Drawing.Bitmap,System.Object[])">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="bmp1"></param>
+            <param name="bmp2"></param>
+            <param name="args"></param>
+            <returns>Result bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.ApplyEffect``1(System.Drawing.Bitmap)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="bmp"></param>
+            <returns>Result bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.ApplyEffect``1(System.Drawing.Bitmap,System.Object[])">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="bmp"></param>
+            <param name="args"></param>
+            <returns>Result bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.ApplyEffect(System.Drawing.Bitmap,SeeSharp.BitmapEffect)">
+            <summary>
+            
+            </summary>
+            <param name="bmp"></param>
+            <param name="effect"></param>
+            <returns>Result bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.ApplyEffectRange(System.Drawing.Bitmap,SeeSharp.BitmapEffect,System.Nullable{System.Drawing.Rectangle})">
+            <summary>
+            
+            </summary>
+            <param name="bmp"></param>
+            <param name="effect"></param>
+            <param name="rect"></param>
+            <returns>Result bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.ApplyBlendEffectRange(System.Drawing.Bitmap,System.Drawing.Bitmap,SeeSharp.BitmapBlendEffect,System.Nullable{System.Drawing.Rectangle})">
+            <summary>
+            
+            </summary>
+            <param name="bmp1"></param>
+            <param name="bmp2"></param>
+            <param name="effect"></param>
+            <param name="rect"></param>
+            <returns>Result bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.ApplyBlendEffectRange``1(System.Drawing.Bitmap,System.Drawing.Bitmap,System.Nullable{System.Drawing.Rectangle})">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="bmp1"></param>
+            <param name="bmp2"></param>
+            <param name="rect"></param>
+            <returns>Result bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.ApplyBlendEffectRange``1(System.Drawing.Bitmap,System.Drawing.Bitmap,System.Nullable{System.Drawing.Rectangle},System.Object[])">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="bmp1"></param>
+            <param name="bmp2"></param>
+            <param name="rect"></param>
+            <param name="args"></param>
+            <returns>Result bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.Average(System.Drawing.Bitmap,System.Drawing.Bitmap,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="bmp1"></param>
+            <param name="bmp2"></param>
+            <param name="bmp1fac"></param>
+            <returns>Result bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.Merge(System.Drawing.Bitmap,System.Drawing.Bitmap)">
+            <summary>
+            
+            </summary>
+            <param name="bmp1"></param>
+            <param name="bmp2"></param>
+            <returns>Result bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.Merge(System.Drawing.Bitmap,System.Drawing.Bitmap,System.Boolean,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="bmp1"></param>
+            <param name="bmp2"></param>
+            <param name="α"></param>
+            <param name="avg"></param>
+            <returns>Result bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.Unlock(SeeSharp.BitmapLockInfo)">
+            <summary>
+            
+            </summary>
+            <param name="nfo"></param>
+            <returns>Result bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.LockBitmap(System.Drawing.Bitmap)">
+            <summary>
+            
+            </summary>
+            <param name="bmp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.ToARGB32(System.Drawing.Bitmap)">
+            <summary>
+            
+            </summary>
+            <param name="bmp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.DifferenceMask(System.Drawing.Bitmap,System.Drawing.Bitmap,System.Double,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="src"></param>
+            <param name="mask"></param>
+            <param name="tolerance"></param>
+            <param name="grayscale"></param>
+            <param name="subtracttolerance"></param>
+            <param name="ignorealpha"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.RGBtoHSL(System.Byte,System.Byte,System.Byte,System.Double@,System.Double@,System.Double@)">
+            <summary>
+            
+            </summary>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+            <param name="h"></param>
+            <param name="s"></param>
+            <param name="l"></param>
+        </member>
+        <member name="M:SeeSharp.BitmapEffectFunctions.HSLtoRGB(System.Double,System.Double,System.Double,System.Byte@,System.Byte@,System.Byte@)">
+            <summary>
+            
+            </summary>
+            <param name="h"></param>
+            <param name="s"></param>
+            <param name="l"></param>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="T:SeeSharp.BitmapLockInfo">
+            <summary>
+            Represents a dataset containing valuable information about a locked unmanaged bitmap
+            </summary>
+        </member>
+        <member name="P:SeeSharp.BitmapLockInfo.PXF">
+            <summary>
+            The bitmap's pixel format
+            </summary>
+        </member>
+        <member name="P:SeeSharp.BitmapLockInfo.DAT">
+            <summary>
+            The bitmap's internal data structure
+            </summary>
+        </member>
+        <member name="P:SeeSharp.BitmapLockInfo.BMP">
+            <summary>
+            The (locked) bitmap
+            </summary>
+        </member>
+        <member name="P:SeeSharp.BitmapLockInfo.PTR">
+            <summary>
+            A memory pointer pointing to the first of the bitmap's pixel
+            </summary>
+        </member>
+        <member name="P:SeeSharp.BitmapLockInfo.ARR">
+            <summary>
+            A raw byte array containing all of the bitmap's color information
+            </summary>
+        </member>
+        <member name="M:SeeSharp.BitmapLockInfo.Lock(System.Drawing.Bitmap)">
+            <summary>
+            Locks the given bitmap and returns the corresponding locking structure
+            </summary>
+            <param name="bmp">Bitmap to be locked</param>
+            <returns>Bimap lock information</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapLockInfo.Unlock">
+            <summary>
+            Unlocks the underlying bitmap and returns it
+            </summary>
+            <returns>(Now unlocked) bitmap</returns>
+        </member>
+        <member name="M:SeeSharp.BitmapLockInfo.Dispose">
+            <summary>
+            Disposes the current instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.BitmapLockInfo.op_Implicit(SeeSharp.BitmapLockInfo)~SeeSharp.Pixel*">
+            <summary>
+            Converts the given bitmap locking structure to an unmanaged pixel pointer
+            </summary>
+            <param name="nfo">Bitmap locking structure</param>
+        </member>
+        <member name="M:SeeSharp.BitmapLockInfo.op_Implicit(SeeSharp.BitmapLockInfo)~System.Byte*">
+            <summary>
+            Converts the given bitmap locking structure to an unmanaged byte pointer
+            </summary>
+            <param name="nfo">Bitmap locking structure</param>
+        </member>
+        <member name="T:SeeSharp.Pixel">
+            <summary>
+            Represents a native pixel 32-bit color information structure
+            </summary>
+        </member>
+        <member name="F:SeeSharp.Pixel.B">
+            <summary>
+            The pixel's blue channel
+            </summary>
+        </member>
+        <member name="F:SeeSharp.Pixel.G">
+            <summary>
+            The pixel's green channel
+            </summary>
+        </member>
+        <member name="F:SeeSharp.Pixel.R">
+            <summary>
+            The pixel's red channel
+            </summary>
+        </member>
+        <member name="F:SeeSharp.Pixel.A">
+            <summary>
+            The pixel's alpha channel
+            </summary>
+        </member>
+        <member name="P:SeeSharp.Pixel.ARGB">
+            <summary>
+            The color information stored in an 32-Bit signed integer value
+            </summary>
+        </member>
+        <member name="P:SeeSharp.Pixel.ARGBu">
+            <summary>
+            The color information stored in an 32-Bit unsigned integer value
+            </summary>
+        </member>
+        <member name="P:SeeSharp.Pixel.Af">
+            <summary>
+            The pixel's alpha channel represented as floating-point value in the interval of [0..1]
+            </summary>
+        </member>
+        <member name="P:SeeSharp.Pixel.Rf">
+            <summary>
+            The pixel's red channel represented as floating-point value in the interval of [0..1]
+            </summary>
+        </member>
+        <member name="P:SeeSharp.Pixel.Gf">
+            <summary>
+            The pixel's green channel represented as floating-point value in the interval of [0..1]
+            </summary>
+        </member>
+        <member name="P:SeeSharp.Pixel.Bf">
+            <summary>
+            The pixel's blue channel represented as floating-point value in the interval of [0..1]
+            </summary>
+        </member>
+        <member name="P:SeeSharp.Pixel.Pointer">
+            <summary>
+            An unmanaged structure pointer pointing to the current instance
+            </summary>
+        </member>
+        <member name="P:SeeSharp.Pixel.BytePointer">
+            <summary>
+            An unmanaged byte pointer pointing to the current instance
+            </summary>
+        </member>
+        <member name="P:SeeSharp.Pixel.VoidPointer">
+            <summary>
+            An unmanaged void pointer pointing to the current instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Pixel.#ctor(System.Byte,System.Byte,System.Byte)">
+            <summary>
+            Creates a new instance
+            </summary>
+            <param name="r">Red value</param>
+            <param name="g">Green value</param>
+            <param name="b">Blue value</param>
+        </member>
+        <member name="M:SeeSharp.Pixel.#ctor(System.Byte,System.Byte,System.Byte,System.Byte)">
+            <summary>
+            Creates a new instance
+            </summary>
+            <param name="α">Alpha value</param>
+            <param name="r">Red value</param>
+            <param name="g">Green value</param>
+            <param name="b">Blue value</param>
+        </member>
+        <member name="T:SeeSharp.NormalFilter">
+            <summary>
+            An enumeration of edge-finding filters to generate a normal map from a diffuse image
+            </summary>
+        </member>
+        <member name="F:SeeSharp.NormalFilter.Sobel">
+            <summary>
+            Sobel filter
+            </summary>
+        </member>
+        <member name="F:SeeSharp.NormalFilter.Scharr">
+            <summary>
+            Scharr filter
+            </summary>
+        </member>
+        <member name="F:SeeSharp.NormalFilter.Prewitt">
+            <summary>
+            Prewitt filter
+            </summary>
+        </member>
+    </members>
+</doc>

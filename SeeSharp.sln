@@ -4,8 +4,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.26127.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeeSharp", "SeeSharp\SeeSharp.csproj", "{400EB6BC-45AE-4A5B-A89D-145393D37B77}"
+	ProjectSection(ProjectDependencies) = postProject
+		{79A5733D-31F0-41CC-A240-58C1FCBBE562} = {79A5733D-31F0-41CC-A240-58C1FCBBE562}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{928DF5BC-66A1-4644-9CF5-9551C77CF892}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Documentation", "Documentation\Documentation.csproj", "{79A5733D-31F0-41CC-A240-58C1FCBBE562}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BCA47339-55A9-4184-83AE-6E236E449785}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		favicon.ico = favicon.ico
+		licence.md = licence.md
+		readme.md = readme.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +55,18 @@ Global
 		{928DF5BC-66A1-4644-9CF5-9551C77CF892}.Release|x64.Build.0 = Release|Any CPU
 		{928DF5BC-66A1-4644-9CF5-9551C77CF892}.Release|x86.ActiveCfg = Release|Any CPU
 		{928DF5BC-66A1-4644-9CF5-9551C77CF892}.Release|x86.Build.0 = Release|Any CPU
+		{79A5733D-31F0-41CC-A240-58C1FCBBE562}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79A5733D-31F0-41CC-A240-58C1FCBBE562}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79A5733D-31F0-41CC-A240-58C1FCBBE562}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{79A5733D-31F0-41CC-A240-58C1FCBBE562}.Debug|x64.Build.0 = Debug|Any CPU
+		{79A5733D-31F0-41CC-A240-58C1FCBBE562}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{79A5733D-31F0-41CC-A240-58C1FCBBE562}.Debug|x86.Build.0 = Debug|Any CPU
+		{79A5733D-31F0-41CC-A240-58C1FCBBE562}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79A5733D-31F0-41CC-A240-58C1FCBBE562}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79A5733D-31F0-41CC-A240-58C1FCBBE562}.Release|x64.ActiveCfg = Release|Any CPU
+		{79A5733D-31F0-41CC-A240-58C1FCBBE562}.Release|x64.Build.0 = Release|Any CPU
+		{79A5733D-31F0-41CC-A240-58C1FCBBE562}.Release|x86.ActiveCfg = Release|Any CPU
+		{79A5733D-31F0-41CC-A240-58C1FCBBE562}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

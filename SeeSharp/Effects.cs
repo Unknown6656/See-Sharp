@@ -144,11 +144,10 @@ namespace SeeSharp
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class SaturationBitmapEffect
             : RangeEffect
-            , IBitmapEffect
         {
             public double Amount { internal set; get; }
 
-            public Bitmap Apply(Bitmap bmp)
+            public override Bitmap Apply(Bitmap bmp)
             {
                 double a = Amount;
     #if !USE_HSL_SATURATION
@@ -302,12 +301,11 @@ namespace SeeSharp
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class TintBitmapEffect
             : RangeEffect
-            , IBitmapEffect
         {
             public double Degree { internal set; get; }
             public double Amount { internal set; get; }
 
-            public Bitmap Apply(Bitmap bmp)
+            public override Bitmap Apply(Bitmap bmp)
             {
                 BitmapLockInfo src = bmp.LockBitmap();
                 BitmapLockInfo dst = new Bitmap(bmp.Width, bmp.Height, bmp.PixelFormat).LockBitmap();
@@ -400,12 +398,11 @@ namespace SeeSharp
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class SimpleGlowBitmapEffect
             : RangeEffect
-            , IBitmapEffect
         {
             public double Radius { internal set; get; }
             public double Amount { internal set; get; }
 
-            public Bitmap Apply(Bitmap bmp)
+            public override Bitmap Apply(Bitmap bmp)
             {
                 bmp = bmp.ToARGB32();
 
@@ -1188,7 +1185,7 @@ namespace SeeSharp
         public unsafe sealed class LighterBitmapBlendEffect
             : BitmapBlendEffect
         {
-            public override void __blend(ref BitmapLockInfo src1, ref BitmapLockInfo src2, ref BitmapLockInfo dst, Func<int, int, bool> inrange)
+            protected internal override void __blend(ref BitmapLockInfo src1, ref BitmapLockInfo src2, ref BitmapLockInfo dst, Func<int, int, bool> inrange)
             {
                 int t = src1.DAT.Stride;
                 int h = src1.DAT.Height;
@@ -1220,7 +1217,7 @@ namespace SeeSharp
         public unsafe sealed class AddBitmapBlendEffect
             : BitmapBlendEffect
         {
-            public override void __blend(ref BitmapLockInfo src1, ref BitmapLockInfo src2, ref BitmapLockInfo dst, Func<int, int, bool> inrange)
+            protected internal override void __blend(ref BitmapLockInfo src1, ref BitmapLockInfo src2, ref BitmapLockInfo dst, Func<int, int, bool> inrange)
             {
                 int t = src1.DAT.Stride;
                 int h = src1.DAT.Height;
@@ -1253,7 +1250,7 @@ namespace SeeSharp
         public unsafe sealed class MultiplyBitmapBlendEffect
             : BitmapBlendEffect
         {
-            public override void __blend(ref BitmapLockInfo src1, ref BitmapLockInfo src2, ref BitmapLockInfo dst, Func<int, int, bool> inrange)
+            protected internal override void __blend(ref BitmapLockInfo src1, ref BitmapLockInfo src2, ref BitmapLockInfo dst, Func<int, int, bool> inrange)
             {
                 int t = src1.DAT.Stride;
                 int h = src1.DAT.Height;
@@ -1615,13 +1612,13 @@ namespace SeeSharp
 
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public unsafe sealed class NormalMapBitmapEffect
-            : IBitmapEffect
+            : BitmapEffect
         {
             public bool Grayscale { internal set; get; }
             public double BlurRadius { internal set; get; }
             public NormalFilter Filter { internal set; get; }
 
-            public Bitmap Apply(Bitmap bmp)
+            public override Bitmap Apply(Bitmap bmp)
             {
                 if (Grayscale)
                     bmp = new GrayscaleBitmapEffect().Apply(bmp);
@@ -1719,12 +1716,12 @@ namespace SeeSharp
 
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public unsafe sealed partial class RGBSplitBitmapEffect
-            : IBitmapEffect
+            : BitmapEffect
         {
             public double Direction { internal set; get; }
             public double Amount { internal set; get; }
 
-            public Bitmap Apply(Bitmap bmp)
+            public override Bitmap Apply(Bitmap bmp)
             {
                 Bitmap bmp1 = bmp.ToARGB32().ApplyEffect<BitmapColorEffect>(new double[5, 5] {
                     { 1,0,0,0,0 },
@@ -1864,12 +1861,12 @@ namespace SeeSharp
 
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode, Obsolete("Use `CoreLib::Imaging::RGBSplitBitmapEffect` instead.", true)]
         internal unsafe sealed partial class __OLD__RGBSplitBitmapEffect
-            : IBitmapEffect
+            : BitmapEffect
         {
             public double Delta { internal set; get; }
             public double Theta { internal set; get; }
 
-            public unsafe Bitmap Apply(Bitmap bmp)
+            public unsafe override Bitmap Apply(Bitmap bmp)
             {
                 using (BitmapLockInfo nfo = bmp.LockBitmap())
                 {
@@ -2169,7 +2166,6 @@ namespace SeeSharp
     [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
     public unsafe class MatrixConvolutionBitmapEffect
         : RangeEffect
-        , IBitmapEffect
         , IDisposable
     {
         public double[,] HorizontalMatrix { protected internal set; get; }
@@ -2182,7 +2178,7 @@ namespace SeeSharp
             this.VerticalMatrix = null;
         }
 
-        public virtual Bitmap Apply(Bitmap bmp)
+        public override Bitmap Apply(Bitmap bmp)
         {
             if (Grayscale)
                 bmp = new GrayscaleBitmapEffect().Apply(bmp);
@@ -2300,7 +2296,6 @@ namespace SeeSharp
     [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
     public unsafe class SingleMatrixConvolutionBitmapEffect
         : RangeEffect
-        , IBitmapEffect
         , IDisposable
     {
         public double[,] Matrix { protected internal set; get; }
@@ -2310,7 +2305,7 @@ namespace SeeSharp
 
         public void Dispose() => this.Matrix = null;
 
-        public virtual Bitmap Apply(Bitmap bmp)
+        public override Bitmap Apply(Bitmap bmp)
         {
             if (Grayscale)
                 bmp = new GrayscaleBitmapEffect().Apply(bmp);
@@ -2418,7 +2413,6 @@ namespace SeeSharp
     [DebuggerStepThrough, DebuggerNonUserCode]
     public unsafe class BitmapColorEffect
         : RangeEffect
-        , IBitmapEffect
         , IColorEffect
         , IDisposable
     {
@@ -2427,7 +2421,7 @@ namespace SeeSharp
 
         public void Dispose() => this.ColorMatrix = null;
 
-        public virtual Bitmap Apply(Bitmap bmp)
+        public override sealed Bitmap Apply(Bitmap bmp)
         {
             if ((ColorMatrix.GetLength(0) != MATRIX_SIZE) || (ColorMatrix.GetLength(1) != MATRIX_SIZE))
                 throw new InvalidProgramException("The field `ColorMatrix : double[,]` defined inside `" + this.GetType() + "` must have the dimension " + MATRIX_SIZE + "x" + MATRIX_SIZE + ".");
@@ -2511,7 +2505,7 @@ namespace SeeSharp
 
     [DebuggerStepThrough, DebuggerNonUserCode]
     public unsafe class HSLBitmapColorEffect
-        : IBitmapEffect
+        : BitmapEffect
         , IColorEffect
         , IDisposable
     {
@@ -2520,7 +2514,7 @@ namespace SeeSharp
 
         public void Dispose() => this.ColorMatrix = null;
 
-        public virtual Bitmap Apply(Bitmap bmp)
+        public override sealed Bitmap Apply(Bitmap bmp)
         {
             if ((ColorMatrix.GetLength(0) != MATRIX_SIZE) || (ColorMatrix.GetLength(1) != MATRIX_SIZE))
                 throw new InvalidProgramException("The field `ColorMatrix : double[,]` defined inside `" + this.GetType() + "` must have the dimension " + MATRIX_SIZE + "x" + MATRIX_SIZE + ".");
@@ -2583,7 +2577,7 @@ namespace SeeSharp
 
     [DebuggerStepThrough, DebuggerNonUserCode]
     public unsafe class BitmapTransformEffect
-        : IBitmapEffect
+        : BitmapEffect
         , ITransformEffect
         , IDisposable
     {
@@ -2592,7 +2586,7 @@ namespace SeeSharp
 
         public void Dispose() => this.TransformMatrix = null;
 
-        public virtual Bitmap Apply(Bitmap bmp)
+        public override sealed Bitmap Apply(Bitmap bmp)
         {
             if ((TransformMatrix.GetLength(0) != 2) || (TransformMatrix.GetLength(1) != 2))
                 throw new InvalidProgramException("The field `TransformMatrix : double[,]` defined inside `" + this.GetType() + "` must have the dimension 2x2.");
@@ -2649,7 +2643,11 @@ namespace SeeSharp
         : RangeEffect
         , IDisposable
     {
-        public abstract void __blend(ref BitmapLockInfo src1, ref BitmapLockInfo src2, ref BitmapLockInfo dst, Func<int, int, bool> inrange);
+        internal Bitmap Second { set; get; }
+
+        protected internal abstract void __blend(ref BitmapLockInfo src1, ref BitmapLockInfo src2, ref BitmapLockInfo dst, Func<int, int, bool> inrange);
+
+        public void Dispose() => Second?.Dispose();
 
         protected Func<int, int, bool> __inrange2()
         {
@@ -2665,6 +2663,8 @@ namespace SeeSharp
                 return (x, y) => (x >= rcx) && (x < rcw) && (y >= rcy) && (y < rch);
             }
         }
+
+        public sealed override Bitmap Apply(Bitmap bmp) => Blend(bmp, Second);
 
         public virtual Bitmap Blend(Bitmap bmp1, Bitmap bmp2)
         {
@@ -2691,19 +2691,12 @@ namespace SeeSharp
                 return dst.Unlock();
             }
         }
-
-        public virtual void Dispose()
-        {
-        }
     }
 
     public unsafe abstract class BlendColorEffect
         : RangeEffect
-        , IBitmapEffect
     {
         protected double[] refcolor = new double[4] { 0, 0, 0, 0 };
-
-        public abstract Bitmap Apply(Bitmap bmp);
 
         protected Func<int, bool> __inrange1(int psz, int t)
         {
@@ -2762,12 +2755,24 @@ namespace SeeSharp
 
     #endregion
 
+    /// <summary>
+    /// An enumeration of edge-finding filters to generate a normal map from a diffuse image
+    /// </summary>
     [Serializable]
     public enum NormalFilter
         : byte
     {
+        /// <summary>
+        /// Sobel filter
+        /// </summary>
         Sobel,
+        /// <summary>
+        /// Scharr filter
+        /// </summary>
         Scharr,
+        /// <summary>
+        /// Prewitt filter
+        /// </summary>
         Prewitt,
     }
 }

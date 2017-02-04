@@ -50,6 +50,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)*.*" "$(SolutionDir)binaries"
-"$(SolutionDir)Documentation\bin\Debug\doc.exe" "$(SolutionDir)binaries\$(TargetFileName)"</PostBuildEvent>
+"$(SolutionDir)Documentation\bin\Debug\doc.exe" "$(SolutionDir)binaries\$(TargetFileName)" "$(SolutionDir)documentation.md"</PostBuildEvent>
   </PropertyGroup>
 </Project>

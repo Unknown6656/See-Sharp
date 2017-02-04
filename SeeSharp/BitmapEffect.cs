@@ -13,31 +13,59 @@ namespace SeeSharp
 {
     using Effects;
 
-    public interface IBitmapEffect
+    /// <summary>
+    /// Represents an abstract bitmap effect
+    /// </summary>
+    public abstract class BitmapEffect
     {
-        Bitmap Apply(Bitmap bmp);
+        /// <summary>
+        /// Applies the current effect to the given bitmap and returns the result
+        /// </summary>
+        /// <param name="bmp">Input bitmap</param>
+        /// <returns>Output bitmap</returns>
+        public abstract Bitmap Apply(Bitmap bmp);
     }
 
+    /// <summary>
+    /// Represents an abstract bitmap effect wich applies a stored color matrix to each of the bitmap's pixel
+    /// </summary>
     public interface IColorEffect
     {
+        /// <summary>
+        /// Color matrix to be applied to the bitmap
+        /// </summary>
         double[,] ColorMatrix { get; }
     }
 
+    /// <summary>
+    /// Represents an abstract bitmap effect wich applies a stored transformation matrix to each of the bitmap's pixel
+    /// </summary>
     public interface ITransformEffect
     {
+        /// <summary>
+        /// Transformation matrix to be applied to the bitmap
+        /// </summary>
         double[,] TransformMatrix { get; }
     }
 
+    /// <summary>
+    /// Represents an abstract bitmap effect which applies the underlying algorithm only to a specific rage of the bitmap
+    /// </summary>
     public abstract class RangeEffect
+        : BitmapEffect
     {
+        /// <summary>
+        /// The range, to which the effect should be applied (a null-value applies the effect to the entire image)
+        /// </summary>
         public Rectangle? Range { set; get; }
     }
 
+    /// <summary>
+    /// Represents an Instagram-photo effect, which has been ported from the instagramm service's CSS code
+    /// </summary>
     public abstract class InstagramEffect
         : RangeEffect
-        , IBitmapEffect
     {
-        public abstract Bitmap Apply(Bitmap bmp);
     }
 
     [DebuggerStepThrough, DebuggerNonUserCode]
@@ -48,11 +76,11 @@ namespace SeeSharp
         internal static double Constrain(this double val, double min, double max) => Min(Max(val, min), max);
 
         public static Bitmap ApplyEffectRange<T>(this Bitmap bmp, Rectangle? rect)
-            where T : RangeEffect, IBitmapEffect, new() => ApplyEffect(bmp, new T() { Range = rect });
+            where T : RangeEffect, new() => ApplyEffect(bmp, new T() { Range = rect });
 
         [method: MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Bitmap ApplyEffectRange<T>(this Bitmap bmp, Rectangle? rect, params object[] args)
-            where T : RangeEffect, IBitmapEffect
+            where T : RangeEffect
         {
             T instance = Activator.CreateInstance(typeof(T), args) as T;
 
@@ -62,7 +90,7 @@ namespace SeeSharp
         }
 
         [method: MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Bitmap PartialApplyEffectRange(this Bitmap bmp, IBitmapEffect effect, Rectangle? rect, double amount)
+        public static Bitmap PartialApplyEffectRange(this Bitmap bmp, BitmapEffect effect, Rectangle? rect, double amount)
         {
             Bitmap tmp = bmp.ApplyEffectRange(effect, rect);
             double a = amount.Normalize();
@@ -78,11 +106,11 @@ namespace SeeSharp
         }
 
         public static Bitmap PartialApplyEffectRange<T>(this Bitmap bmp, Rectangle? rect, double amount)
-            where T : RangeEffect, IBitmapEffect, new() => bmp.PartialApplyEffect(new T() { Range = rect }, amount);
+            where T : RangeEffect, new() => bmp.PartialApplyEffect(new T() { Range = rect }, amount);
 
         [method: MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Bitmap PartialApplyEffectRange<T>(this Bitmap bmp, Rectangle? rect, double amount, params object[] args)
-            where T : RangeEffect, IBitmapEffect
+            where T : RangeEffect
         {
             T instance = Activator.CreateInstance(typeof(T), args) as T;
 
@@ -92,7 +120,7 @@ namespace SeeSharp
         }
 
         [method: MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Bitmap PartialApplyEffect(this Bitmap bmp, IBitmapEffect effect, double amount)
+        public static Bitmap PartialApplyEffect(this Bitmap bmp, BitmapEffect effect, double amount)
         {
             Bitmap tmp = bmp.ApplyEffect(effect);
             double a = amount.Normalize();
@@ -108,10 +136,10 @@ namespace SeeSharp
         }
 
         public static Bitmap PartialApplyEffect<T>(this Bitmap bmp, double amount)
-            where T : class, IBitmapEffect, new() => bmp.PartialApplyEffect(new T(), amount);
+            where T : BitmapEffect, new() => bmp.PartialApplyEffect(new T(), amount);
 
         public static Bitmap PartialApplyEffect<T>(this Bitmap bmp, double amount, params object[] args)
-            where T : class, IBitmapEffect => bmp.PartialApplyEffect(Activator.CreateInstance(typeof(T), args) as T, amount);
+            where T : BitmapEffect => bmp.PartialApplyEffect(Activator.CreateInstance(typeof(T), args) as T, amount);
 
         public static Bitmap ApplyBlendEffect<T>(this Bitmap bmp1, Bitmap bmp2)
             where T : BitmapBlendEffect, new() => new T().Blend(bmp1, bmp2);
@@ -120,15 +148,15 @@ namespace SeeSharp
             where T : BitmapBlendEffect => (Activator.CreateInstance(typeof(T), args) as T).Blend(bmp1, bmp2);
 
         public static Bitmap ApplyEffect<T>(this Bitmap bmp)
-            where T : class, IBitmapEffect, new() => ApplyEffect(bmp, new T());
+            where T : BitmapEffect, new() => ApplyEffect(bmp, new T());
 
         public static Bitmap ApplyEffect<T>(this Bitmap bmp, params object[] args)
-            where T : class, IBitmapEffect => ApplyEffect(bmp, (T)Activator.CreateInstance(typeof(T), args));
+            where T : BitmapEffect => ApplyEffect(bmp, (T)Activator.CreateInstance(typeof(T), args));
 
-        public static Bitmap ApplyEffect(this Bitmap bmp, IBitmapEffect effect) => effect.Apply(bmp);
+        public static Bitmap ApplyEffect(this Bitmap bmp, BitmapEffect effect) => effect.Apply(bmp);
 
         [method: MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Bitmap ApplyEffectRange(this Bitmap bmp, IBitmapEffect effect, Rectangle? rect)
+        public static Bitmap ApplyEffectRange(this Bitmap bmp, BitmapEffect effect, Rectangle? rect)
         {
             if (effect is RangeEffect fx)
                 fx.Range = rect;
@@ -417,15 +445,30 @@ namespace SeeSharp
         }
     }
 
+    /// <summary>
+    /// Represents a native pixel 32-bit color information structure
+    /// </summary>
     [NativeCppClass, Serializable, StructLayout(LayoutKind.Explicit)]
     public unsafe struct Pixel
     {
+        /// <summary>
+        /// The pixel's blue channel
+        /// </summary>
         [FieldOffset(0)]
         public byte B;
+        /// <summary>
+        /// The pixel's green channel
+        /// </summary>
         [FieldOffset(1)]
         public byte G;
+        /// <summary>
+        /// The pixel's red channel
+        /// </summary>
         [FieldOffset(2)]
         public byte R;
+        /// <summary>
+        /// The pixel's alpha channel
+        /// </summary>
         [FieldOffset(3)]
         public byte A;
 

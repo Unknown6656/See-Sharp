@@ -853,892 +853,569 @@ namespace SeeSharp
         public sealed unsafe class ScreenBlendColorEffect
             : BlendColorEffect
         {
-            /// <summary>
-            /// Applies the current effect to the given bitmap and returns the result
-            /// </summary>
-            /// <param name="bmp">Input bitmap</param>
-            /// <returns>Output bitmap</returns>
-            public override Bitmap Apply(Bitmap bmp)
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, srcptr, refcolor, i, psz, w, t, l, o) =>
             {
-                BitmapLockInfo src = bmp.LockBitmap();
-                BitmapLockInfo dst = new Bitmap(bmp.Width, bmp.Height, bmp.PixelFormat).LockBitmap();
+                double v = 1.0 - ((1.0 - refcolor[o]) * (1.0 - (srcptr[i] / 255.0)));
 
-                int w = src.DAT.Width, t = src.DAT.Stride, psz = t / w;
-                Func<int, bool> inrange = __inrange1(psz, t);
-                double v = 0;
-
-                fixed (byte* srcptr = src.ARR)
-                fixed (byte* dstptr = dst.ARR)
-                fixed (double* matr = refcolor)
-                    for (int i = 0, o, l = src.ARR.Length; i < l; i++)
-                        if (inrange(i))
-                        {
-                            o = i % psz;
-                            v = 1.0 - ((1.0 - matr[o]) * (1.0 - (srcptr[i] / 255.0)));
-                            v *= 255;
-
-                            dstptr[i] = (byte)(v < 0 ? 0 : v > 255 ? 255 : v);
-                        }
-                        else
-                            dstptr[i] = srcptr[i];
-
-                src.Unlock();
-
-                return dst.Unlock();
-            }
+                return v * 255;
+            });
 
             /// <summary>
             /// Creates a new instance
             /// </summary>
             public ScreenBlendColorEffect()
+                : base(blender)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given color
             /// </summary>
-            /// <param name="clr"></param>
+            /// <param name="clr">Blending color</param>
             public ScreenBlendColorEffect(Color clr)
-                : base(clr)
+                : base(blender, clr)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given blending color
             /// </summary>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
             public ScreenBlendColorEffect(double r, double g, double b)
-                : base(0, r, g, b)
+                : base(blender, 0, r, g, b)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given blending color
             /// </summary>
-            /// <param name="a"></param>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="a">The blending color's alpha channel</param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
             public ScreenBlendColorEffect(double a, double r, double g, double b)
-                : base(a, r, g, b)
+                : base(blender, a, r, g, b)
             {
             }
         }
 
         /// <summary>
-        /// 
+        /// Represents a multiplicative bitmap blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class MultiplyBlendColorEffect
             : BlendColorEffect
         {
-            /// <summary>
-            /// Applies the current effect to the given bitmap and returns the result
-            /// </summary>
-            /// <param name="bmp">Input bitmap</param>
-            /// <returns>Output bitmap</returns>
-            public override Bitmap Apply(Bitmap bmp)
-            {
-                BitmapLockInfo src = bmp.LockBitmap();
-                BitmapLockInfo dst = new Bitmap(bmp.Width, bmp.Height, bmp.PixelFormat).LockBitmap();
-
-                int w = src.DAT.Width, t = src.DAT.Stride, psz = t / w;
-                Func<int, bool> inrange = __inrange1(psz, t);
-                double v = 0;
-
-                fixed (byte* srcptr = src.ARR)
-                fixed (byte* dstptr = dst.ARR)
-                fixed (double* matr = refcolor)
-                    for (int i = 0, o, l = src.ARR.Length; i < l; i++)
-                        if (inrange(i))
-                        {
-                            o = i % psz;
-                            v = matr[o] * srcptr[i];
-
-                            dstptr[i] = (byte)(v < 0 ? 0 : v > 255 ? 255 : v);
-                        }
-                        else
-                            dstptr[i] = srcptr[i];
-
-                src.Unlock();
-
-                return dst.Unlock();
-            }
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, srcptr, refcolor, i, psz, w, t, l, o) => refcolor[o] * srcptr[i]);
 
             /// <summary>
             /// Creates a new instance
             /// </summary>
             public MultiplyBlendColorEffect()
+                : base(blender)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given color
             /// </summary>
-            /// <param name="clr"></param>
+            /// <param name="clr">Blending color</param>
             public MultiplyBlendColorEffect(Color clr)
-                : base(clr)
+                : base(blender, clr)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given blending color
             /// </summary>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
             public MultiplyBlendColorEffect(double r, double g, double b)
-                : base(0, r, g, b)
+                : base(blender, 0, r, g, b)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given blending color
             /// </summary>
-            /// <param name="a"></param>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="a">The blending color's alpha channel</param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
             public MultiplyBlendColorEffect(double a, double r, double g, double b)
-                : base(a, r, g, b)
+                : base(blender, a, r, g, b)
             {
             }
         }
 
         /// <summary>
-        /// 
+        /// Represents a divide bitmap blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class DivideBlendColorEffect
             : BlendColorEffect
         {
-            /// <summary>
-            /// Applies the current effect to the given bitmap and returns the result
-            /// </summary>
-            /// <param name="bmp">Input bitmap</param>
-            /// <returns>Output bitmap</returns>
-            public override Bitmap Apply(Bitmap bmp)
-            {
-                BitmapLockInfo src = bmp.LockBitmap();
-                BitmapLockInfo dst = new Bitmap(bmp.Width, bmp.Height, bmp.PixelFormat).LockBitmap();
-
-                int w = src.DAT.Width, t = src.DAT.Stride, psz = t / w;
-                Func<int, bool> inrange = __inrange1(psz, t);
-                double v = 0;
-
-                fixed (byte* srcptr = src.ARR)
-                fixed (byte* dstptr = dst.ARR)
-                fixed (double* matr = refcolor)
-                    for (int i = 0, o, l = src.ARR.Length; i < l; i++)
-                        if (inrange(i))
-                        {
-                            o = i % psz;
-                            v = matr[o] == 0 ? 0 : srcptr[i] / (matr[o] * 255d);
-
-                            dstptr[i] = (byte)(v < 0 ? 0 : v > 255 ? 255 : v);
-                        }
-                        else
-                            dstptr[i] = srcptr[i];
-
-                src.Unlock();
-
-                return dst.Unlock();
-            }
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, srcptr, refcolor, i, psz, w, t, l, o) => refcolor[o] == 0 ? 0 : srcptr[i] / (refcolor[o] * 255d));
 
             /// <summary>
             /// Creates a new instance
             /// </summary>
             public DivideBlendColorEffect()
+                : base(blender)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given color
             /// </summary>
-            /// <param name="clr"></param>
+            /// <param name="clr">Blending color</param>
             public DivideBlendColorEffect(Color clr)
-                : base(clr)
+                : base(blender, clr)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given blending color
             /// </summary>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
             public DivideBlendColorEffect(double r, double g, double b)
-                : base(0, r, g, b)
+                : base(blender, 0, r, g, b)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given blending color
             /// </summary>
-            /// <param name="a"></param>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="a">The blending color's alpha channel</param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
             public DivideBlendColorEffect(double a, double r, double g, double b)
-                : base(a, r, g, b)
+                : base(blender, a, r, g, b)
             {
             }
         }
 
         /// <summary>
-        /// 
+        /// Represents an overlay bitmap blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class OverlayBlendColorEffect
             : BlendColorEffect
         {
-            /// <summary>
-            /// Applies the current effect to the given bitmap and returns the result
-            /// </summary>
-            /// <param name="bmp">Input bitmap</param>
-            /// <returns>Output bitmap</returns>
-            public override Bitmap Apply(Bitmap bmp)
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, srcptr, refcolor, i, psz, w, t, l, o) =>
             {
-                BitmapLockInfo src = bmp.LockBitmap();
-                BitmapLockInfo dst = new Bitmap(bmp.Width, bmp.Height, bmp.PixelFormat).LockBitmap();
+                double v;
 
-                int w = src.DAT.Width, t = src.DAT.Stride, psz = t / w;
-                Func<int, bool> inrange = __inrange1(psz, t);
-                double v, ival;
+                if (ival < .5)
+                    v = refcolor[o] * 2 * ival;
+                else
+                    v = 1 - (2d * (1 - ival) * (1 - refcolor[o]));
 
-                fixed (byte* srcptr = src.ARR)
-                fixed (byte* dstptr = dst.ARR)
-                fixed (double* matr = refcolor)
-                    for (int i = 0, o, l = src.ARR.Length; i < l; i++)
-                        if (inrange(i))
-                        {
-                            o = i % psz;
-                            ival = srcptr[i] / 255d;
-
-                            if (ival < .5)
-                                v = matr[o] * 2 * ival;
-                            else
-                                v = 1 - (2d * (1 - ival) * (1 - matr[o]));
-
-                            v *= 255d;
-
-                            dstptr[i] = (byte)(v < 0 ? 0 : v > 255 ? 255 : v);
-                        }
-                        else
-                            dstptr[i] = srcptr[i];
-
-                src.Unlock();
-
-                return dst.Unlock();
-            }
+                return v * 255;
+            });
 
             /// <summary>
             /// Creates a new instance
             /// </summary>
             public OverlayBlendColorEffect()
+                : base(blender)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given color
             /// </summary>
-            /// <param name="clr"></param>
+            /// <param name="clr">Blending color</param>
             public OverlayBlendColorEffect(Color clr)
-                : base(clr)
+                : base(blender, clr)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given blending color
             /// </summary>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
             public OverlayBlendColorEffect(double r, double g, double b)
-                : base(0, r, g, b)
+                : base(blender, 0, r, g, b)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given blending color
             /// </summary>
-            /// <param name="a"></param>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="a">The blending color's alpha channel</param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
             public OverlayBlendColorEffect(double a, double r, double g, double b)
-                : base(a, r, g, b)
+                : base(blender, a, r, g, b)
             {
             }
         }
 
         /// <summary>
-        /// 
+        /// Represents an hard light bitmap blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class HardLightBlendColorEffect
             : BlendColorEffect
         {
-            /// <summary>
-            /// Applies the current effect to the given bitmap and returns the result
-            /// </summary>
-            /// <param name="bmp">Input bitmap</param>
-            /// <returns>Output bitmap</returns>
-            public override Bitmap Apply(Bitmap bmp)
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, srcptr, refcolor, i, psz, w, t, l, o) =>
             {
-                BitmapLockInfo src = bmp.LockBitmap();
-                BitmapLockInfo dst = new Bitmap(bmp.Width, bmp.Height, bmp.PixelFormat).LockBitmap();
+                double v;
 
-                int w = src.DAT.Width, t = src.DAT.Stride, psz = t / w;
-                Func<int, bool> inrange = __inrange1(psz, t);
-                double v, ival;
+                if (refcolor[o] < .5)
+                    v = refcolor[o] * 2 * ival;
+                else
+                    v = 1 - (2d * (1 - ival) * (1 - refcolor[o]));
 
-                fixed (byte* srcptr = src.ARR)
-                fixed (byte* dstptr = dst.ARR)
-                fixed (double* matr = refcolor)
-                    for (int i = 0, o, l = src.ARR.Length; i < l; i++)
-                        if (inrange(i))
-                        {
-                            o = i % psz;
-                            ival = srcptr[i] / 255d;
-
-                            if (matr[o] < .5)
-                                v = matr[o] * 2 * ival;
-                            else
-                                v = 1 - (2d * (1 - ival) * (1 - matr[o]));
-
-                            v *= 255d;
-
-                            dstptr[i] = (byte)(v < 0 ? 0 : v > 255 ? 255 : v);
-                        }
-                        else
-                            dstptr[i] = srcptr[i];
-
-                src.Unlock();
-
-                return dst.Unlock();
-            }
+                return v * 255;
+            });
 
             /// <summary>
             /// Creates a new instance
             /// </summary>
             public HardLightBlendColorEffect()
+                : base(blender)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given color
             /// </summary>
-            /// <param name="clr"></param>
+            /// <param name="clr">Blending color</param>
             public HardLightBlendColorEffect(Color clr)
-                : base(clr)
+                : base(blender, clr)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given blending color
             /// </summary>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
             public HardLightBlendColorEffect(double r, double g, double b)
-                : base(0, r, g, b)
+                : base(blender, 0, r, g, b)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given blending color
             /// </summary>
-            /// <param name="a"></param>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="a">The blending color's alpha channel</param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
             public HardLightBlendColorEffect(double a, double r, double g, double b)
-                : base(a, r, g, b)
+                : base(blender, a, r, g, b)
             {
             }
         }
 
         /// <summary>
-        /// 
+        /// Represents a soft light bitmap blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class SoftLightBlendColorEffect
             : BlendColorEffect
         {
-            /// <summary>
-            /// Applies the current effect to the given bitmap and returns the result
-            /// </summary>
-            /// <param name="bmp">Input bitmap</param>
-            /// <returns>Output bitmap</returns>
-            public override Bitmap Apply(Bitmap bmp)
-            {
-                BitmapLockInfo src = bmp.LockBitmap();
-                BitmapLockInfo dst = new Bitmap(bmp.Width, bmp.Height, bmp.PixelFormat).LockBitmap();
-
-                int w = src.DAT.Width, t = src.DAT.Stride, psz = t / w;
-                Func<int, bool> inrange = __inrange1(psz, t);
-                double v, ival;
-
-                fixed (byte* srcptr = src.ARR)
-                fixed (byte* dstptr = dst.ARR)
-                fixed (double* matr = refcolor)
-                    for (int i = 0, o, l = src.ARR.Length; i < l; i++)
-                        if (inrange(i))
-                        {
-                            o = i % psz;
-                            ival = srcptr[i] / 255d;
-
-                            v = (((1 - (2 * matr[o])) * ival) + (2 * matr[o])) * ival * 255d;
-
-                            dstptr[i] = (byte)(v < 0 ? 0 : v > 255 ? 255 : v);
-                        }
-                        else
-                            dstptr[i] = srcptr[i];
-
-                src.Unlock();
-
-                return dst.Unlock();
-            }
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, srcptr, refcolor, i, psz, w, t, l, o) => (((1 - (2 * refcolor[o])) * ival) + (2 * refcolor[o])) * ival * 255d);
 
             /// <summary>
             /// Creates a new instance
             /// </summary>
             public SoftLightBlendColorEffect()
+                : base(blender)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given color
             /// </summary>
-            /// <param name="clr"></param>
+            /// <param name="clr">Blending color</param>
             public SoftLightBlendColorEffect(Color clr)
-                : base(clr)
+                : base(blender, clr)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given blending color
             /// </summary>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
             public SoftLightBlendColorEffect(double r, double g, double b)
-                : base(0, r, g, b)
+                : base(blender, 0, r, g, b)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given blending color
             /// </summary>
-            /// <param name="a"></param>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="a">The blending color's alpha channel</param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
             public SoftLightBlendColorEffect(double a, double r, double g, double b)
-                : base(a, r, g, b)
+                : base(blender, a, r, g, b)
             {
             }
         }
 
         /// <summary>
-        /// 
+        /// Represents an additive bitmap blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class AddBlendColorEffect
             : BlendColorEffect
         {
-            /// <summary>
-            /// Applies the current effect to the given bitmap and returns the result
-            /// </summary>
-            /// <param name="bmp">Input bitmap</param>
-            /// <returns>Output bitmap</returns>
-            public override Bitmap Apply(Bitmap bmp)
-            {
-                BitmapLockInfo src = bmp.LockBitmap();
-                BitmapLockInfo dst = new Bitmap(bmp.Width, bmp.Height, bmp.PixelFormat).LockBitmap();
-
-                int w = src.DAT.Width, t = src.DAT.Stride, psz = t / w;
-                Func<int, bool> inrange = __inrange1(psz, t);
-                double v;
-
-                fixed (byte* srcptr = src.ARR)
-                fixed (byte* dstptr = dst.ARR)
-                fixed (double* matr = refcolor)
-                    for (int i = 0, o, l = src.ARR.Length; i < l; i++)
-                        if (inrange(i))
-                        {
-                            o = i % psz;
-                            v = (matr[o] * 255d) + srcptr[i];
-
-                            dstptr[i] = (byte)(v < 0 ? 0 : v > 255 ? 255 : v);
-                        }
-                        else
-                            dstptr[i] = srcptr[i];
-
-                src.Unlock();
-
-                return dst.Unlock();
-            }
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, srcptr, refcolor, i, psz, w, t, l, o) => (refcolor[o] * 255d) + srcptr[i]);
 
             /// <summary>
             /// Creates a new instance
             /// </summary>
             public AddBlendColorEffect()
+                : base(blender)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given color
             /// </summary>
-            /// <param name="clr"></param>
+            /// <param name="clr">Blending color</param>
             public AddBlendColorEffect(Color clr)
-                : base(clr)
+                : base(blender, clr)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given blending color
             /// </summary>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
             public AddBlendColorEffect(double r, double g, double b)
-                : base(0, r, g, b)
+                : base(blender, 0, r, g, b)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given blending color
             /// </summary>
-            /// <param name="a"></param>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="a">The blending color's alpha channel</param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
             public AddBlendColorEffect(double a, double r, double g, double b)
-                : base(a, r, g, b)
+                : base(blender, a, r, g, b)
             {
             }
         }
 
         /// <summary>
-        /// 
+        /// Represents a subtractive bitmap blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class SubtractBlendColorEffect
             : BlendColorEffect
         {
-            /// <summary>
-            /// Applies the current effect to the given bitmap and returns the result
-            /// </summary>
-            /// <param name="bmp">Input bitmap</param>
-            /// <returns>Output bitmap</returns>
-            public override Bitmap Apply(Bitmap bmp)
-            {
-                BitmapLockInfo src = bmp.LockBitmap();
-                BitmapLockInfo dst = new Bitmap(bmp.Width, bmp.Height, bmp.PixelFormat).LockBitmap();
-
-                int w = src.DAT.Width, t = src.DAT.Stride, psz = t / w;
-                Func<int, bool> inrange = __inrange1(psz, t);
-                double v;
-
-                fixed (byte* srcptr = src.ARR)
-                fixed (byte* dstptr = dst.ARR)
-                fixed (double* matr = refcolor)
-                    for (int i = 0, o, l = src.ARR.Length; i < l; i++)
-                        if (inrange(i))
-                        {
-                            o = i % psz;
-                            v = srcptr[i] - (matr[o] * 255d);
-
-                            dstptr[i] = (byte)(v < 0 ? 0 : v > 255 ? 255 : v);
-                        }
-                        else
-                            dstptr[i] = srcptr[i];
-
-                src.Unlock();
-
-                return dst.Unlock();
-            }
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, srcptr, refcolor, i, psz, w, t, l, o) => srcptr[i] - (refcolor[o] * 255d));
 
             /// <summary>
             /// Creates a new instance
             /// </summary>
             public SubtractBlendColorEffect()
+                : base(blender)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given color
             /// </summary>
-            /// <param name="clr"></param>
+            /// <param name="clr">Blending color</param>
             public SubtractBlendColorEffect(Color clr)
-                : base(clr)
+                : base(blender, clr)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given blending color
             /// </summary>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
             public SubtractBlendColorEffect(double r, double g, double b)
-                : base(0, r, g, b)
+                : base(blender, 0, r, g, b)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given blending color
             /// </summary>
-            /// <param name="a"></param>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="a">The blending color's alpha channel</param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
             public SubtractBlendColorEffect(double a, double r, double g, double b)
-                : base(a, r, g, b)
+                : base(blender, a, r, g, b)
             {
             }
         }
 
         /// <summary>
-        /// 
+        /// Represents a differentiative bitmap blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class DifferenceBlendColorEffect
             : BlendColorEffect
         {
-            /// <summary>
-            /// Applies the current effect to the given bitmap and returns the result
-            /// </summary>
-            /// <param name="bmp">Input bitmap</param>
-            /// <returns>Output bitmap</returns>
-            public override Bitmap Apply(Bitmap bmp)
-            {
-                BitmapLockInfo src = bmp.LockBitmap();
-                BitmapLockInfo dst = new Bitmap(bmp.Width, bmp.Height, bmp.PixelFormat).LockBitmap();
-
-                int w = src.DAT.Width, t = src.DAT.Stride, psz = t / w;
-                Func<int, bool> inrange = __inrange1(psz, t);
-                double v;
-
-                fixed (byte* srcptr = src.ARR)
-                fixed (byte* dstptr = dst.ARR)
-                fixed (double* matr = refcolor)
-                    for (int i = 0, o, l = src.ARR.Length; i < l; i++)
-                        if (inrange(i))
-                        {
-                            o = i % psz;
-                            v = Abs(srcptr[i] - (matr[o] * 255d));
-
-                            dstptr[i] = (byte)(v < 0 ? 0 : v > 255 ? 255 : v);
-                        }
-                        else
-                            dstptr[i] = srcptr[i];
-
-                src.Unlock();
-
-                return dst.Unlock();
-            }
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, srcptr, refcolor, i, psz, w, t, l, o) => Abs(srcptr[i] - (refcolor[o] * 255d)));
 
             /// <summary>
             /// Creates a new instance
             /// </summary>
             public DifferenceBlendColorEffect()
+                : base(blender)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given color
             /// </summary>
-            /// <param name="clr"></param>
+            /// <param name="clr">Blending color</param>
             public DifferenceBlendColorEffect(Color clr)
-                : base(clr)
+                : base(blender, clr)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given blending color
             /// </summary>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
             public DifferenceBlendColorEffect(double r, double g, double b)
-                : base(0, r, g, b)
+                : base(blender, 0, r, g, b)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given blending color
             /// </summary>
-            /// <param name="a"></param>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="a">The blending color's alpha channel</param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
             public DifferenceBlendColorEffect(double a, double r, double g, double b)
-                : base(a, r, g, b)
+                : base(blender, a, r, g, b)
             {
             }
         }
 
         /// <summary>
-        /// 
+        /// Represents an darker-only bitmap blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class DarkerOnlyBlendColorEffect
             : BlendColorEffect
         {
-            /// <summary>
-            /// Applies the current effect to the given bitmap and returns the result
-            /// </summary>
-            /// <param name="bmp">Input bitmap</param>
-            /// <returns>Output bitmap</returns>
-            public override Bitmap Apply(Bitmap bmp)
-            {
-                BitmapLockInfo src = bmp.LockBitmap();
-                BitmapLockInfo dst = new Bitmap(bmp.Width, bmp.Height, bmp.PixelFormat).LockBitmap();
-
-                int w = src.DAT.Width, t = src.DAT.Stride, psz = t / w;
-                Func<int, bool> inrange = __inrange1(psz, t);
-                double v;
-
-                fixed (byte* srcptr = src.ARR)
-                fixed (byte* dstptr = dst.ARR)
-                fixed (double* matr = refcolor)
-                    for (int i = 0, o, l = src.ARR.Length; i < l; i++)
-                        if (inrange(i))
-                        {
-                            o = i % psz;
-                            v = Min(srcptr[i], matr[o] * 255d);
-
-                            dstptr[i] = (byte)(v < 0 ? 0 : v > 255 ? 255 : v);
-                        }
-                        else
-                            dstptr[i] = srcptr[i];
-
-                src.Unlock();
-
-                return dst.Unlock();
-            }
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, srcptr, refcolor, i, psz, w, t, l, o) => Min(srcptr[i], refcolor[o] * 255d));
 
             /// <summary>
             /// Creates a new instance
             /// </summary>
             public DarkerOnlyBlendColorEffect()
+                : base(blender)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given color
             /// </summary>
-            /// <param name="clr"></param>
+            /// <param name="clr">Blending color</param>
             public DarkerOnlyBlendColorEffect(Color clr)
-                : base(clr)
+                : base(blender, clr)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given blending color
             /// </summary>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
             public DarkerOnlyBlendColorEffect(double r, double g, double b)
-                : base(0, r, g, b)
+                : base(blender, 0, r, g, b)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given blending color
             /// </summary>
-            /// <param name="a"></param>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
             public DarkerOnlyBlendColorEffect(double a, double r, double g, double b)
-                : base(a, r, g, b)
+                : base(blender, a, r, g, b)
             {
             }
         }
 
         /// <summary>
-        /// 
+        /// Represents an lighter-only bitmap blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class LighterOnlyBlendColorEffect
             : BlendColorEffect
         {
-            /// <summary>
-            /// Applies the current effect to the given bitmap and returns the result
-            /// </summary>
-            /// <param name="bmp">Input bitmap</param>
-            /// <returns>Output bitmap</returns>
-            public override Bitmap Apply(Bitmap bmp)
-            {
-                BitmapLockInfo src = bmp.LockBitmap();
-                BitmapLockInfo dst = new Bitmap(bmp.Width, bmp.Height, bmp.PixelFormat).LockBitmap();
-
-                int w = src.DAT.Width, t = src.DAT.Stride, psz = t / w;
-                Func<int, bool> inrange = __inrange1(psz, t);
-                double v;
-
-                fixed (byte* srcptr = src.ARR)
-                fixed (byte* dstptr = dst.ARR)
-                fixed (double* matr = refcolor)
-                    for (int i = 0, o, l = src.ARR.Length; i < l; i++)
-                        if (inrange(i))
-                        {
-                            o = i % psz;
-                            v = Max(srcptr[i], matr[o] * 255d);
-
-                            dstptr[i] = (byte)(v < 0 ? 0 : v > 255 ? 255 : v);
-                        }
-                        else
-                            dstptr[i] = srcptr[i];
-
-                src.Unlock();
-
-                return dst.Unlock();
-            }
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, srcptr, refcolor, i, psz, w, t, l, o) => Max(srcptr[i], refcolor[o] * 255d));
 
             /// <summary>
             /// Creates a new instance
             /// </summary>
             public LighterOnlyBlendColorEffect()
+                : base(blender)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given color
             /// </summary>
-            /// <param name="clr"></param>
+            /// <param name="clr">Blending color</param>
             public LighterOnlyBlendColorEffect(Color clr)
-                : base(clr)
+                : base(blender, clr)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given blending color
             /// </summary>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
             public LighterOnlyBlendColorEffect(double r, double g, double b)
-                : base(0, r, g, b)
+                : base(blender, 0, r, g, b)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance using the given blending color
             /// </summary>
-            /// <param name="a"></param>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="a">The blending color's alpha channel</param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
             public LighterOnlyBlendColorEffect(double a, double r, double g, double b)
-                : base(a, r, g, b)
+                : base(blender, a, r, g, b)
             {
             }
         }
@@ -1754,37 +1431,11 @@ namespace SeeSharp
             : BitmapBlendEffect
         {
             /// <summary>
-            /// 
+            /// Creates a new instance
             /// </summary>
-            /// <param name="src1"></param>
-            /// <param name="src2"></param>
-            /// <param name="dst"></param>
-            /// <param name="inrange"></param>
-            protected internal override void __blend(ref BitmapLockInfo src1, ref BitmapLockInfo src2, ref BitmapLockInfo dst, Func<int, int, bool> inrange)
+            public LighterBitmapBlendEffect()
+                : base(new BitmapBlendingFunction((c1, c2, x, y, t, w, h, ndx, o) => Max(c1, c2)))
             {
-                int t = src1.DAT.Stride;
-                int h = src1.DAT.Height;
-                int w = src1.DAT.Width;
-                int psz = t / w, i, ndx;
-
-                if (psz < 3)
-                    throw new ArgumentException("The bitmap must have a minimum pixel depth of 24 Bits.", "bmp");
-
-                fixed (byte* dptr = dst.ARR)
-                fixed (byte* sptr1 = src1.ARR)
-                fixed (byte* sptr2 = src2.ARR)
-                    for (int y = 0; y < h; y++)
-                        for (int x = 0; x < w; x++)
-                        {
-                            ndx = (y * t) + (x * psz);
-
-                            if (inrange(x, y))
-                                for (i = 0; i < psz; i++)
-                                    dptr[ndx + i] = Max(sptr1[ndx + i], sptr2[ndx + i]);
-                            else
-                                for (i = 0; i < psz; i++)
-                                    dptr[ndx + i] = sptr1[ndx + i];
-                        }
             }
         }
 
@@ -1792,42 +1443,15 @@ namespace SeeSharp
         /// 
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
-        public unsafe sealed class AddBitmapBlendEffect
+        public unsafe sealed class DarkerBitmapBlendEffect
             : BitmapBlendEffect
         {
             /// <summary>
-            /// 
+            /// Creates a new instance
             /// </summary>
-            /// <param name="src1"></param>
-            /// <param name="src2"></param>
-            /// <param name="dst"></param>
-            /// <param name="inrange"></param>
-            protected internal override void __blend(ref BitmapLockInfo src1, ref BitmapLockInfo src2, ref BitmapLockInfo dst, Func<int, int, bool> inrange)
+            public DarkerBitmapBlendEffect()
+                : base(new BitmapBlendingFunction((c1, c2, x, y, t, w, h, ndx, o) => Min(c1, c2)))
             {
-                int t = src1.DAT.Stride;
-                int h = src1.DAT.Height;
-                int w = src1.DAT.Width;
-                int psz = t / w, i, ndx, v;
-
-                fixed (byte* dptr = dst.ARR)
-                fixed (byte* sptr1 = src1.ARR)
-                fixed (byte* sptr2 = src2.ARR)
-                    for (int y = 0; y < h; y++)
-                        for (int x = 0; x < w; x++)
-                        {
-                            ndx = (y * t) + (x * psz);
-
-                            if (inrange(x, y))
-                                for (i = 0; i < psz; i++)
-                                {
-                                    v = sptr1[ndx + i] + sptr2[ndx + i];
-
-                                    dptr[ndx + i] = (byte)(v < 0 ? 0 : v > 255 ? 255 : v);
-                                }
-                            else
-                                for (i = 0; i < psz; i++)
-                                    dptr[ndx + i] = sptr1[ndx + i];
-                        }
             }
         }
 
@@ -1835,43 +1459,95 @@ namespace SeeSharp
         /// 
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
-        public unsafe sealed class MultiplyBitmapBlendEffect
+        public sealed class AddBitmapBlendEffect
             : BitmapBlendEffect
         {
             /// <summary>
-            /// 
+            /// Creates a new instance
             /// </summary>
-            /// <param name="src1"></param>
-            /// <param name="src2"></param>
-            /// <param name="dst"></param>
-            /// <param name="inrange"></param>
-            protected internal override void __blend(ref BitmapLockInfo src1, ref BitmapLockInfo src2, ref BitmapLockInfo dst, Func<int, int, bool> inrange)
+            public AddBitmapBlendEffect()
+                : base(new BitmapBlendingFunction((c1, c2, x, y, t, w, h, ndx, o) => c1 + c2))
             {
-                int t = src1.DAT.Stride;
-                int h = src1.DAT.Height;
-                int w = src1.DAT.Width;
-                int psz = t / w, i, ndx;
-                double v;
+            }
+        }
 
-                fixed (byte* dptr = dst.ARR)
-                fixed (byte* sptr1 = src1.ARR)
-                fixed (byte* sptr2 = src2.ARR)
-                    for (int y = 0; y < h; y++)
-                        for (int x = 0; x < w; x++)
-                        {
-                            ndx = (y * t) + (x * psz);
+        /// <summary>
+        /// 
+        /// </summary>
+        [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
+        public sealed class SubtractBitmapBlendEffect
+            : BitmapBlendEffect
+        {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
+            public SubtractBitmapBlendEffect()
+                : base(new BitmapBlendingFunction((c1, c2, x, y, t, w, h, ndx, o) => c1 - c2))
+            {
+            }
+        }
 
-                            if (inrange(x, y))
-                                for (i = 0; i < psz; i++)
-                                {
-                                    v = sptr1[ndx + i] / 255d * sptr2[ndx + i];
+        /// <summary>
+        /// 
+        /// </summary>
+        [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
+        public sealed class DifferenceBitmapBlendEffect
+            : BitmapBlendEffect
+        {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
+            public DifferenceBitmapBlendEffect()
+                : base(new BitmapBlendingFunction((c1, c2, x, y, t, w, h, ndx, o) => Abs(c1 - c2)))
+            {
+            }
+        }
 
-                                    dptr[ndx + i] = (byte)(v < 0 ? 0 : v > 255 ? 255 : v);
-                                }
-                            else
-                                for (i = 0; i < psz; i++)
-                                    dptr[ndx + i] = sptr1[ndx + i];
-                        }
+        /// <summary>
+        /// 
+        /// </summary>
+        [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
+        public sealed class MultiplyBitmapBlendEffect
+            : BitmapBlendEffect
+        {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
+            public MultiplyBitmapBlendEffect()
+                : base(new BitmapBlendingFunction((c1, c2, x, y, t, w, h, ndx, o) => c1 * c2))
+            {
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
+        public sealed class DivideBitmapBlendEffect
+            : BitmapBlendEffect
+        {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
+            public DivideBitmapBlendEffect()
+                : base(new BitmapBlendingFunction((c1, c2, x, y, t, w, h, ndx, o) => c2 == 1 ? c1 : c1 / c2))
+            {
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
+        public sealed class RemainderBitmapBlendEffect
+            : BitmapBlendEffect
+        {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
+            public RemainderBitmapBlendEffect()
+                : base(new BitmapBlendingFunction((c1, c2, x, y, t, w, h, ndx, o) => c2 == 1 ? c1 : c1 % c2))
+            {
             }
         }
 
@@ -3603,20 +3279,30 @@ namespace SeeSharp
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="c1"></param>
+    /// <param name="c2"></param>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="t"></param>
+    /// <param name="w"></param>
+    /// <param name="h"></param>
+    /// <param name="ndx"></param>
+    /// <param name="o"></param>
+    /// <returns></returns>
+    public unsafe delegate double BitmapBlendingFunction(double c1, double c2, int x, int y, int t, int w, int h, int ndx, int o);
+
+    /// <summary>
+    /// Represents an abstract bitmap blending effect
+    /// </summary>
     public unsafe abstract class BitmapBlendEffect
         : RangeEffect
         , IDisposable
     {
         internal Bitmap Second { set; get; }
-
         /// <summary>
-        /// 
+        /// The internal bitmap blending function
         /// </summary>
-        /// <param name="src1"></param>
-        /// <param name="src2"></param>
-        /// <param name="dst"></param>
-        /// <param name="inrange"></param>
-        protected internal abstract void __blend(ref BitmapLockInfo src1, ref BitmapLockInfo src2, ref BitmapLockInfo dst, Func<int, int, bool> inrange);
+        public BitmapBlendingFunction Blender { get; }
 
         /// <summary>
         /// Disposes the current instance
@@ -3624,9 +3310,9 @@ namespace SeeSharp
         public void Dispose() => Second?.Dispose();
 
         /// <summary>
-        /// 
+        /// Returns a function, which determines whether the given coordinate-pair (X:int, Y:int) are inside the current range
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Function</returns>
         protected Func<int, int, bool> __inrange2()
         {
             if (Range == null)
@@ -3650,11 +3336,11 @@ namespace SeeSharp
         public sealed override Bitmap Apply(Bitmap bmp) => Blend(bmp, Second);
 
         /// <summary>
-        /// 
+        /// Applies the current bitmap blending effect to the two given bitmaps and returns the blending result
         /// </summary>
-        /// <param name="bmp1"></param>
-        /// <param name="bmp2"></param>
-        /// <returns></returns>
+        /// <param name="bmp1">First bitmap</param>
+        /// <param name="bmp2">Second bitmap</param>
+        /// <returns>Result bitmap</returns>
         public virtual Bitmap Blend(Bitmap bmp1, Bitmap bmp2)
         {
             if ((bmp1.Width != bmp2.Width) || (bmp1.Height != bmp2.Height))
@@ -3669,7 +3355,30 @@ namespace SeeSharp
 
                 try
                 {
-                    __blend(ref src1, ref src2, ref dst, __inrange2());
+                    var inrange = __inrange2();
+                    int t = src1.DAT.Stride;
+                    int h = src1.DAT.Height;
+                    int w = src1.DAT.Width;
+                    int psz = t / w, i, ndx;
+
+                    if (psz < 3)
+                        throw new ArgumentException("The bitmap must have a minimum pixel depth of 24 Bits.", "bmp");
+
+                    fixed (byte* dptr = dst.ARR)
+                    fixed (byte* sptr1 = src1.ARR)
+                    fixed (byte* sptr2 = src2.ARR)
+                        for (int y = 0; y < h; y++)
+                            for (int x = 0; x < w; x++)
+                            {
+                                ndx = (y * t) + (x * psz);
+
+                                if (inrange(x, y))
+                                    for (i = 0; i < psz; i++)
+                                        dptr[ndx + i] = (byte)(Blender(sptr1[ndx + i] / 255d, sptr2[ndx + i] / 255d, x, y, t, w, h, ndx, i) * 255d).Constrain(0, 255);
+                                else
+                                    for (i = 0; i < psz; i++)
+                                        dptr[ndx + i] = sptr1[ndx + i];
+                            }
                 }
                 finally
                 {
@@ -3680,25 +3389,51 @@ namespace SeeSharp
                 return dst.Unlock();
             }
         }
+
+        /// <summary>
+        /// Creates a new instance using the given blending function
+        /// </summary>
+        /// <param name="func">Bitmap blending function</param>
+        public BitmapBlendEffect(BitmapBlendingFunction func) => Blender = func;
     }
 
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="ival"></param>
+    /// <param name="refcolor"></param>
+    /// <param name="srcptr"></param>
+    /// <param name="i"></param>
+    /// <param name="psz"></param>
+    /// <param name="w"></param>
+    /// <param name="t"></param>
+    /// <param name="l"></param>
+    /// <param name="o"></param>
+    /// <returns></returns>
+    public unsafe delegate double ColorBlendingFunction(double ival, double[] refcolor, byte* srcptr, int i, int psz, int w, int t, int l, int o);
+
+    /// <summary>
+    /// Represents an abstract color blending effect
+    /// </summary>
     public unsafe abstract class BlendColorEffect
         : RangeEffect
     {
         /// <summary>
-        /// 
+        /// Returns the color bending function
+        /// </summary>
+        public ColorBlendingFunction Blender { get; }
+
+        /// <summary>
+        /// The color which will be applied to any given bitmap using the current blend mode
         /// </summary>
         protected double[] refcolor = new double[4] { 0, 0, 0, 0 };
 
         /// <summary>
-        /// 
+        /// Returns a function, which determines whether the given coordinate-pair (X:int, Y:int) are inside the current range
         /// </summary>
-        /// <param name="psz"></param>
-        /// <param name="t"></param>
-        /// <returns></returns>
+        /// <param name="psz">Pixel size (in bytes)</param>
+        /// <param name="t">Bitmap stride length</param>
+        /// <returns>Function</returns>
         protected Func<int, bool> __inrange1(int psz, int t)
         {
             if (Range == null)
@@ -3721,9 +3456,10 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Returns a function, which determines whether the given coordinate-pair (X:int, Y:int) are inside the current range
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Function</returns>
+        [Obsolete("Use `__inrange1` instead.")]
         protected Func<int, int, bool> __inrange2()
         {
             if (Range == null)
@@ -3740,42 +3476,80 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// Creates a new instance
+        /// Applies the given color blending function to the given bitmap
         /// </summary>
-        public BlendColorEffect()
-            : this(Color.Black)
+        /// <param name="bmp">Input bitmap</param>
+        /// <param name="pixelfunc">Color blending function</param>
+        /// <returns>Result bitmap</returns>
+        protected virtual Bitmap Apply(Bitmap bmp, ColorBlendingFunction pixelfunc)
+        {
+            BitmapLockInfo src = bmp.LockBitmap();
+            BitmapLockInfo dst = new Bitmap(bmp.Width, bmp.Height, bmp.PixelFormat).LockBitmap();
+
+            int w = src.DAT.Width, t = src.DAT.Stride, psz = t / w;
+            Func<int, bool> inrange = __inrange1(psz, t);
+
+            fixed (byte* srcptr = src.ARR)
+            fixed (byte* dstptr = dst.ARR)
+                for (int i = 0, l = src.ARR.Length; i < l; i++)
+                    dstptr[i] = inrange(i) ? (byte)pixelfunc(srcptr[i] / 255d, refcolor, srcptr, i, psz, w, t, l, i % psz).Constrain(0, 255) : srcptr[i];
+
+            src.Unlock();
+
+            return dst.Unlock();
+        }
+
+        /// <summary>
+        /// Applies the current effect to the given bitmap and returns the result
+        /// </summary>
+        /// <param name="bmp">Input bitmap</param>
+        /// <returns>Output bitmap</returns>
+        public sealed override Bitmap Apply(Bitmap bmp) => Apply(bmp, Blender);
+
+        /// <summary>
+        /// Creates a new instance using the given blending function
+        /// </summary>
+        /// <param name="func">Blending function</param>
+        public BlendColorEffect(ColorBlendingFunction func)
+            : this(func, Color.Black)
         {
         }
 
         /// <summary>
-        /// 
+        /// Creates a new instance using the given blending function and blending color
         /// </summary>
-        /// <param name="clr"></param>
-        public BlendColorEffect(Color clr)
-            : this(clr.A / 255.0, clr.R / 255.0, clr.G / 255.0, clr.B / 255.0)
+        /// <param name="func">Blending function</param>
+        /// <param name="clr">Blending color</param>
+        public BlendColorEffect(ColorBlendingFunction func, Color clr)
+            : this(func, clr.A / 255.0, clr.R / 255.0, clr.G / 255.0, clr.B / 255.0)
+        {
+        }
+        
+        /// <summary>
+        /// Creates a new instance using the given blending function and blending color
+        /// </summary>
+        /// <param name="func">Blending function</param>
+        /// <param name="r">The blending color's red channel</param>
+        /// <param name="g">The blending color's green channel</param>
+        /// <param name="b">The blending color's blue channel</param>
+        public BlendColorEffect(ColorBlendingFunction func, double r, double g, double b)
+            : this(func, 0, r, g, b)
         {
         }
 
         /// <summary>
-        /// 
+        /// Creates a new instance using the given blending function and blending color
         /// </summary>
-        /// <param name="r"></param>
-        /// <param name="g"></param>
-        /// <param name="b"></param>
-        public BlendColorEffect(double r, double g, double b)
-            : this(0, r, g, b)
+        /// <param name="func">Blending function</param>
+        /// <param name="a">The blending color's alpha channel</param>
+        /// <param name="r">The blending color's red channel</param>
+        /// <param name="g">The blending color's green channel</param>
+        /// <param name="b">The blending color's blue channel</param>
+        public BlendColorEffect(ColorBlendingFunction func, double a, double r, double g, double b)
         {
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="r"></param>
-        /// <param name="g"></param>
-        /// <param name="b"></param>
-        public BlendColorEffect(double a, double r, double g, double b) =>
+            Blender = func;
             refcolor = new double[4] { b.Normalize(), g.Normalize(), r.Normalize(), a.Normalize() };
+        }
     }
 
     #endregion

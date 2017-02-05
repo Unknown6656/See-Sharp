@@ -84,7 +84,7 @@ The following list contains all pre-defined effects and (in most cases) a genera
                         sb.AppendLine($@"   <br/><img src=""{render()}"" height=""200""/>");
                     else if (fx_scol.IsAssignableFrom(type))
                     {
-                        sb.AppendLine("   Effect applied to ...");
+                        sb.AppendLine("   <br/>Effect applied to ...<br/>");
                         sb.AppendLine("   | 0% | 25% | 50% | 75% | 100% |");
                         sb.AppendLine("   |----|-----|-----|-----|------|");
 

@@ -847,7 +847,7 @@ namespace SeeSharp
         #region COLOR BLEND EFFECTS
 
         /// <summary>
-        /// Represents a screen (inverse multiplicative) bitmap blend effect
+        /// Represents a screen (inverse multiplicative) bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class ScreenBlendColorEffect
@@ -897,7 +897,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// Represents a multiplicative bitmap blend effect
+        /// Represents a multiplicative bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class MultiplyBlendColorEffect
@@ -947,7 +947,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// Represents a divide bitmap blend effect
+        /// Represents a divide bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class DivideBlendColorEffect
@@ -997,7 +997,57 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// Represents an overlay bitmap blend effect
+        /// Represents a remainder bitmap color blend effect
+        /// </summary>
+        [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
+        public sealed unsafe class RemainderBlendColorEffect
+            : BlendColorEffect
+        {
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) => refcolor[o] == 0 ? 0 : ival % refcolor[o]);
+
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
+            public RemainderBlendColorEffect()
+                : base(blender)
+            {
+            }
+
+            /// <summary>
+            /// Creates a new instance using the given color
+            /// </summary>
+            /// <param name="clr">Blending color</param>
+            public RemainderBlendColorEffect(Color clr)
+                : base(blender, clr)
+            {
+            }
+
+            /// <summary>
+            /// Creates a new instance using the given blending color
+            /// </summary>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
+            public RemainderBlendColorEffect(double r, double g, double b)
+                : base(blender, 0, r, g, b)
+            {
+            }
+
+            /// <summary>
+            /// Creates a new instance using the given blending color
+            /// </summary>
+            /// <param name="a">The blending color's alpha channel</param>
+            /// <param name="r">The blending color's red channel</param>
+            /// <param name="g">The blending color's green channel</param>
+            /// <param name="b">The blending color's blue channel</param>
+            public RemainderBlendColorEffect(double a, double r, double g, double b)
+                : base(blender, a, r, g, b)
+            {
+            }
+        }
+
+        /// <summary>
+        /// Represents an overlay bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class OverlayBlendColorEffect
@@ -1057,7 +1107,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// Represents an hard light bitmap blend effect
+        /// Represents an hard light bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class HardLightBlendColorEffect
@@ -1117,7 +1167,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// Represents a soft light bitmap blend effect
+        /// Represents a soft light bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class SoftLightBlendColorEffect
@@ -1167,7 +1217,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// Represents an additive bitmap blend effect
+        /// Represents an additive bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class AddBlendColorEffect
@@ -1217,7 +1267,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// Represents a subtractive bitmap blend effect
+        /// Represents a subtractive bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class SubtractBlendColorEffect
@@ -1267,7 +1317,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// Represents a differentiative bitmap blend effect
+        /// Represents a differentiative bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class DifferenceBlendColorEffect
@@ -1317,7 +1367,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// Represents an darker-only bitmap blend effect
+        /// Represents an darker-only bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class DarkerOnlyBlendColorEffect
@@ -1367,7 +1417,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// Represents an lighter-only bitmap blend effect
+        /// Represents an lighter-only bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed unsafe class LighterOnlyBlendColorEffect
@@ -1420,7 +1470,7 @@ namespace SeeSharp
         #region BLEND EFFECTS
 
         /// <summary>
-        /// 
+        /// Represents an lighter-only bitmap blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public unsafe sealed class LighterBitmapBlendEffect
@@ -1436,7 +1486,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Represents an darker-only bitmap blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public unsafe sealed class DarkerBitmapBlendEffect
@@ -1452,7 +1502,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Represents an additive bitmap blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class AddBitmapBlendEffect
@@ -1468,7 +1518,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Represents a subtractive bitmap blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class SubtractBitmapBlendEffect
@@ -1484,7 +1534,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Represents a differentiative bitmap blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class DifferenceBitmapBlendEffect
@@ -1500,7 +1550,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Represents a multiplicative bitmap blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class MultiplyBitmapBlendEffect
@@ -1516,7 +1566,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Represents a screen (inverse multiplicative) bitmap blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class ScreenBitmapBlendEffect
@@ -1532,7 +1582,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Represents a divide bitmap blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class DivideBitmapBlendEffect
@@ -1548,7 +1598,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Represents a remainder bitmap blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class RemainderBitmapBlendEffect
@@ -1563,11 +1613,35 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// Represents an overlay bitmap blend effect
+        /// </summary>
+        [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
+        public unsafe sealed class OverlayBitmapBlendEffect
+            : BitmapBlendEffect
+        {
+            /// <summary>
+            /// Applies the current bitmap blending effect to the two given bitmaps and returns the blending result
+            /// </summary>
+            /// <param name="bmp1">First bitmap</param>
+            /// <param name="bmp2">Second bitmap</param>
+            /// <returns>Result bitmap</returns>
+            public override Bitmap Blend(Bitmap bmp1, Bitmap bmp2) => bmp1.Overlay(bmp2);
+
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
+            public OverlayBitmapBlendEffect()
+                : base(null)
+            {
+            }
+        }
+
         #endregion
         #region DOUBLE MATRIX CONVOLUTION EFFECTS
 
         /// <summary>
-        /// 
+        /// Represents the sobel edge-detection bitmap effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class SobelBitmapEffect
@@ -1582,9 +1656,9 @@ namespace SeeSharp
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance
             /// </summary>
-            /// <param name="grayscale"></param>
+            /// <param name="grayscale">Determines whether the effect should grayscale the image before processing</param>
             public SobelBitmapEffect(bool grayscale)
                 : base(new double[3, 3] {
                     { -1, 0, 1 },
@@ -1600,7 +1674,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Represents the prewitt edge-detection bitmap effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class PrewittBitmapEffect
@@ -1615,9 +1689,9 @@ namespace SeeSharp
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance
             /// </summary>
-            /// <param name="grayscale"></param>
+            /// <param name="grayscale">Determines whether the effect should grayscale the image before processing</param>
             public PrewittBitmapEffect(bool grayscale)
                 : base(new double[3, 3] {
                     { -1, 0, 1 },
@@ -1633,7 +1707,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Represents the scharr edge-detection bitmap effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class ScharrBitmapEffect
@@ -1648,9 +1722,9 @@ namespace SeeSharp
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance
             /// </summary>
-            /// <param name="grayscale"></param>
+            /// <param name="grayscale">Determines whether the effect should grayscale the image before processing</param>
             public ScharrBitmapEffect(bool grayscale)
                 : base(new double[3, 3] {
                     { 3, 10, 3 },
@@ -1666,7 +1740,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Represents the kirsch edge-detection bitmap effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class KirschBitmapEffect
@@ -1681,28 +1755,28 @@ namespace SeeSharp
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance
             /// </summary>
-            /// <param name="grayscale"></param>
+            /// <param name="grayscale">Determines whether the effect should grayscale the image before processing</param>
             public KirschBitmapEffect(bool grayscale)
                 : this(1, grayscale)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance with the given amount
             /// </summary>
-            /// <param name="amount"></param>
+            /// <param name="amount">Filter amount [0...1]</param>
             public KirschBitmapEffect(double amount)
                 : this(amount, false)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance with the given amount
             /// </summary>
-            /// <param name="amount"></param>
-            /// <param name="grayscale"></param>
+            /// <param name="amount">Filter amount [0...1]</param>
+            /// <param name="grayscale">Determines whether the effect should grayscale the image before processing</param>
             public KirschBitmapEffect(double amount, bool grayscale)
                 : base(null, null, grayscale)
             {
@@ -1725,7 +1799,7 @@ namespace SeeSharp
         #region SINGLE MATRIX CONVOLUTION EFFECTS
 
         /// <summary>
-        /// 
+        /// Represents the sharpener bitmap effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class SharpenerBitmapEffect
@@ -1740,9 +1814,9 @@ namespace SeeSharp
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance with the given radius
             /// </summary>
-            /// <param name="radius"></param>
+            /// <param name="radius">Sharpener radius (in pixel)</param>
             public unsafe SharpenerBitmapEffect(double radius)
                 : base(null, 1, 0, false)
             {
@@ -1761,7 +1835,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Represents a fast blurring bitmap effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class FastBlurBitmapEffect
@@ -1776,9 +1850,9 @@ namespace SeeSharp
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance with the given radius
             /// </summary>
-            /// <param name="radius"></param>
+            /// <param name="radius">Blurring radius (in pixel)</param>
             public unsafe FastBlurBitmapEffect(double radius)
                 : base(null, 1, 0, false)
             {
@@ -1793,7 +1867,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Represents a fast sharpener bitmap effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class FastSharpenerBitmapEffect
@@ -1808,9 +1882,9 @@ namespace SeeSharp
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance with the given radius
             /// </summary>
-            /// <param name="radius"></param>
+            /// <param name="radius">Sharpener radius (in pixel)</param>
             public unsafe FastSharpenerBitmapEffect(double radius)
                 : base(null, 1, 0, false)
             {
@@ -1838,7 +1912,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Represents a simple edge detection bitmap effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class EdgeDetectionBitmapEffect
@@ -1858,7 +1932,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Represents an embossed bitmap effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class EmbossBitmapEffect
@@ -1878,7 +1952,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Represents an engraved bitmap effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class EngraveBitmapEffect
@@ -1898,7 +1972,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Represents the Laplace edged detection filter using an internal 5x5 convolution matrix
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class Laplace5x5BitmapEffect
@@ -1920,7 +1994,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Represents a gaussian bitmap blur effect with the radius of 5
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class Gaussian5x5BitmapEffect
@@ -1942,7 +2016,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Represents a gaussian blur bitmap effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class GaussianBlurBitmapEffect
@@ -1957,9 +2031,9 @@ namespace SeeSharp
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance with the given blur radius
             /// </summary>
-            /// <param name="radius"></param>
+            /// <param name="radius">Blur radius</param>
             public GaussianBlurBitmapEffect(double radius)
                 : base(null, 1, 0, false)
             {
@@ -1989,7 +2063,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Represents the ED-88 edge detection bitmap effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public sealed class ED88BitmapEffect
@@ -2004,9 +2078,9 @@ namespace SeeSharp
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance
             /// </summary>
-            /// <param name="grayscale"></param>
+            /// <param name="grayscale">Determines whether the effect should grayscale the image before processing</param>
             public ED88BitmapEffect(bool grayscale)
                 : base(new double[5, 5] {
                     { 1,0,-2,-1,1, },
@@ -2023,24 +2097,24 @@ namespace SeeSharp
         #region OTHER EFFECTS
 
         /// <summary>
-        /// 
+        /// Represents the normal bump map bitmap effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public unsafe sealed class NormalMapBitmapEffect
             : BitmapEffect
         {
             /// <summary>
-            /// 
+            /// Determines whether the effect should grayscale the image before processing
             /// </summary>
-            public bool Grayscale { internal set; get; }
+            public bool Grayscale { get; }
             /// <summary>
-            /// 
+            /// The pre-blur radius
             /// </summary>
-            public double BlurRadius { internal set; get; }
+            public double BlurRadius { get; }
             /// <summary>
-            /// 
+            /// Internally used edge detection filter
             /// </summary>
-            public NormalFilter Filter { internal set; get; }
+            public NormalFilter Filter { get; }
 
             /// <summary>
             /// Applies the current effect to the given bitmap and returns the result
@@ -2055,20 +2129,19 @@ namespace SeeSharp
                 BitmapLockInfo src = bmp.LockBitmap();
                 BitmapLockInfo dst = new Bitmap(bmp.Width, bmp.Height, bmp.PixelFormat).LockBitmap();
 
-                int w = src.DAT.Width, h = src.DAT.Height, s = src.DAT.Stride, l = s * h, psz = s / w;
+                // this are the sobel-matrices written in one line
                 double[] hmat = new double[9] { -1, 0, 1, -2, 0, 2, -1, 0, 1 };
                 double[] vmat = new double[9] { 1, 2, 1, 0, 0, 0, -1, -2, -1 };
+                int w = src.DAT.Width, h = src.DAT.Height, s = src.DAT.Stride, l = s * h, psz = s / w;
 
                 if (Filter == NormalFilter.Scharr)
-                {
-                    hmat = new double[9] { -1, 0, 1, -1, 0, 1, -1, 0, 1 };
-                    vmat = new double[9] { 1, 1, 1, 0, 0, 0, -1, -1, -1 };
-                }
+                    // this are the scharr-matrices written in one line
+                    (hmat, vmat) = (new double[9] { -1, 0, 1, -1, 0, 1, -1, 0, 1 },
+                                    new double[9] { 1, 1, 1, 0, 0, 0, -1, -1, -1 });
                 else if (Filter == NormalFilter.Prewitt)
-                {
-                    hmat = new double[9] { 3, 10, 3, 0, 0, 0, -3, -10, -3 };
-                    vmat = new double[9] { 3, 0, -3, 10, 0, -10, 3, 0, -3 };
-                }
+                    // this are the prewitt-matrices written in one line
+                    (hmat, vmat) = (new double[9] { 3, 10, 3, 0, 0, 0, -3, -10, -3 },
+                                    new double[9] { 3, 0, -3, 10, 0, -10, 3, 0, -3 });
 
                 double sx, sy, sz, sum;
                 int so, to, nx, ox, oy, fx, fy;
@@ -2102,8 +2175,8 @@ namespace SeeSharp
                             sz = ((Abs(sx - 128.0) + Abs(sy - 128.0)) / 4.0);
 
                             dptr[to + 0] = (byte)(sz > 64 ? 191 : sz < 0 ? 255 : 255 - sz);
-                            dptr[to + 1] = (byte)(sy > 255 ? 255 : sy < 0 ? 0 : sy);
-                            dptr[to + 2] = (byte)(sx > 255 ? 255 : sx < 0 ? 0 : sx);
+                            dptr[to + 1] = (byte)sy.Constrain(0, 255);
+                            dptr[to + 2] = (byte)sx.Constrain(0, 255);
 
                             if (psz > 3)
                                 dptr[to + 3] = 255;
@@ -2121,7 +2194,7 @@ namespace SeeSharp
             }
 
             /// <summary>
-            /// Creates a new instance
+            /// Creates a new instance with the internal sobel-filter
             /// </summary>
             public NormalMapBitmapEffect()
                 : this(false, 0, NormalFilter.Sobel)
@@ -2129,30 +2202,30 @@ namespace SeeSharp
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance with the internal sobel-filter
             /// </summary>
-            /// <param name="grayscale"></param>
+            /// <param name="grayscale">Determines whether the effect should grayscale the image before processing</param>
             public NormalMapBitmapEffect(bool grayscale)
                 : this(grayscale, 0, NormalFilter.Sobel)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance with the internal sobel-filter and a pre-blurring technique
             /// </summary>
-            /// <param name="grayscale"></param>
-            /// <param name="radius"></param>
+            /// <param name="grayscale">Determines whether the effect should grayscale the image before processing</param>
+            /// <param name="radius">The pre-blur radius</param>
             public NormalMapBitmapEffect(bool grayscale, double radius)
                 : this(grayscale, radius, NormalFilter.Sobel)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance with the internal given filter and a pre-blurring technique
             /// </summary>
-            /// <param name="grayscale"></param>
-            /// <param name="radius"></param>
-            /// <param name="filter"></param>
+            /// <param name="grayscale">Determines whether the effect should grayscale the image before processing</param>
+            /// <param name="radius">The pre-blur radius</param>
+            /// <param name="filter">Edge detection filter</param>
             public NormalMapBitmapEffect(bool grayscale, double radius, NormalFilter filter)
             {
                 this.Filter = filter;
@@ -2162,18 +2235,18 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Represents the RGB-split bitmap effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
         public unsafe sealed class RGBSplitBitmapEffect
             : BitmapEffect
         {
             /// <summary>
-            /// 
+            /// RGB-split direction [0...2π] (0 points to the right, clockwise)
             /// </summary>
             public double Direction { internal set; get; }
             /// <summary>
-            /// 
+            /// RGB-split amount (in pixel)
             /// </summary>
             public double Amount { internal set; get; }
 
@@ -2198,9 +2271,9 @@ namespace SeeSharp
                     { 0,0,0,1,1 },
                     { 1,1,1,1,1 },
                 });
-                Bitmap tmp = bmp1.DifferenceMask(bmp2, .05, true, true);
+                Bitmap tmp = bmp1.ApplyBlendEffect<DifferenceBitmapBlendEffect>(bmp2); // bmp1.DifferenceMask(bmp2, .05, true, true);
 
-                bmp2 = bmp2.DifferenceMask(bmp1, .05, true, true);
+                // bmp2 = bmp2.DifferenceMask(bmp1, .05, true, true);
                 bmp1 = tmp.ApplyEffect<BitmapColorEffect>(new double[5, 5] {
                     { 1,0,0,0,0 },
                     { 0,0,0,0,0 },
@@ -2219,7 +2292,9 @@ namespace SeeSharp
                 double x = Amount * Cos(Direction);
                 double y = -Amount * Sin(Direction);
 
-                tmp = bmp1.Merge(bmp2);
+                ////////////////////////////////////////////////////////// TODO //////////////////////////////////////////////////////////
+
+                tmp = bmp1.Overlay(bmp2);
                 bmp = bmp.DifferenceMask(tmp, .05, false, true, true);
                 bmp = bmp.ApplyEffect<BitmapColorEffect>(new double[5, 5] {
                     { 1,0,0,0,0 },
@@ -2310,19 +2385,19 @@ namespace SeeSharp
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance with the given amount
             /// </summary>
-            /// <param name="amount"></param>
+            /// <param name="amount">RGB-split amount (in pixel)</param>
             public RGBSplitBitmapEffect(double amount)
                 : this(amount, 0)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance with the given amount and direction
             /// </summary>
-            /// <param name="amount"></param>
-            /// <param name="direction"></param>
+            /// <param name="amount">RGB-split amount (in pixel)</param>
+            /// <param name="direction">RGB-split direction [0...2π] (0 points to the right, clockwise)</param>
             public RGBSplitBitmapEffect(double amount, double direction)
             {
                 const double π2 = PI * 2;
@@ -2405,6 +2480,35 @@ namespace SeeSharp
     }
 
     #region EFFECT BASE DEFINITIONS
+
+    /// <summary>
+    /// Represents a bitmap + bitmap blending function
+    /// </summary>
+    /// <param name="c1">The first bitmap's current color channel</param>
+    /// <param name="c2">The second bitmap's current color channel</param>
+    /// <param name="x">X pixel coordinate</param>
+    /// <param name="y">Y pixel coordinate</param>
+    /// <param name="t">Bitmap stride length</param>
+    /// <param name="w">Bitmap width</param>
+    /// <param name="h">Bitmap height</param>
+    /// <param name="ndx">Pixel index</param>
+    /// <param name="o">Channel offset (0 = Alpha, 1 = Red, 2 = Green, 3 = Blue)</param>
+    /// <returns>The resulting color channel</returns>
+    public unsafe delegate double BitmapBlendingFunction(double c1, double c2, int x, int y, int t, int w, int h, int ndx, int o);
+
+    /// <summary>
+    /// Represents a bitmap + color blending function
+    /// </summary>
+    /// <param name="ival">The bitmap's current color channel</param>
+    /// <param name="refcolor">Blending color</param>
+    /// <param name="i">Pixel index</param>
+    /// <param name="psz">Pixelformat size (in bytes)</param>
+    /// <param name="t">Bitmap stride length</param>
+    /// <param name="w">Bitmap width</param>
+    /// <param name="l">Bitmap pixel array length (total pixel count)</param>
+    /// <param name="o">Channel offset (0 = Alpha, 1 = Red, 2 = Green, 3 = Blue)</param>
+    /// <returns>The resulting color channel</returns>
+    public unsafe delegate double ColorBlendingFunction(double ival, double[] refcolor, int i, int psz, int w, int t, int l, int o);
 
     /// <summary>
     /// 
@@ -2688,11 +2792,11 @@ namespace SeeSharp
         , IDisposable
     {
         /// <summary>
-        /// 
+        /// The horizonzal convolution matrix
         /// </summary>
         public double[,] HorizontalMatrix { protected internal set; get; }
         /// <summary>
-        /// 
+        /// The vertical convolution matrix
         /// </summary>
         public double[,] VerticalMatrix { protected internal set; get; }
         /// <summary>
@@ -2830,7 +2934,7 @@ namespace SeeSharp
         /// 
         /// </summary>
         /// <param name="hmatrix"></param>
-        /// <param name="vmatrix"></param>
+        /// <param name="vmatrix">The vertical convolution matrix</param>
         /// <param name="grayscale"></param>
         public MatrixConvolutionBitmapEffect(double[,] hmatrix, double[,] vmatrix, bool grayscale)
         {
@@ -2849,7 +2953,7 @@ namespace SeeSharp
         , IDisposable
     {
         /// <summary>
-        /// 
+        /// The convolution matrix
         /// </summary>
         public double[,] Matrix { protected internal set; get; }
         /// <summary>
@@ -2974,7 +3078,7 @@ namespace SeeSharp
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="matrix"></param>
+        /// <param name="matrix">The convolution matrix</param>
         /// <param name="fac"></param>
         /// <param name="bia"></param>
         /// <param name="grayscale"></param>
@@ -3289,21 +3393,6 @@ namespace SeeSharp
     }
 
     /// <summary>
-    /// Represents a bitmap + bitmap blending function
-    /// </summary>
-    /// <param name="c1">The first bitmap's current color channel</param>
-    /// <param name="c2">The second bitmap's current color channel</param>
-    /// <param name="x">X pixel coordinate</param>
-    /// <param name="y">Y pixel coordinate</param>
-    /// <param name="t">Bitmap stride length</param>
-    /// <param name="w">Bitmap width</param>
-    /// <param name="h">Bitmap height</param>
-    /// <param name="ndx">Pixel index</param>
-    /// <param name="o">Channel offset (0 = Alpha, 1 = Red, 2 = Green, 3 = Blue)</param>
-    /// <returns>The resulting color channel</returns>
-    public unsafe delegate double BitmapBlendingFunction(double c1, double c2, int x, int y, int t, int w, int h, int ndx, int o);
-
-    /// <summary>
     /// Represents an abstract bitmap blending effect
     /// </summary>
     public unsafe abstract class BitmapBlendEffect
@@ -3408,20 +3497,6 @@ namespace SeeSharp
         /// <param name="func">Bitmap blending function</param>
         public BitmapBlendEffect(BitmapBlendingFunction func) => Blender = func;
     }
-
-    /// <summary>
-    /// Represents a bitmap + color blending function
-    /// </summary>
-    /// <param name="ival">The bitmap's current color channel</param>
-    /// <param name="refcolor">Blending color</param>
-    /// <param name="i">Pixel index</param>
-    /// <param name="psz">Pixelformat size (in bytes)</param>
-    /// <param name="t">Bitmap stride length</param>
-    /// <param name="w">Bitmap width</param>
-    /// <param name="l">Bitmap pixel array length (total pixel count)</param>
-    /// <param name="o">Channel offset (0 = Alpha, 1 = Red, 2 = Green, 3 = Blue)</param>
-    /// <returns>The resulting color channel</returns>
-    public unsafe delegate double ColorBlendingFunction(double ival, double[] refcolor, int i, int psz, int w, int t, int l, int o);
 
     /// <summary>
     /// Represents an abstract color blending effect

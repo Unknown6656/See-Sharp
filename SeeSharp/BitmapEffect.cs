@@ -414,6 +414,46 @@ namespace SeeSharp
         }
 
         /// <summary>
+        /// Overlays the second bitmap over the first one
+        /// </summary>
+        /// <param name="bmp1">First bitmap</param>
+        /// <param name="bmp2">Second bitmap</param>
+        /// <returns>Overlayed bitmaps</returns>
+        [method: MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Bitmap Overlay(this Bitmap bmp1, Bitmap bmp2)
+        {
+            if ((bmp1.Width != bmp2.Width) || (bmp1.Height != bmp2.Height))
+                throw new ArgumentException("Both bitmaps must have identical dimensions.", "bmp1,bmp2");
+
+            bmp1 = bmp1.ToARGB32();
+            bmp2 = bmp2.ToARGB32();
+
+            Bitmap dest = new Bitmap(bmp1.Width, bmp1.Height, bmp1.PixelFormat);
+            BitmapLockInfo nfo1 = bmp1.LockBitmap();
+            BitmapLockInfo nfo2 = bmp2.LockBitmap();
+            BitmapLockInfo nfod = dest.LockBitmap();
+
+            fixed (byte* ptr1 = nfo1.ARR)
+            fixed (byte* ptr2 = nfo2.ARR)
+            fixed (byte* ptrd = nfod.ARR)
+                for (int i = 0, l = nfo1.ARR.Length, j; i < l; i += 4)
+                {
+                    double α1 = ptr1[i] / 255d;
+                    double α2 = ptr2[i] / 255d;
+                    double α = 1 - (1 - α1) * (1 - α2);
+
+                    for (j = 0; j < 3; j++)
+                        ptrd[i + j] = (byte)(((α1 * ptr1[i]) + (α2 * (1 - α1) * ptr2[i])) * 255 / α).Constrain(0, 255);
+                }
+
+            nfod.Unlock();
+            nfo1.Unlock();
+            nfo2.Unlock();
+
+            return dest;
+        }
+
+        /// <summary>
         /// Unlocks the bitmap from the given lock information and returns it
         /// </summary>
         /// <param name="nfo">Bitmap lock information</param>

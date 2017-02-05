@@ -38,20 +38,20 @@ namespace Testing
             bool err = false;
 
             foreach ((BitmapEffect fx, Type t) in from t in typeof(BitmapEffect).Assembly.GetTypes()
-                                                   where !t.IsAbstract
-                                                   where t.IsClass
-                                                   where typeof(BitmapEffect).IsAssignableFrom(t)
-                                                   orderby t.Name ascending
-                                                   let attr = t.GetCustomAttributes(true)
-                                                   let obs = from a in attr
-                                                             where a is ObsoleteAttribute
-                                                             select a
-                                                   where !obs.Any()
-                                                   let cons = from c in t.GetConstructors()
-                                                              where c.GetParameters().Length == 0
-                                                              select c
-                                                   where cons.Any()
-                                                   select (Activator.CreateInstance(t) as BitmapEffect, t))
+                                                  where !t.IsAbstract
+                                                  where t.IsClass
+                                                  where typeof(BitmapEffect).IsAssignableFrom(t)
+                                                  orderby t.Name ascending
+                                                  let attr = t.GetCustomAttributes(true)
+                                                  let obs = from a in attr
+                                                            where a is ObsoleteAttribute
+                                                            select a
+                                                  where !obs.Any()
+                                                  let cons = from c in t.GetConstructors()
+                                                             where c.GetParameters().Length == 0
+                                                             select c
+                                                  where cons.Any()
+                                                  select (Activator.CreateInstance(t) as BitmapEffect, t))
                 try
                 {
                     Bitmap dst = fx is BitmapBlendEffect blend ? blend.Blend(src1, src2) : src1.ApplyEffect(fx);

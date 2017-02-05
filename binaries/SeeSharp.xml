@@ -145,7 +145,7 @@
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.ApplyBlendEffect``1(System.Drawing.Bitmap,System.Drawing.Bitmap,System.Object[])">
             <summary>
-            Applies the given bitmap blending effect to the two given bitmaps
+            Applies the given parameterized bitmap blending effect to the two given bitmaps
             </summary>
             <typeparam name="T">Bitmap effect</typeparam>
             <param name="bmp1">First bitmap</param>
@@ -268,15 +268,15 @@
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.DifferenceMask(System.Drawing.Bitmap,System.Drawing.Bitmap,System.Double,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
-            
+            Applies the given difference mask to the given bitmap
             </summary>
-            <param name="src"></param>
-            <param name="mask"></param>
-            <param name="tolerance"></param>
-            <param name="grayscale"></param>
-            <param name="subtracttolerance"></param>
-            <param name="ignorealpha"></param>
-            <returns></returns>
+            <param name="src">Input bitmap</param>
+            <param name="mask">Difference mask</param>
+            <param name="tolerance">Mask tolerance [0...1]</param>
+            <param name="grayscale">Determines whether the grayscale effect shall be applied to both mask and input bitmap</param>
+            <param name="subtracttolerance">Determines whether the tolerance should be subtracted from the source image</param>
+            <param name="ignorealpha">Determines whether the α-channel shall be ignored</param>
+            <returns>Masked bitmap</returns>
         </member>
         <member name="M:SeeSharp.BitmapEffectFunctions.RGBtoHSL(System.Byte,System.Byte,System.Byte,System.Double@,System.Double@,System.Double@)">
             <summary>
@@ -578,70 +578,70 @@
         </member>
         <member name="M:SeeSharp.Effects.OverlayBitmapEffect.#ctor(System.Drawing.Color)">
             <summary>
-            
+            Creates a new overlay effect with the given color
             </summary>
-            <param name="color"></param>
+            <param name="color">The overlay color</param>
         </member>
         <member name="M:SeeSharp.Effects.OverlayBitmapEffect.#ctor(System.Drawing.Color,System.Double)">
             <summary>
-            
+            Creates a new overlay effect with the given color and amount
             </summary>
-            <param name="color"></param>
-            <param name="amount"></param>
+            <param name="color">The overlay color</param>
+            <param name="amount">The overlay amount [0...1]</param>
         </member>
         <member name="M:SeeSharp.Effects.OverlayBitmapEffect.#ctor(System.Byte,System.Byte,System.Byte)">
             <summary>
-            
+            Creates a new overlay effect with the given color
             </summary>
-            <param name="r"></param>
-            <param name="g"></param>
-            <param name="b"></param>
+            <param name="r">The overlay red channel</param>
+            <param name="g">The overlay green channel</param>
+            <param name="b">The overlay blue channel</param>
         </member>
         <member name="M:SeeSharp.Effects.OverlayBitmapEffect.#ctor(System.Byte,System.Byte,System.Byte,System.Double)">
             <summary>
-            
+            Creates a new overlay effect with the given color and amount
             </summary>
-            <param name="r"></param>
-            <param name="g"></param>
-            <param name="b"></param>
-            <param name="amount"></param>
+            <param name="r">The overlay red channel [0...255]</param>
+            <param name="g">The overlay green channel [0...255]</param>
+            <param name="b">The overlay blue channel [0...255]</param>
+            <param name="amount">The overlay amount [0...1]</param>
         </member>
         <member name="M:SeeSharp.Effects.OverlayBitmapEffect.#ctor(System.Byte,System.Byte,System.Byte,System.Byte,System.Byte)">
             <summary>
-            
+            Creates a new overlay effect with the given color and amount
             </summary>
-            <param name="a"></param>
-            <param name="r"></param>
-            <param name="g"></param>
-            <param name="b"></param>
-            <param name="amount"></param>
+            <param name="a">The overlay alpha channel [0...255]</param>
+            <param name="r">The overlay red channel [0...255]</param>
+            <param name="g">The overlay green channel [0...255]</param>
+            <param name="b">The overlay blue channel [0...255]</param>
+            <param name="amount">The overlay amount [0...1]</param>
         </member>
         <member name="M:SeeSharp.Effects.OverlayBitmapEffect.#ctor(System.Double,System.Double,System.Double)">
             <summary>
-            
+            Creates a new overlay effect with the given color
             </summary>
-            <param name="r"></param>
-            <param name="g"></param>
-            <param name="b"></param>
+            <param name="r">The overlay red channel [0...1]</param>
+            <param name="g">The overlay green channel [0...1]</param>
+            <param name="b">The overlay blue channel [0...1]</param>
         </member>
         <member name="M:SeeSharp.Effects.OverlayBitmapEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
             <summary>
-            
+            Creates a new overlay effect with the given color and amount
             </summary>
-            <param name="r"></param>
-            <param name="g"></param>
-            <param name="b"></param>
-            <param name="amount"></param>
+            <param name="r">The overlay red channel [0...1]</param>
+            <param name="g">The overlay green channel [0...1]</param>
+            <param name="b">The overlay blue channel [0...1]</param>
+            <param name="amount">The overlay amount [0...1]</param>
         </member>
         <member name="M:SeeSharp.Effects.OverlayBitmapEffect.#ctor(System.Double,System.Double,System.Double,System.Double,System.Double)">
             <summary>
-            
+            Creates a new overlay effect with the given color and amount
             </summary>
-            <param name="a"></param>
-            <param name="r"></param>
-            <param name="g"></param>
-            <param name="b"></param>
-            <param name="amount"></param>
+            <param name="a">The overlay alpha channel [0...1]</param>
+            <param name="r">The overlay red channel [0...1]</param>
+            <param name="g">The overlay green channel [0...1]</param>
+            <param name="b">The overlay blue channel [0...1]</param>
+            <param name="amount">The overlay amount [0...1]</param>
         </member>
         <member name="T:SeeSharp.Effects.TintBitmapEffect">
             <summary>
@@ -690,7 +690,7 @@
         </member>
         <member name="P:SeeSharp.Effects.SimpleGlowBitmapEffect.Radius">
             <summary>
-            
+            The glow radius
             </summary>
         </member>
         <member name="P:SeeSharp.Effects.SimpleGlowBitmapEffect.Amount">
@@ -712,16 +712,16 @@
         </member>
         <member name="M:SeeSharp.Effects.SimpleGlowBitmapEffect.#ctor(System.Double)">
             <summary>
-            
+            Creates a new instance with the given radius
             </summary>
-            <param name="radius"></param>
+            <param name="radius">Glow radius</param>
         </member>
         <member name="M:SeeSharp.Effects.SimpleGlowBitmapEffect.#ctor(System.Double,System.Double)">
             <summary>
-            
+            Creates a new instance with the given radius and amount
             </summary>
-            <param name="radius"></param>
-            <param name="amount"></param>
+            <param name="radius">Glow radius</param>
+            <param name="amount">Glow amount</param>
         </member>
         <member name="T:SeeSharp.Effects.NashvilleBitmapEffect">
             <summary>

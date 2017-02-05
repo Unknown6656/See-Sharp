@@ -147,7 +147,7 @@ namespace SeeSharp
             where T : RangeEffect, new() => bmp.PartialApplyEffect(new T() { Range = rect }, amount);
 
         /// <summary>
-        /// 
+        /// Applies the given parameterized bitmap effect to a given range/section of the given bitmap to a certain amount and interpolates the result with the input bitmap
         /// </summary>
         /// <typeparam name="T">Bitmap effect</typeparam>
         /// <param name="bmp">Bitmap, to which the effect shall be (partially) applied</param>
@@ -167,7 +167,7 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Applies the given bitmap effect to the given bitmap to a certain amount and interpolates the result with the input bitmap
         /// </summary>
         /// <param name="bmp">Bitmap, to which the effect shall be (partially) applied</param>
         /// <param name="effect">Bitmap effect</param>
@@ -190,21 +190,21 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Applies the given bitmap effect to the given bitmap to a certain amount and interpolates the result with the input bitmap
         /// </summary>
         /// <typeparam name="T">Bitmap effect</typeparam>
         /// <param name="bmp">Bitmap, to which the effect shall be (partially) applied</param>
-        /// <param name="amount"></param>
+        /// <param name="amount">Amount to which the effect shall be applied (1 = fully ... 0 = do not apply)</param>
         /// <returns>Result bitmap</returns>
         public static Bitmap PartialApplyEffect<T>(this Bitmap bmp, double amount)
             where T : BitmapEffect, new() => bmp.PartialApplyEffect(new T(), amount);
 
         /// <summary>
-        /// 
+        /// Applies the given parameterized bitmap effect to the given bitmap to a certain amount and interpolates the result with the input bitmap
         /// </summary>
         /// <typeparam name="T">Bitmap effect</typeparam>
         /// <param name="bmp">Bitmap, to which the effect shall be (partially) applied</param>
-        /// <param name="amount"></param>
+        /// <param name="amount">Amount to which the effect shall be applied (1 = fully ... 0 = do not apply)</param>
         /// <param name="args">Effect initialization parameters</param>
         /// <returns>Result bitmap</returns>
         public static Bitmap PartialApplyEffect<T>(this Bitmap bmp, double amount, params object[] args)
@@ -221,7 +221,7 @@ namespace SeeSharp
             where T : BitmapBlendEffect, new() => new T().Blend(bmp1, bmp2);
 
         /// <summary>
-        /// Applies the given bitmap blending effect to the two given bitmaps
+        /// Applies the given parameterized bitmap blending effect to the two given bitmaps
         /// </summary>
         /// <typeparam name="T">Bitmap effect</typeparam>
         /// <param name="bmp1">First bitmap</param>
@@ -232,36 +232,36 @@ namespace SeeSharp
             where T : BitmapBlendEffect => (Activator.CreateInstance(typeof(T), args) as T).Blend(bmp1, bmp2);
 
         /// <summary>
-        /// 
+        /// Applies the given bitmap effect to the given bitmap
         /// </summary>
         /// <typeparam name="T">Bitmap effect</typeparam>
-        /// <param name="bmp"></param>
+        /// <param name="bmp">Bitmap, to which the effect shall be applied</param>
         /// <returns>Result bitmap</returns>
         public static Bitmap ApplyEffect<T>(this Bitmap bmp)
             where T : BitmapEffect, new() => ApplyEffect(bmp, new T());
 
         /// <summary>
-        /// 
+        /// Applies the given parameterized bitmap effect to the given bitmap
         /// </summary>
         /// <typeparam name="T">Bitmap effect</typeparam>
-        /// <param name="bmp"></param>
+        /// <param name="bmp">Bitmap, to which the effect shall be applied</param>
         /// <param name="args">Effect initialization parameters</param>
         /// <returns>Result bitmap</returns>
         public static Bitmap ApplyEffect<T>(this Bitmap bmp, params object[] args)
             where T : BitmapEffect => ApplyEffect(bmp, (T)Activator.CreateInstance(typeof(T), args));
 
         /// <summary>
-        /// 
+        /// Applies the given bitmap effect to the given bitmap
         /// </summary>
-        /// <param name="bmp"></param>
+        /// <param name="bmp">Bitmap, to which the effect shall be applied</param>
         /// <param name="effect">Bitmap effect</param>
         /// <returns>Result bitmap</returns>
         public static Bitmap ApplyEffect(this Bitmap bmp, BitmapEffect effect) => effect.Apply(bmp);
 
         /// <summary>
-        /// 
+        /// Applies the given bitmap effect to a given range/section of the given bitmap
         /// </summary>
-        /// <param name="bmp"></param>
+        /// <param name="bmp">Bitmap, to which the effect shall be applied</param>
         /// <param name="effect">Bitmap effect</param>
         /// <param name="rect">Region, in which the effect shall be applied (a null-value applies the effect to the entire bitmap)</param>
         /// <returns>Result bitmap</returns>
@@ -466,15 +466,15 @@ namespace SeeSharp
         }
 
         /// <summary>
-        /// 
+        /// Applies the given difference mask to the given bitmap
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="mask"></param>
-        /// <param name="tolerance"></param>
-        /// <param name="grayscale"></param>
-        /// <param name="subtracttolerance"></param>
-        /// <param name="ignorealpha"></param>
-        /// <returns></returns>
+        /// <param name="src">Input bitmap</param>
+        /// <param name="mask">Difference mask</param>
+        /// <param name="tolerance">Mask tolerance [0...1]</param>
+        /// <param name="grayscale">Determines whether the grayscale effect shall be applied to both mask and input bitmap</param>
+        /// <param name="subtracttolerance">Determines whether the tolerance should be subtracted from the source image</param>
+        /// <param name="ignorealpha">Determines whether the α-channel shall be ignored</param>
+        /// <returns>Masked bitmap</returns>
         public static Bitmap DifferenceMask(this Bitmap src, Bitmap mask, double tolerance = 0, bool grayscale = false, bool subtracttolerance = false, bool ignorealpha = false)
         {
             tolerance = tolerance.Normalize() * 255;
@@ -499,16 +499,14 @@ namespace SeeSharp
                     diff = Abs(srcptr[i] - mskptr[i]);
 
                     if (diff >= tolerance)
-                    {
                         if (subtracttolerance)
                         {
                             diff = srcptr[i] - diff;
 
-                            dstptr[i] = (byte)(diff < 0 ? 0 : diff > 255 ? 255 : diff);
+                            dstptr[i] = (byte)diff.Constrain(0, 255);
                         }
                         else
                             dstptr[i] = srcptr[i];
-                    }
 
                     if (ignorealpha && (i % 4) == 3)
                         dstptr[i] = 0xff;

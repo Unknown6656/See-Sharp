@@ -327,91 +327,91 @@ namespace SeeSharp
             : BitmapColorEffect
         {
             /// <summary>
-            /// 
+            /// Creates a new overlay effect with the given color
             /// </summary>
-            /// <param name="color"></param>
+            /// <param name="color">The overlay color</param>
             public OverlayBitmapEffect(Color color)
                 : this(color, 1.0)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new overlay effect with the given color and amount
             /// </summary>
-            /// <param name="color"></param>
-            /// <param name="amount"></param>
+            /// <param name="color">The overlay color</param>
+            /// <param name="amount">The overlay amount [0...1]</param>
             public OverlayBitmapEffect(Color color, double amount)
                 : this(color.A / 255.0, color.R / 255.0, color.G / 255.0, color.B / 255.0, 1.0)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new overlay effect with the given color
             /// </summary>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="r">The overlay red channel</param>
+            /// <param name="g">The overlay green channel</param>
+            /// <param name="b">The overlay blue channel</param>
             public OverlayBitmapEffect(byte r, byte g, byte b)
                 : this(1.0, r / 255.0, g / 255.0, b / 255.0, 1.0)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new overlay effect with the given color and amount
             /// </summary>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
-            /// <param name="amount"></param>
+            /// <param name="r">The overlay red channel [0...255]</param>
+            /// <param name="g">The overlay green channel [0...255]</param>
+            /// <param name="b">The overlay blue channel [0...255]</param>
+            /// <param name="amount">The overlay amount [0...1]</param>
             public OverlayBitmapEffect(byte r, byte g, byte b, double amount)
                 : this(1.0, r / 255.0, g / 255.0, b / 255.0, amount)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new overlay effect with the given color and amount
             /// </summary>
-            /// <param name="a"></param>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
-            /// <param name="amount"></param>
+            /// <param name="a">The overlay alpha channel [0...255]</param>
+            /// <param name="r">The overlay red channel [0...255]</param>
+            /// <param name="g">The overlay green channel [0...255]</param>
+            /// <param name="b">The overlay blue channel [0...255]</param>
+            /// <param name="amount">The overlay amount [0...1]</param>
             public OverlayBitmapEffect(byte a, byte r, byte g, byte b, byte amount)
                 : this(a / 255.0, r / 255.0, g / 255.0, b / 255.0, amount)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new overlay effect with the given color
             /// </summary>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
+            /// <param name="r">The overlay red channel [0...1]</param>
+            /// <param name="g">The overlay green channel [0...1]</param>
+            /// <param name="b">The overlay blue channel [0...1]</param>
             public OverlayBitmapEffect(double r, double g, double b)
                 : this(1.0, r, g, b, 1.0)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new overlay effect with the given color and amount
             /// </summary>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
-            /// <param name="amount"></param>
+            /// <param name="r">The overlay red channel [0...1]</param>
+            /// <param name="g">The overlay green channel [0...1]</param>
+            /// <param name="b">The overlay blue channel [0...1]</param>
+            /// <param name="amount">The overlay amount [0...1]</param>
             public OverlayBitmapEffect(double r, double g, double b, double amount)
                 : this(1.0, r, g, b, amount)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new overlay effect with the given color and amount
             /// </summary>
-            /// <param name="a"></param>
-            /// <param name="r"></param>
-            /// <param name="g"></param>
-            /// <param name="b"></param>
-            /// <param name="amount"></param>
+            /// <param name="a">The overlay alpha channel [0...1]</param>
+            /// <param name="r">The overlay red channel [0...1]</param>
+            /// <param name="g">The overlay green channel [0...1]</param>
+            /// <param name="b">The overlay blue channel [0...1]</param>
+            /// <param name="amount">The overlay amount [0...1]</param>
             public OverlayBitmapEffect(double a, double r, double g, double b, double amount)
                 : this(a.Normalize(), r.Normalize(), g.Normalize(), b.Normalize(), amount.Normalize(), 1 - amount.Normalize())
             {
@@ -560,14 +560,14 @@ namespace SeeSharp
             : RangeEffect
         {
             /// <summary>
-            /// 
+            /// The glow radius
             /// </summary>
             public double Radius { internal set; get; }
             /// <summary>
             /// The glow radius
             /// </summary>
             public double Amount { internal set; get; }
-            
+
             /// <summary>
             /// Applies the current effect to the given bitmap and returns the result
             /// </summary>
@@ -593,19 +593,19 @@ namespace SeeSharp
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance with the given radius
             /// </summary>
-            /// <param name="radius"></param>
+            /// <param name="radius">Glow radius</param>
             public SimpleGlowBitmapEffect(double radius)
                 : this(radius, 1)
             {
             }
 
             /// <summary>
-            /// 
+            /// Creates a new instance with the given radius and amount
             /// </summary>
-            /// <param name="radius"></param>
-            /// <param name="amount"></param>
+            /// <param name="radius">Glow radius</param>
+            /// <param name="amount">Glow amount</param>
             public SimpleGlowBitmapEffect(double radius, double amount)
             {
                 this.Radius = radius < 0 ? 0 : radius;

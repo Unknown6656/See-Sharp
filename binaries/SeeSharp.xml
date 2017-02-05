@@ -1160,6 +1160,7 @@
             <summary>
             Creates a new instance using the given blending color
             </summary>
+            <param name="a">The blending color's alpha channel</param>
             <param name="r">The blending color's red channel</param>
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
@@ -1253,6 +1254,16 @@
             </summary>
         </member>
         <member name="M:SeeSharp.Effects.MultiplyBitmapBlendEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="T:SeeSharp.Effects.ScreenBitmapBlendEffect">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.ScreenBitmapBlendEffect.#ctor">
             <summary>
             Creates a new instance
             </summary>
@@ -1849,18 +1860,18 @@
         </member>
         <member name="T:SeeSharp.BitmapBlendingFunction">
             <summary>
-            
+            Represents a bitmap + bitmap blending function
             </summary>
-            <param name="c1"></param>
-            <param name="c2"></param>
-            <param name="x"></param>
-            <param name="y"></param>
-            <param name="t"></param>
-            <param name="w"></param>
-            <param name="h"></param>
-            <param name="ndx"></param>
-            <param name="o"></param>
-            <returns></returns>
+            <param name="c1">The first bitmap's current color channel</param>
+            <param name="c2">The second bitmap's current color channel</param>
+            <param name="x">X pixel coordinate</param>
+            <param name="y">Y pixel coordinate</param>
+            <param name="t">Bitmap stride length</param>
+            <param name="w">Bitmap width</param>
+            <param name="h">Bitmap height</param>
+            <param name="ndx">Pixel index</param>
+            <param name="o">Channel offset (0 = Alpha, 1 = Red, 2 = Green, 3 = Blue)</param>
+            <returns>The resulting color channel</returns>
         </member>
         <member name="T:SeeSharp.BitmapBlendEffect">
             <summary>
@@ -1906,18 +1917,17 @@
         </member>
         <member name="T:SeeSharp.ColorBlendingFunction">
             <summary>
-            
+            Represents a bitmap + color blending function
             </summary>
-            <param name="ival"></param>
-            <param name="refcolor"></param>
-            <param name="srcptr"></param>
-            <param name="i"></param>
-            <param name="psz"></param>
-            <param name="w"></param>
-            <param name="t"></param>
-            <param name="l"></param>
-            <param name="o"></param>
-            <returns></returns>
+            <param name="ival">The bitmap's current color channel</param>
+            <param name="refcolor">Blending color</param>
+            <param name="i">Pixel index</param>
+            <param name="psz">Pixelformat size (in bytes)</param>
+            <param name="t">Bitmap stride length</param>
+            <param name="w">Bitmap width</param>
+            <param name="l">Bitmap pixel array length (total pixel count)</param>
+            <param name="o">Channel offset (0 = Alpha, 1 = Red, 2 = Green, 3 = Blue)</param>
+            <returns>The resulting color channel</returns>
         </member>
         <member name="T:SeeSharp.BlendColorEffect">
             <summary>

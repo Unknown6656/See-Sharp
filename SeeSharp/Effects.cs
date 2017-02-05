@@ -853,12 +853,7 @@ namespace SeeSharp
         public sealed unsafe class ScreenBlendColorEffect
             : BlendColorEffect
         {
-            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, srcptr, refcolor, i, psz, w, t, l, o) =>
-            {
-                double v = 1.0 - ((1.0 - refcolor[o]) * (1.0 - (srcptr[i] / 255.0)));
-
-                return v * 255;
-            });
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) => 1 - ((1 - refcolor[o]) * (1 - ival)));
 
             /// <summary>
             /// Creates a new instance
@@ -908,7 +903,7 @@ namespace SeeSharp
         public sealed unsafe class MultiplyBlendColorEffect
             : BlendColorEffect
         {
-            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, srcptr, refcolor, i, psz, w, t, l, o) => refcolor[o] * srcptr[i]);
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) => refcolor[o] * ival);
 
             /// <summary>
             /// Creates a new instance
@@ -958,7 +953,7 @@ namespace SeeSharp
         public sealed unsafe class DivideBlendColorEffect
             : BlendColorEffect
         {
-            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, srcptr, refcolor, i, psz, w, t, l, o) => refcolor[o] == 0 ? 0 : srcptr[i] / (refcolor[o] * 255d));
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) => refcolor[o] == 0 ? 0 : ival / refcolor[o]);
 
             /// <summary>
             /// Creates a new instance
@@ -1008,7 +1003,7 @@ namespace SeeSharp
         public sealed unsafe class OverlayBlendColorEffect
             : BlendColorEffect
         {
-            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, srcptr, refcolor, i, psz, w, t, l, o) =>
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) =>
             {
                 double v;
 
@@ -1017,7 +1012,7 @@ namespace SeeSharp
                 else
                     v = 1 - (2d * (1 - ival) * (1 - refcolor[o]));
 
-                return v * 255;
+                return v;
             });
 
             /// <summary>
@@ -1068,7 +1063,7 @@ namespace SeeSharp
         public sealed unsafe class HardLightBlendColorEffect
             : BlendColorEffect
         {
-            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, srcptr, refcolor, i, psz, w, t, l, o) =>
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) =>
             {
                 double v;
 
@@ -1077,7 +1072,7 @@ namespace SeeSharp
                 else
                     v = 1 - (2d * (1 - ival) * (1 - refcolor[o]));
 
-                return v * 255;
+                return v;
             });
 
             /// <summary>
@@ -1128,7 +1123,7 @@ namespace SeeSharp
         public sealed unsafe class SoftLightBlendColorEffect
             : BlendColorEffect
         {
-            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, srcptr, refcolor, i, psz, w, t, l, o) => (((1 - (2 * refcolor[o])) * ival) + (2 * refcolor[o])) * ival * 255d);
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) => (((1 - (2 * refcolor[o])) * ival) + (2 * refcolor[o])) * ival);
 
             /// <summary>
             /// Creates a new instance
@@ -1178,7 +1173,7 @@ namespace SeeSharp
         public sealed unsafe class AddBlendColorEffect
             : BlendColorEffect
         {
-            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, srcptr, refcolor, i, psz, w, t, l, o) => (refcolor[o] * 255d) + srcptr[i]);
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) => refcolor[o] + ival);
 
             /// <summary>
             /// Creates a new instance
@@ -1228,7 +1223,7 @@ namespace SeeSharp
         public sealed unsafe class SubtractBlendColorEffect
             : BlendColorEffect
         {
-            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, srcptr, refcolor, i, psz, w, t, l, o) => srcptr[i] - (refcolor[o] * 255d));
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) => ival - refcolor[o]);
 
             /// <summary>
             /// Creates a new instance
@@ -1278,7 +1273,7 @@ namespace SeeSharp
         public sealed unsafe class DifferenceBlendColorEffect
             : BlendColorEffect
         {
-            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, srcptr, refcolor, i, psz, w, t, l, o) => Abs(srcptr[i] - (refcolor[o] * 255d)));
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) => Abs(ival - refcolor[o]));
 
             /// <summary>
             /// Creates a new instance
@@ -1328,7 +1323,7 @@ namespace SeeSharp
         public sealed unsafe class DarkerOnlyBlendColorEffect
             : BlendColorEffect
         {
-            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, srcptr, refcolor, i, psz, w, t, l, o) => Min(srcptr[i], refcolor[o] * 255d));
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) => Min(ival, refcolor[o]));
 
             /// <summary>
             /// Creates a new instance
@@ -1361,6 +1356,7 @@ namespace SeeSharp
             /// <summary>
             /// Creates a new instance using the given blending color
             /// </summary>
+            /// <param name="a">The blending color's alpha channel</param>
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
@@ -1377,7 +1373,7 @@ namespace SeeSharp
         public sealed unsafe class LighterOnlyBlendColorEffect
             : BlendColorEffect
         {
-            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, srcptr, refcolor, i, psz, w, t, l, o) => Max(srcptr[i], refcolor[o] * 255d));
+            private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) => Max(ival, refcolor[o]));
 
             /// <summary>
             /// Creates a new instance
@@ -1515,6 +1511,22 @@ namespace SeeSharp
             /// </summary>
             public MultiplyBitmapBlendEffect()
                 : base(new BitmapBlendingFunction((c1, c2, x, y, t, w, h, ndx, o) => c1 * c2))
+            {
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
+        public sealed class ScreenBitmapBlendEffect
+            : BitmapBlendEffect
+        {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
+            public ScreenBitmapBlendEffect()
+                : base(new BitmapBlendingFunction((c1, c2, x, y, t, w, h, ndx, o) => 1 - ((1 - c1) * (1 - c2))))
             {
             }
         }
@@ -2153,7 +2165,7 @@ namespace SeeSharp
         /// 
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
-        public unsafe sealed partial class RGBSplitBitmapEffect
+        public unsafe sealed class RGBSplitBitmapEffect
             : BitmapEffect
         {
             /// <summary>
@@ -2321,7 +2333,7 @@ namespace SeeSharp
         }
 
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode, Obsolete("Use `CoreLib::Imaging::RGBSplitBitmapEffect` instead.", true)]
-        internal unsafe sealed partial class __OLD__RGBSplitBitmapEffect
+        internal unsafe sealed class __OLD__RGBSplitBitmapEffect
             : BitmapEffect
         {
             public double Delta { internal set; get; }
@@ -3277,18 +3289,18 @@ namespace SeeSharp
     }
 
     /// <summary>
-    /// 
+    /// Represents a bitmap + bitmap blending function
     /// </summary>
-    /// <param name="c1"></param>
-    /// <param name="c2"></param>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="t"></param>
-    /// <param name="w"></param>
-    /// <param name="h"></param>
-    /// <param name="ndx"></param>
-    /// <param name="o"></param>
-    /// <returns></returns>
+    /// <param name="c1">The first bitmap's current color channel</param>
+    /// <param name="c2">The second bitmap's current color channel</param>
+    /// <param name="x">X pixel coordinate</param>
+    /// <param name="y">Y pixel coordinate</param>
+    /// <param name="t">Bitmap stride length</param>
+    /// <param name="w">Bitmap width</param>
+    /// <param name="h">Bitmap height</param>
+    /// <param name="ndx">Pixel index</param>
+    /// <param name="o">Channel offset (0 = Alpha, 1 = Red, 2 = Green, 3 = Blue)</param>
+    /// <returns>The resulting color channel</returns>
     public unsafe delegate double BitmapBlendingFunction(double c1, double c2, int x, int y, int t, int w, int h, int ndx, int o);
 
     /// <summary>
@@ -3398,19 +3410,18 @@ namespace SeeSharp
     }
 
     /// <summary>
-    /// 
+    /// Represents a bitmap + color blending function
     /// </summary>
-    /// <param name="ival"></param>
-    /// <param name="refcolor"></param>
-    /// <param name="srcptr"></param>
-    /// <param name="i"></param>
-    /// <param name="psz"></param>
-    /// <param name="w"></param>
-    /// <param name="t"></param>
-    /// <param name="l"></param>
-    /// <param name="o"></param>
-    /// <returns></returns>
-    public unsafe delegate double ColorBlendingFunction(double ival, double[] refcolor, byte* srcptr, int i, int psz, int w, int t, int l, int o);
+    /// <param name="ival">The bitmap's current color channel</param>
+    /// <param name="refcolor">Blending color</param>
+    /// <param name="i">Pixel index</param>
+    /// <param name="psz">Pixelformat size (in bytes)</param>
+    /// <param name="t">Bitmap stride length</param>
+    /// <param name="w">Bitmap width</param>
+    /// <param name="l">Bitmap pixel array length (total pixel count)</param>
+    /// <param name="o">Channel offset (0 = Alpha, 1 = Red, 2 = Green, 3 = Blue)</param>
+    /// <returns>The resulting color channel</returns>
+    public unsafe delegate double ColorBlendingFunction(double ival, double[] refcolor, int i, int psz, int w, int t, int l, int o);
 
     /// <summary>
     /// Represents an abstract color blending effect
@@ -3491,10 +3502,15 @@ namespace SeeSharp
 
             fixed (byte* srcptr = src.ARR)
             fixed (byte* dstptr = dst.ARR)
-                for (int i = 0, l = src.ARR.Length; i < l; i++)
-                    dstptr[i] = inrange(i) ? (byte)pixelfunc(srcptr[i] / 255d, refcolor, srcptr, i, psz, w, t, l, i % psz).Constrain(0, 255) : srcptr[i];
-
-            src.Unlock();
+                try
+                {
+                    for (int i = 0, l = src.ARR.Length; i < l; i++)
+                        dstptr[i] = inrange(i) ? (byte)(pixelfunc(srcptr[i] / 255d, refcolor, i, psz, w, t, l, i % psz) * 255).Constrain(0, 255) : srcptr[i];
+                }
+                finally
+                {
+                    src.Unlock();
+                }
 
             return dst.Unlock();
         }
@@ -3524,7 +3540,7 @@ namespace SeeSharp
             : this(func, clr.A / 255.0, clr.R / 255.0, clr.G / 255.0, clr.B / 255.0)
         {
         }
-        
+
         /// <summary>
         /// Creates a new instance using the given blending function and blending color
         /// </summary>

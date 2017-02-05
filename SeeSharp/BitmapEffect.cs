@@ -347,7 +347,7 @@ namespace SeeSharp
             fixed (byte* ptr1 = nfo1.ARR)
             fixed (byte* ptr2 = nfo2.ARR)
             fixed (byte* ptrd = nfod.ARR)
-                for (int i = 0, l = nfo1.ARR.Length, j; i < l; i++)
+                for (int i = 0, l = nfo1.ARR.Length; i < l; i++)
                 {
                     val = (f * ptr1[i]) + (n * ptr2[i]);
 

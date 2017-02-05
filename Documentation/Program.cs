@@ -21,7 +21,7 @@ namespace Documentation
                 Bitmap bmp = Properties.Resources.emma;
                 Bitmap bmp2 = Properties.Resources.hsv_map;
                 Bitmap bmp_s = new Bitmap(bmp, new Size(bmp.Width / resize_factor, bmp.Height / resize_factor));
-                Bitmap bmp2_s = new Bitmap(bmp, new Size(bmp.Width / resize_factor, bmp.Height / resize_factor));
+                Bitmap bmp2_s = new Bitmap(bmp2, new Size(bmp2.Width / resize_factor, bmp2.Height / resize_factor));
                 Assembly asm = Assembly.LoadFrom(args[0]);
                 FileInfo targ = new FileInfo(args[1]);
                 string targdir = targ.Directory.FullName;
@@ -30,6 +30,7 @@ namespace Documentation
                 Type fx_scol = asm.GetType("SeeSharp.BitmapColorEffect");
                 Type fx_matr = asm.GetType("SeeSharp.SingleMatrixConvolutionBitmapEffect");
                 Type fx_blendb = asm.GetType("SeeSharp.BitmapBlendEffect");
+                Type fx_blendc = asm.GetType("SeeSharp.ColorBlendEffect");
                 IEnumerable<(object, Type)> effects = from t in asm.GetTypes()
                                                       where !t.IsAbstract
                                                       where t.IsClass
@@ -106,7 +107,7 @@ Effect list:
 
                 foreach ((object fx, Type type) in effects)
                 {
-                    sb.AppendLine($"<li><b><code>{type.Name}</code></b>");
+                    sb.AppendLine($@"<li><a name=""{type.Name}""/><b><code>{type.Name}</code></b>");
 
                     bool insta = fx_inst.IsAssignableFrom(type);
 
@@ -129,18 +130,41 @@ Effect list:
                         {
                             double v = i / 4d;
 
-                            sb.Append($@"<td><img src=""{render(false, type == fx_opac ? 1 - v : v)}"" height=""100""/></td>");
+                            sb.Append($@"<td><img src=""{render(false, type == fx_opac ? 1 - v : v)}"" height=""90""/></td>");
                         }
 
                         sb.AppendLine(@"</tr></tbody></table>");
                     }
+                    else if (fx_blendc.IsAssignableFrom(type))
+                        sb.AppendLine($"   <br/>This effect is identical to it's bitmap blending counterpart -- except for the fact, that it does not blend two bitmaps, but one bitmap and a color.")
+                          .AppendLine($@"   <br/><a href=""#{type.Name.Replace("Color", "Bitmap")}"">Click here</a> to jump to the corresponding bitmap blending effect.");
                     else if (fx_blendb.IsAssignableFrom(type))
                     {
+                        Bitmap b1 = blend(bmp, bmp2);
+                        Bitmap b2 = blend(bmp2, bmp);
 
+                        sb.AppendLine($@"   <br/>
+<table>
+    <tbody>
+        <tr>
+            <th><code>Blend(emma, hsv_map)</code></th>
+            <th><code>Blend(hsv_map, emma)</code></th>
+        </tr>
+        <tr>
+            <td>
+                <img src=""{save(b1)}"" height=""200""/>
+            </td>
+            <td>
+                <img src=""{save(b2)}"" height=""200""/>
+            </td>
+        </tr>
+    </tbody>
+</table>");
                     }
 
                     sb.AppendLine("</li>");
 
+                    Bitmap blend(params object[] param) => fx_blendb.GetMethod("Blend").Invoke(Activator.CreateInstance(type), param) as Bitmap;
                     string render(bool big = true, params object[] param) =>
                         save(fx_base.GetMethod("Apply").Invoke((param ?? new object[0]).Length > 0 ? Activator.CreateInstance(type, param) : fx,
                                                                new object[] { big ? bmp : bmp_s }) as Bitmap);

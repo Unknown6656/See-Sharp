@@ -843,23 +843,23 @@
             <param name="bmp">Input bitmap</param>
             <returns>Output bitmap</returns>
         </member>
-        <member name="T:SeeSharp.Effects.ScreenBlendColorEffect">
+        <member name="T:SeeSharp.Effects.ScreenColorBlendEffect">
             <summary>
             Represents a screen (inverse multiplicative) bitmap color blend effect
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.ScreenBlendColorEffect.#ctor">
+        <member name="M:SeeSharp.Effects.ScreenColorBlendEffect.#ctor">
             <summary>
             Creates a new instance
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.ScreenBlendColorEffect.#ctor(System.Drawing.Color)">
+        <member name="M:SeeSharp.Effects.ScreenColorBlendEffect.#ctor(System.Drawing.Color)">
             <summary>
             Creates a new instance using the given color
             </summary>
             <param name="clr">Blending color</param>
         </member>
-        <member name="M:SeeSharp.Effects.ScreenBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.ScreenColorBlendEffect.#ctor(System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -867,7 +867,7 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="M:SeeSharp.Effects.ScreenBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.ScreenColorBlendEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -876,23 +876,23 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="T:SeeSharp.Effects.MultiplyBlendColorEffect">
+        <member name="T:SeeSharp.Effects.MultiplyColorBlendEffect">
             <summary>
             Represents a multiplicative bitmap color blend effect
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.MultiplyBlendColorEffect.#ctor">
+        <member name="M:SeeSharp.Effects.MultiplyColorBlendEffect.#ctor">
             <summary>
             Creates a new instance
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.MultiplyBlendColorEffect.#ctor(System.Drawing.Color)">
+        <member name="M:SeeSharp.Effects.MultiplyColorBlendEffect.#ctor(System.Drawing.Color)">
             <summary>
             Creates a new instance using the given color
             </summary>
             <param name="clr">Blending color</param>
         </member>
-        <member name="M:SeeSharp.Effects.MultiplyBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.MultiplyColorBlendEffect.#ctor(System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -900,7 +900,7 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="M:SeeSharp.Effects.MultiplyBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.MultiplyColorBlendEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -909,23 +909,23 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="T:SeeSharp.Effects.DivideBlendColorEffect">
+        <member name="T:SeeSharp.Effects.DivideColorBlendEffect">
             <summary>
             Represents a divide bitmap color blend effect
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.DivideBlendColorEffect.#ctor">
+        <member name="M:SeeSharp.Effects.DivideColorBlendEffect.#ctor">
             <summary>
             Creates a new instance
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.DivideBlendColorEffect.#ctor(System.Drawing.Color)">
+        <member name="M:SeeSharp.Effects.DivideColorBlendEffect.#ctor(System.Drawing.Color)">
             <summary>
             Creates a new instance using the given color
             </summary>
             <param name="clr">Blending color</param>
         </member>
-        <member name="M:SeeSharp.Effects.DivideBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.DivideColorBlendEffect.#ctor(System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -933,7 +933,7 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="M:SeeSharp.Effects.DivideBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.DivideColorBlendEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -942,23 +942,23 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="T:SeeSharp.Effects.RemainderBlendColorEffect">
+        <member name="T:SeeSharp.Effects.RemainderColorBlendEffect">
             <summary>
             Represents a remainder bitmap color blend effect
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.RemainderBlendColorEffect.#ctor">
+        <member name="M:SeeSharp.Effects.RemainderColorBlendEffect.#ctor">
             <summary>
             Creates a new instance
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.RemainderBlendColorEffect.#ctor(System.Drawing.Color)">
+        <member name="M:SeeSharp.Effects.RemainderColorBlendEffect.#ctor(System.Drawing.Color)">
             <summary>
             Creates a new instance using the given color
             </summary>
             <param name="clr">Blending color</param>
         </member>
-        <member name="M:SeeSharp.Effects.RemainderBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.RemainderColorBlendEffect.#ctor(System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -966,7 +966,7 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="M:SeeSharp.Effects.RemainderBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.RemainderColorBlendEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -975,23 +975,23 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="T:SeeSharp.Effects.OverlayBlendColorEffect">
+        <member name="T:SeeSharp.Effects.OverlayColorBlendEffect">
             <summary>
             Represents an overlay bitmap color blend effect
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.OverlayBlendColorEffect.#ctor">
+        <member name="M:SeeSharp.Effects.OverlayColorBlendEffect.#ctor">
             <summary>
             Creates a new instance
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.OverlayBlendColorEffect.#ctor(System.Drawing.Color)">
+        <member name="M:SeeSharp.Effects.OverlayColorBlendEffect.#ctor(System.Drawing.Color)">
             <summary>
             Creates a new instance using the given color
             </summary>
             <param name="clr">Blending color</param>
         </member>
-        <member name="M:SeeSharp.Effects.OverlayBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.OverlayColorBlendEffect.#ctor(System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -999,7 +999,7 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="M:SeeSharp.Effects.OverlayBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.OverlayColorBlendEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -1008,23 +1008,23 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="T:SeeSharp.Effects.HardLightBlendColorEffect">
+        <member name="T:SeeSharp.Effects.HardLightColorBlendEffect">
             <summary>
             Represents an hard light bitmap color blend effect
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.HardLightBlendColorEffect.#ctor">
+        <member name="M:SeeSharp.Effects.HardLightColorBlendEffect.#ctor">
             <summary>
             Creates a new instance
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.HardLightBlendColorEffect.#ctor(System.Drawing.Color)">
+        <member name="M:SeeSharp.Effects.HardLightColorBlendEffect.#ctor(System.Drawing.Color)">
             <summary>
             Creates a new instance using the given color
             </summary>
             <param name="clr">Blending color</param>
         </member>
-        <member name="M:SeeSharp.Effects.HardLightBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.HardLightColorBlendEffect.#ctor(System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -1032,7 +1032,7 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="M:SeeSharp.Effects.HardLightBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.HardLightColorBlendEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -1041,23 +1041,23 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="T:SeeSharp.Effects.SoftLightBlendColorEffect">
+        <member name="T:SeeSharp.Effects.SoftLightColorBlendEffect">
             <summary>
             Represents a soft light bitmap color blend effect
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.SoftLightBlendColorEffect.#ctor">
+        <member name="M:SeeSharp.Effects.SoftLightColorBlendEffect.#ctor">
             <summary>
             Creates a new instance
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.SoftLightBlendColorEffect.#ctor(System.Drawing.Color)">
+        <member name="M:SeeSharp.Effects.SoftLightColorBlendEffect.#ctor(System.Drawing.Color)">
             <summary>
             Creates a new instance using the given color
             </summary>
             <param name="clr">Blending color</param>
         </member>
-        <member name="M:SeeSharp.Effects.SoftLightBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.SoftLightColorBlendEffect.#ctor(System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -1065,7 +1065,7 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="M:SeeSharp.Effects.SoftLightBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.SoftLightColorBlendEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -1074,23 +1074,23 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="T:SeeSharp.Effects.AddBlendColorEffect">
+        <member name="T:SeeSharp.Effects.AddColorBlendEffect">
             <summary>
             Represents an additive bitmap color blend effect
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.AddBlendColorEffect.#ctor">
+        <member name="M:SeeSharp.Effects.AddColorBlendEffect.#ctor">
             <summary>
             Creates a new instance
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.AddBlendColorEffect.#ctor(System.Drawing.Color)">
+        <member name="M:SeeSharp.Effects.AddColorBlendEffect.#ctor(System.Drawing.Color)">
             <summary>
             Creates a new instance using the given color
             </summary>
             <param name="clr">Blending color</param>
         </member>
-        <member name="M:SeeSharp.Effects.AddBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.AddColorBlendEffect.#ctor(System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -1098,7 +1098,7 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="M:SeeSharp.Effects.AddBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.AddColorBlendEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -1107,23 +1107,23 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="T:SeeSharp.Effects.SubtractBlendColorEffect">
+        <member name="T:SeeSharp.Effects.SubtractColorBlendEffect">
             <summary>
             Represents a subtractive bitmap color blend effect
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.SubtractBlendColorEffect.#ctor">
+        <member name="M:SeeSharp.Effects.SubtractColorBlendEffect.#ctor">
             <summary>
             Creates a new instance
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.SubtractBlendColorEffect.#ctor(System.Drawing.Color)">
+        <member name="M:SeeSharp.Effects.SubtractColorBlendEffect.#ctor(System.Drawing.Color)">
             <summary>
             Creates a new instance using the given color
             </summary>
             <param name="clr">Blending color</param>
         </member>
-        <member name="M:SeeSharp.Effects.SubtractBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.SubtractColorBlendEffect.#ctor(System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -1131,7 +1131,7 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="M:SeeSharp.Effects.SubtractBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.SubtractColorBlendEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -1140,23 +1140,23 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="T:SeeSharp.Effects.DifferenceBlendColorEffect">
+        <member name="T:SeeSharp.Effects.DifferenceColorBlendEffect">
             <summary>
             Represents a differentiative bitmap color blend effect
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.DifferenceBlendColorEffect.#ctor">
+        <member name="M:SeeSharp.Effects.DifferenceColorBlendEffect.#ctor">
             <summary>
             Creates a new instance
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.DifferenceBlendColorEffect.#ctor(System.Drawing.Color)">
+        <member name="M:SeeSharp.Effects.DifferenceColorBlendEffect.#ctor(System.Drawing.Color)">
             <summary>
             Creates a new instance using the given color
             </summary>
             <param name="clr">Blending color</param>
         </member>
-        <member name="M:SeeSharp.Effects.DifferenceBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.DifferenceColorBlendEffect.#ctor(System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -1164,7 +1164,7 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="M:SeeSharp.Effects.DifferenceBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.DifferenceColorBlendEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -1173,23 +1173,23 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="T:SeeSharp.Effects.DarkerOnlyBlendColorEffect">
+        <member name="T:SeeSharp.Effects.DarkerOnlyColorBlendEffect">
             <summary>
             Represents an darker-only bitmap color blend effect
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.DarkerOnlyBlendColorEffect.#ctor">
+        <member name="M:SeeSharp.Effects.DarkerOnlyColorBlendEffect.#ctor">
             <summary>
             Creates a new instance
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.DarkerOnlyBlendColorEffect.#ctor(System.Drawing.Color)">
+        <member name="M:SeeSharp.Effects.DarkerOnlyColorBlendEffect.#ctor(System.Drawing.Color)">
             <summary>
             Creates a new instance using the given color
             </summary>
             <param name="clr">Blending color</param>
         </member>
-        <member name="M:SeeSharp.Effects.DarkerOnlyBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.DarkerOnlyColorBlendEffect.#ctor(System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -1197,7 +1197,7 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="M:SeeSharp.Effects.DarkerOnlyBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.DarkerOnlyColorBlendEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -1206,23 +1206,23 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="T:SeeSharp.Effects.LighterOnlyBlendColorEffect">
+        <member name="T:SeeSharp.Effects.LighterOnlyColorBlendEffect">
             <summary>
             Represents an lighter-only bitmap color blend effect
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.LighterOnlyBlendColorEffect.#ctor">
+        <member name="M:SeeSharp.Effects.LighterOnlyColorBlendEffect.#ctor">
             <summary>
             Creates a new instance
             </summary>
         </member>
-        <member name="M:SeeSharp.Effects.LighterOnlyBlendColorEffect.#ctor(System.Drawing.Color)">
+        <member name="M:SeeSharp.Effects.LighterOnlyColorBlendEffect.#ctor(System.Drawing.Color)">
             <summary>
             Creates a new instance using the given color
             </summary>
             <param name="clr">Blending color</param>
         </member>
-        <member name="M:SeeSharp.Effects.LighterOnlyBlendColorEffect.#ctor(System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.LighterOnlyColorBlendEffect.#ctor(System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -1230,7 +1230,7 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="M:SeeSharp.Effects.LighterOnlyBlendColorEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.Effects.LighterOnlyColorBlendEffect.#ctor(System.Double,System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending color
             </summary>
@@ -1956,6 +1956,11 @@
             The internal bitmap blending function
             </summary>
         </member>
+        <member name="P:SeeSharp.BitmapBlendEffect.UseAlpha">
+            <summary>
+            Determines whether the alpha-channel should be blended (default is false)
+            </summary>
+        </member>
         <member name="M:SeeSharp.BitmapBlendEffect.Dispose">
             <summary>
             Disposes the current instance
@@ -1988,22 +1993,29 @@
             </summary>
             <param name="func">Bitmap blending function</param>
         </member>
-        <member name="T:SeeSharp.BlendColorEffect">
+        <member name="M:SeeSharp.BitmapBlendEffect.#ctor(SeeSharp.BitmapBlendingFunction,System.Boolean)">
+            <summary>
+            Creates a new instance using the given blending function
+            </summary>
+            <param name="func">Bitmap blending function</param>
+            <param name="alpha">Determines whether the alpha-channel should be blended (default is false)</param>
+        </member>
+        <member name="T:SeeSharp.ColorBlendEffect">
             <summary>
             Represents an abstract color blending effect
             </summary>
         </member>
-        <member name="P:SeeSharp.BlendColorEffect.Blender">
+        <member name="P:SeeSharp.ColorBlendEffect.Blender">
             <summary>
             Returns the color bending function
             </summary>
         </member>
-        <member name="F:SeeSharp.BlendColorEffect.refcolor">
+        <member name="F:SeeSharp.ColorBlendEffect.refcolor">
             <summary>
             The color which will be applied to any given bitmap using the current blend mode
             </summary>
         </member>
-        <member name="M:SeeSharp.BlendColorEffect.__inrange1(System.Int32,System.Int32)">
+        <member name="M:SeeSharp.ColorBlendEffect.__inrange1(System.Int32,System.Int32)">
             <summary>
             Returns a function, which determines whether the given coordinate-pair (X:int, Y:int) are inside the current range
             </summary>
@@ -2011,13 +2023,13 @@
             <param name="t">Bitmap stride length</param>
             <returns>Function</returns>
         </member>
-        <member name="M:SeeSharp.BlendColorEffect.__inrange2">
+        <member name="M:SeeSharp.ColorBlendEffect.__inrange2">
             <summary>
             Returns a function, which determines whether the given coordinate-pair (X:int, Y:int) are inside the current range
             </summary>
             <returns>Function</returns>
         </member>
-        <member name="M:SeeSharp.BlendColorEffect.Apply(System.Drawing.Bitmap,SeeSharp.ColorBlendingFunction)">
+        <member name="M:SeeSharp.ColorBlendEffect.Apply(System.Drawing.Bitmap,SeeSharp.ColorBlendingFunction)">
             <summary>
             Applies the given color blending function to the given bitmap
             </summary>
@@ -2025,27 +2037,27 @@
             <param name="pixelfunc">Color blending function</param>
             <returns>Result bitmap</returns>
         </member>
-        <member name="M:SeeSharp.BlendColorEffect.Apply(System.Drawing.Bitmap)">
+        <member name="M:SeeSharp.ColorBlendEffect.Apply(System.Drawing.Bitmap)">
             <summary>
             Applies the current effect to the given bitmap and returns the result
             </summary>
             <param name="bmp">Input bitmap</param>
             <returns>Output bitmap</returns>
         </member>
-        <member name="M:SeeSharp.BlendColorEffect.#ctor(SeeSharp.ColorBlendingFunction)">
+        <member name="M:SeeSharp.ColorBlendEffect.#ctor(SeeSharp.ColorBlendingFunction)">
             <summary>
             Creates a new instance using the given blending function
             </summary>
             <param name="func">Blending function</param>
         </member>
-        <member name="M:SeeSharp.BlendColorEffect.#ctor(SeeSharp.ColorBlendingFunction,System.Drawing.Color)">
+        <member name="M:SeeSharp.ColorBlendEffect.#ctor(SeeSharp.ColorBlendingFunction,System.Drawing.Color)">
             <summary>
             Creates a new instance using the given blending function and blending color
             </summary>
             <param name="func">Blending function</param>
             <param name="clr">Blending color</param>
         </member>
-        <member name="M:SeeSharp.BlendColorEffect.#ctor(SeeSharp.ColorBlendingFunction,System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.ColorBlendEffect.#ctor(SeeSharp.ColorBlendingFunction,System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending function and blending color
             </summary>
@@ -2054,7 +2066,7 @@
             <param name="g">The blending color's green channel</param>
             <param name="b">The blending color's blue channel</param>
         </member>
-        <member name="M:SeeSharp.BlendColorEffect.#ctor(SeeSharp.ColorBlendingFunction,System.Double,System.Double,System.Double,System.Double)">
+        <member name="M:SeeSharp.ColorBlendEffect.#ctor(SeeSharp.ColorBlendingFunction,System.Double,System.Double,System.Double,System.Double)">
             <summary>
             Creates a new instance using the given blending function and blending color
             </summary>

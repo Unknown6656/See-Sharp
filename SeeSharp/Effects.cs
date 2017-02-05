@@ -795,7 +795,7 @@ namespace SeeSharp
                                                            .ApplyEffectRange<TintBitmapEffect>(Range, -PI)
                                                            .ApplyEffectRange<SepiaBitmapEffect>(Range, .3)
                                                            .ApplyEffectRange<SaturationBitmapEffect>(Range, 1.6)
-                                                           .ApplyEffectRange<ScreenBlendColorEffect>(Range, 0, .075, .225) // (0,¼,¾) * .3
+                                                           .ApplyEffectRange<ScreenColorBlendEffect>(Range, 0, .075, .225) // (0,¼,¾) * .3
                                                            .Average(bmp, .3);
             // -webkit-filter: brightness(1.1) hue-rotate(-10deg) sepia(.3) saturate(1.6);
             // screen #04c .3
@@ -818,8 +818,8 @@ namespace SeeSharp
                                                            .ApplyEffectRange<BrightnessBitmapEffect>(Range, 1.1)
                                                            .ApplyEffectRange<TintBitmapEffect>(Range, PI / 18.0)
                                                            .ApplyEffectRange<SaturationBitmapEffect>(Range, 1.5)
-                                                           .ApplyEffectRange<ScreenBlendColorEffect>(Range, .1, .1, .4) // (0,¼,¾) * .3
-                                                           .ApplyEffectRange<ScreenBlendColorEffect>(Range, 0, .4, 1)
+                                                           .ApplyEffectRange<ScreenColorBlendEffect>(Range, .1, .1, .4) // (0,¼,¾) * .3
+                                                           .ApplyEffectRange<ScreenColorBlendEffect>(Range, 0, .4, 1)
                                                            .Average(bmp, .2);
             // sepia(0.35) contrast(0.9) brightness(1.1) hue-rotate(-10deg) saturate(1.5);
         }
@@ -839,7 +839,7 @@ namespace SeeSharp
             public override Bitmap Apply(Bitmap bmp) => bmp.ApplyEffectRange<ContrastBitmapEffect>(Range, 1.5)
                                                            .ApplyEffectRange<BrightnessBitmapEffect>(Range, 1.7)
                                                            .ApplyEffectRange<SaturationBitmapEffect>(Range, 1.1)
-                                                           .ApplyEffectRange<ScreenBlendColorEffect>(Range, .81 * .05, .75 * .05, .29 * .05);
+                                                           .ApplyEffectRange<ScreenColorBlendEffect>(Range, .81 * .05, .75 * .05, .29 * .05);
             // sepia(0.35) contrast(0.9) brightness(1.1) hue-rotate(-10deg) saturate(1.5);
         }
 
@@ -850,15 +850,15 @@ namespace SeeSharp
         /// Represents a screen (inverse multiplicative) bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
-        public sealed unsafe class ScreenBlendColorEffect
-            : BlendColorEffect
+        public sealed unsafe class ScreenColorBlendEffect
+            : ColorBlendEffect
         {
             private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) => 1 - ((1 - refcolor[o]) * (1 - ival)));
 
             /// <summary>
             /// Creates a new instance
             /// </summary>
-            public ScreenBlendColorEffect()
+            public ScreenColorBlendEffect()
                 : base(blender)
             {
             }
@@ -867,7 +867,7 @@ namespace SeeSharp
             /// Creates a new instance using the given color
             /// </summary>
             /// <param name="clr">Blending color</param>
-            public ScreenBlendColorEffect(Color clr)
+            public ScreenColorBlendEffect(Color clr)
                 : base(blender, clr)
             {
             }
@@ -878,7 +878,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public ScreenBlendColorEffect(double r, double g, double b)
+            public ScreenColorBlendEffect(double r, double g, double b)
                 : base(blender, 0, r, g, b)
             {
             }
@@ -890,7 +890,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public ScreenBlendColorEffect(double a, double r, double g, double b)
+            public ScreenColorBlendEffect(double a, double r, double g, double b)
                 : base(blender, a, r, g, b)
             {
             }
@@ -900,15 +900,15 @@ namespace SeeSharp
         /// Represents a multiplicative bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
-        public sealed unsafe class MultiplyBlendColorEffect
-            : BlendColorEffect
+        public sealed unsafe class MultiplyColorBlendEffect
+            : ColorBlendEffect
         {
             private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) => refcolor[o] * ival);
 
             /// <summary>
             /// Creates a new instance
             /// </summary>
-            public MultiplyBlendColorEffect()
+            public MultiplyColorBlendEffect()
                 : base(blender)
             {
             }
@@ -917,7 +917,7 @@ namespace SeeSharp
             /// Creates a new instance using the given color
             /// </summary>
             /// <param name="clr">Blending color</param>
-            public MultiplyBlendColorEffect(Color clr)
+            public MultiplyColorBlendEffect(Color clr)
                 : base(blender, clr)
             {
             }
@@ -928,7 +928,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public MultiplyBlendColorEffect(double r, double g, double b)
+            public MultiplyColorBlendEffect(double r, double g, double b)
                 : base(blender, 0, r, g, b)
             {
             }
@@ -940,7 +940,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public MultiplyBlendColorEffect(double a, double r, double g, double b)
+            public MultiplyColorBlendEffect(double a, double r, double g, double b)
                 : base(blender, a, r, g, b)
             {
             }
@@ -950,15 +950,15 @@ namespace SeeSharp
         /// Represents a divide bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
-        public sealed unsafe class DivideBlendColorEffect
-            : BlendColorEffect
+        public sealed unsafe class DivideColorBlendEffect
+            : ColorBlendEffect
         {
             private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) => refcolor[o] == 0 ? 0 : ival / refcolor[o]);
 
             /// <summary>
             /// Creates a new instance
             /// </summary>
-            public DivideBlendColorEffect()
+            public DivideColorBlendEffect()
                 : base(blender)
             {
             }
@@ -967,7 +967,7 @@ namespace SeeSharp
             /// Creates a new instance using the given color
             /// </summary>
             /// <param name="clr">Blending color</param>
-            public DivideBlendColorEffect(Color clr)
+            public DivideColorBlendEffect(Color clr)
                 : base(blender, clr)
             {
             }
@@ -978,7 +978,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public DivideBlendColorEffect(double r, double g, double b)
+            public DivideColorBlendEffect(double r, double g, double b)
                 : base(blender, 0, r, g, b)
             {
             }
@@ -990,7 +990,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public DivideBlendColorEffect(double a, double r, double g, double b)
+            public DivideColorBlendEffect(double a, double r, double g, double b)
                 : base(blender, a, r, g, b)
             {
             }
@@ -1000,15 +1000,15 @@ namespace SeeSharp
         /// Represents a remainder bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
-        public sealed unsafe class RemainderBlendColorEffect
-            : BlendColorEffect
+        public sealed unsafe class RemainderColorBlendEffect
+            : ColorBlendEffect
         {
             private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) => refcolor[o] == 0 ? 0 : ival % refcolor[o]);
 
             /// <summary>
             /// Creates a new instance
             /// </summary>
-            public RemainderBlendColorEffect()
+            public RemainderColorBlendEffect()
                 : base(blender)
             {
             }
@@ -1017,7 +1017,7 @@ namespace SeeSharp
             /// Creates a new instance using the given color
             /// </summary>
             /// <param name="clr">Blending color</param>
-            public RemainderBlendColorEffect(Color clr)
+            public RemainderColorBlendEffect(Color clr)
                 : base(blender, clr)
             {
             }
@@ -1028,7 +1028,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public RemainderBlendColorEffect(double r, double g, double b)
+            public RemainderColorBlendEffect(double r, double g, double b)
                 : base(blender, 0, r, g, b)
             {
             }
@@ -1040,7 +1040,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public RemainderBlendColorEffect(double a, double r, double g, double b)
+            public RemainderColorBlendEffect(double a, double r, double g, double b)
                 : base(blender, a, r, g, b)
             {
             }
@@ -1050,8 +1050,8 @@ namespace SeeSharp
         /// Represents an overlay bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
-        public sealed unsafe class OverlayBlendColorEffect
-            : BlendColorEffect
+        public sealed unsafe class OverlayColorBlendEffect
+            : ColorBlendEffect
         {
             private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) =>
             {
@@ -1068,7 +1068,7 @@ namespace SeeSharp
             /// <summary>
             /// Creates a new instance
             /// </summary>
-            public OverlayBlendColorEffect()
+            public OverlayColorBlendEffect()
                 : base(blender)
             {
             }
@@ -1077,7 +1077,7 @@ namespace SeeSharp
             /// Creates a new instance using the given color
             /// </summary>
             /// <param name="clr">Blending color</param>
-            public OverlayBlendColorEffect(Color clr)
+            public OverlayColorBlendEffect(Color clr)
                 : base(blender, clr)
             {
             }
@@ -1088,7 +1088,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public OverlayBlendColorEffect(double r, double g, double b)
+            public OverlayColorBlendEffect(double r, double g, double b)
                 : base(blender, 0, r, g, b)
             {
             }
@@ -1100,7 +1100,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public OverlayBlendColorEffect(double a, double r, double g, double b)
+            public OverlayColorBlendEffect(double a, double r, double g, double b)
                 : base(blender, a, r, g, b)
             {
             }
@@ -1110,8 +1110,8 @@ namespace SeeSharp
         /// Represents an hard light bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
-        public sealed unsafe class HardLightBlendColorEffect
-            : BlendColorEffect
+        public sealed unsafe class HardLightColorBlendEffect
+            : ColorBlendEffect
         {
             private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) =>
             {
@@ -1128,7 +1128,7 @@ namespace SeeSharp
             /// <summary>
             /// Creates a new instance
             /// </summary>
-            public HardLightBlendColorEffect()
+            public HardLightColorBlendEffect()
                 : base(blender)
             {
             }
@@ -1137,7 +1137,7 @@ namespace SeeSharp
             /// Creates a new instance using the given color
             /// </summary>
             /// <param name="clr">Blending color</param>
-            public HardLightBlendColorEffect(Color clr)
+            public HardLightColorBlendEffect(Color clr)
                 : base(blender, clr)
             {
             }
@@ -1148,7 +1148,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public HardLightBlendColorEffect(double r, double g, double b)
+            public HardLightColorBlendEffect(double r, double g, double b)
                 : base(blender, 0, r, g, b)
             {
             }
@@ -1160,7 +1160,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public HardLightBlendColorEffect(double a, double r, double g, double b)
+            public HardLightColorBlendEffect(double a, double r, double g, double b)
                 : base(blender, a, r, g, b)
             {
             }
@@ -1170,15 +1170,15 @@ namespace SeeSharp
         /// Represents a soft light bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
-        public sealed unsafe class SoftLightBlendColorEffect
-            : BlendColorEffect
+        public sealed unsafe class SoftLightColorBlendEffect
+            : ColorBlendEffect
         {
             private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) => (((1 - (2 * refcolor[o])) * ival) + (2 * refcolor[o])) * ival);
 
             /// <summary>
             /// Creates a new instance
             /// </summary>
-            public SoftLightBlendColorEffect()
+            public SoftLightColorBlendEffect()
                 : base(blender)
             {
             }
@@ -1187,7 +1187,7 @@ namespace SeeSharp
             /// Creates a new instance using the given color
             /// </summary>
             /// <param name="clr">Blending color</param>
-            public SoftLightBlendColorEffect(Color clr)
+            public SoftLightColorBlendEffect(Color clr)
                 : base(blender, clr)
             {
             }
@@ -1198,7 +1198,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public SoftLightBlendColorEffect(double r, double g, double b)
+            public SoftLightColorBlendEffect(double r, double g, double b)
                 : base(blender, 0, r, g, b)
             {
             }
@@ -1210,7 +1210,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public SoftLightBlendColorEffect(double a, double r, double g, double b)
+            public SoftLightColorBlendEffect(double a, double r, double g, double b)
                 : base(blender, a, r, g, b)
             {
             }
@@ -1220,15 +1220,15 @@ namespace SeeSharp
         /// Represents an additive bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
-        public sealed unsafe class AddBlendColorEffect
-            : BlendColorEffect
+        public sealed unsafe class AddColorBlendEffect
+            : ColorBlendEffect
         {
             private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) => refcolor[o] + ival);
 
             /// <summary>
             /// Creates a new instance
             /// </summary>
-            public AddBlendColorEffect()
+            public AddColorBlendEffect()
                 : base(blender)
             {
             }
@@ -1237,7 +1237,7 @@ namespace SeeSharp
             /// Creates a new instance using the given color
             /// </summary>
             /// <param name="clr">Blending color</param>
-            public AddBlendColorEffect(Color clr)
+            public AddColorBlendEffect(Color clr)
                 : base(blender, clr)
             {
             }
@@ -1248,7 +1248,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public AddBlendColorEffect(double r, double g, double b)
+            public AddColorBlendEffect(double r, double g, double b)
                 : base(blender, 0, r, g, b)
             {
             }
@@ -1260,7 +1260,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public AddBlendColorEffect(double a, double r, double g, double b)
+            public AddColorBlendEffect(double a, double r, double g, double b)
                 : base(blender, a, r, g, b)
             {
             }
@@ -1270,15 +1270,15 @@ namespace SeeSharp
         /// Represents a subtractive bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
-        public sealed unsafe class SubtractBlendColorEffect
-            : BlendColorEffect
+        public sealed unsafe class SubtractColorBlendEffect
+            : ColorBlendEffect
         {
             private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) => ival - refcolor[o]);
 
             /// <summary>
             /// Creates a new instance
             /// </summary>
-            public SubtractBlendColorEffect()
+            public SubtractColorBlendEffect()
                 : base(blender)
             {
             }
@@ -1287,7 +1287,7 @@ namespace SeeSharp
             /// Creates a new instance using the given color
             /// </summary>
             /// <param name="clr">Blending color</param>
-            public SubtractBlendColorEffect(Color clr)
+            public SubtractColorBlendEffect(Color clr)
                 : base(blender, clr)
             {
             }
@@ -1298,7 +1298,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public SubtractBlendColorEffect(double r, double g, double b)
+            public SubtractColorBlendEffect(double r, double g, double b)
                 : base(blender, 0, r, g, b)
             {
             }
@@ -1310,7 +1310,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public SubtractBlendColorEffect(double a, double r, double g, double b)
+            public SubtractColorBlendEffect(double a, double r, double g, double b)
                 : base(blender, a, r, g, b)
             {
             }
@@ -1320,15 +1320,15 @@ namespace SeeSharp
         /// Represents a differentiative bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
-        public sealed unsafe class DifferenceBlendColorEffect
-            : BlendColorEffect
+        public sealed unsafe class DifferenceColorBlendEffect
+            : ColorBlendEffect
         {
             private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) => Abs(ival - refcolor[o]));
 
             /// <summary>
             /// Creates a new instance
             /// </summary>
-            public DifferenceBlendColorEffect()
+            public DifferenceColorBlendEffect()
                 : base(blender)
             {
             }
@@ -1337,7 +1337,7 @@ namespace SeeSharp
             /// Creates a new instance using the given color
             /// </summary>
             /// <param name="clr">Blending color</param>
-            public DifferenceBlendColorEffect(Color clr)
+            public DifferenceColorBlendEffect(Color clr)
                 : base(blender, clr)
             {
             }
@@ -1348,7 +1348,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public DifferenceBlendColorEffect(double r, double g, double b)
+            public DifferenceColorBlendEffect(double r, double g, double b)
                 : base(blender, 0, r, g, b)
             {
             }
@@ -1360,7 +1360,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public DifferenceBlendColorEffect(double a, double r, double g, double b)
+            public DifferenceColorBlendEffect(double a, double r, double g, double b)
                 : base(blender, a, r, g, b)
             {
             }
@@ -1370,15 +1370,15 @@ namespace SeeSharp
         /// Represents an darker-only bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
-        public sealed unsafe class DarkerOnlyBlendColorEffect
-            : BlendColorEffect
+        public sealed unsafe class DarkerOnlyColorBlendEffect
+            : ColorBlendEffect
         {
             private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) => Min(ival, refcolor[o]));
 
             /// <summary>
             /// Creates a new instance
             /// </summary>
-            public DarkerOnlyBlendColorEffect()
+            public DarkerOnlyColorBlendEffect()
                 : base(blender)
             {
             }
@@ -1387,7 +1387,7 @@ namespace SeeSharp
             /// Creates a new instance using the given color
             /// </summary>
             /// <param name="clr">Blending color</param>
-            public DarkerOnlyBlendColorEffect(Color clr)
+            public DarkerOnlyColorBlendEffect(Color clr)
                 : base(blender, clr)
             {
             }
@@ -1398,7 +1398,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public DarkerOnlyBlendColorEffect(double r, double g, double b)
+            public DarkerOnlyColorBlendEffect(double r, double g, double b)
                 : base(blender, 0, r, g, b)
             {
             }
@@ -1410,7 +1410,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public DarkerOnlyBlendColorEffect(double a, double r, double g, double b)
+            public DarkerOnlyColorBlendEffect(double a, double r, double g, double b)
                 : base(blender, a, r, g, b)
             {
             }
@@ -1420,15 +1420,15 @@ namespace SeeSharp
         /// Represents an lighter-only bitmap color blend effect
         /// </summary>
         [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
-        public sealed unsafe class LighterOnlyBlendColorEffect
-            : BlendColorEffect
+        public sealed unsafe class LighterOnlyColorBlendEffect
+            : ColorBlendEffect
         {
             private static readonly ColorBlendingFunction blender = new ColorBlendingFunction((ival, refcolor, i, psz, w, t, l, o) => Max(ival, refcolor[o]));
 
             /// <summary>
             /// Creates a new instance
             /// </summary>
-            public LighterOnlyBlendColorEffect()
+            public LighterOnlyColorBlendEffect()
                 : base(blender)
             {
             }
@@ -1437,7 +1437,7 @@ namespace SeeSharp
             /// Creates a new instance using the given color
             /// </summary>
             /// <param name="clr">Blending color</param>
-            public LighterOnlyBlendColorEffect(Color clr)
+            public LighterOnlyColorBlendEffect(Color clr)
                 : base(blender, clr)
             {
             }
@@ -1448,7 +1448,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public LighterOnlyBlendColorEffect(double r, double g, double b)
+            public LighterOnlyColorBlendEffect(double r, double g, double b)
                 : base(blender, 0, r, g, b)
             {
             }
@@ -1460,7 +1460,7 @@ namespace SeeSharp
             /// <param name="r">The blending color's red channel</param>
             /// <param name="g">The blending color's green channel</param>
             /// <param name="b">The blending color's blue channel</param>
-            public LighterOnlyBlendColorEffect(double a, double r, double g, double b)
+            public LighterOnlyColorBlendEffect(double a, double r, double g, double b)
                 : base(blender, a, r, g, b)
             {
             }
@@ -3404,6 +3404,10 @@ namespace SeeSharp
         /// The internal bitmap blending function
         /// </summary>
         public BitmapBlendingFunction Blender { get; }
+        /// <summary>
+        /// Determines whether the alpha-channel should be blended (default is false)
+        /// </summary>
+        public bool UseAlpha { get; }
 
         /// <summary>
         /// Disposes the current instance
@@ -3473,12 +3477,15 @@ namespace SeeSharp
                             {
                                 ndx = (y * t) + (x * psz);
 
-                                if (inrange(x, y))
-                                    for (i = 0; i < psz; i++)
+                                for (i = 0; i < psz; i++)
+                                {
+                                    bool c = psz < 4 ? true : (i != 0) || UseAlpha;
+
+                                    if (inrange(x, y) && c)
                                         dptr[ndx + i] = (byte)(Blender(sptr1[ndx + i] / 255d, sptr2[ndx + i] / 255d, x, y, t, w, h, ndx, i) * 255d).Constrain(0, 255);
-                                else
-                                    for (i = 0; i < psz; i++)
+                                    else
                                         dptr[ndx + i] = sptr1[ndx + i];
+                                }
                             }
                 }
                 finally
@@ -3495,13 +3502,27 @@ namespace SeeSharp
         /// Creates a new instance using the given blending function
         /// </summary>
         /// <param name="func">Bitmap blending function</param>
-        public BitmapBlendEffect(BitmapBlendingFunction func) => Blender = func;
+        public BitmapBlendEffect(BitmapBlendingFunction func)
+            : this(func, false)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new instance using the given blending function
+        /// </summary>
+        /// <param name="func">Bitmap blending function</param>
+        /// <param name="alpha">Determines whether the alpha-channel should be blended (default is false)</param>
+        public BitmapBlendEffect(BitmapBlendingFunction func, bool alpha)
+        {
+            UseAlpha = alpha;
+            Blender = func;
+        }
     }
 
     /// <summary>
     /// Represents an abstract color blending effect
     /// </summary>
-    public unsafe abstract class BlendColorEffect
+    public unsafe abstract class ColorBlendEffect
         : RangeEffect
     {
         /// <summary>
@@ -3601,7 +3622,7 @@ namespace SeeSharp
         /// Creates a new instance using the given blending function
         /// </summary>
         /// <param name="func">Blending function</param>
-        public BlendColorEffect(ColorBlendingFunction func)
+        public ColorBlendEffect(ColorBlendingFunction func)
             : this(func, Color.Black)
         {
         }
@@ -3611,7 +3632,7 @@ namespace SeeSharp
         /// </summary>
         /// <param name="func">Blending function</param>
         /// <param name="clr">Blending color</param>
-        public BlendColorEffect(ColorBlendingFunction func, Color clr)
+        public ColorBlendEffect(ColorBlendingFunction func, Color clr)
             : this(func, clr.A / 255.0, clr.R / 255.0, clr.G / 255.0, clr.B / 255.0)
         {
         }
@@ -3623,7 +3644,7 @@ namespace SeeSharp
         /// <param name="r">The blending color's red channel</param>
         /// <param name="g">The blending color's green channel</param>
         /// <param name="b">The blending color's blue channel</param>
-        public BlendColorEffect(ColorBlendingFunction func, double r, double g, double b)
+        public ColorBlendEffect(ColorBlendingFunction func, double r, double g, double b)
             : this(func, 0, r, g, b)
         {
         }
@@ -3636,7 +3657,7 @@ namespace SeeSharp
         /// <param name="r">The blending color's red channel</param>
         /// <param name="g">The blending color's green channel</param>
         /// <param name="b">The blending color's blue channel</param>
-        public BlendColorEffect(ColorBlendingFunction func, double a, double r, double g, double b)
+        public ColorBlendEffect(ColorBlendingFunction func, double a, double r, double g, double b)
         {
             Blender = func;
             refcolor = new double[4] { b.Normalize(), g.Normalize(), r.Normalize(), a.Normalize() };

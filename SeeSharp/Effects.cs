@@ -2093,6 +2093,123 @@ namespace SeeSharp
             }
         }
 
+        /// <summary>
+        /// Represents an excessive sharpener bitmap effect which sharpens the edges but blurs the rest
+        /// </summary>
+        [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
+        public sealed class ExcessiveSharpenerBitmapEffect
+            : SingleMatrixConvolutionBitmapEffect
+        {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
+            public ExcessiveSharpenerBitmapEffect()
+                : base(new double[3, 3] {
+                    { 1,1,1, },
+                    { 1,-7,1, },
+                    { 1,1,1, },
+                }, 1, 0, false)
+            {
+            }
+        }
+
+        #endregion
+        #region TRANSFORMATION EFFECTS
+
+        /// <summary>
+        /// Represents a bitmap rotating effect
+        /// </summary>
+        [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
+        public sealed class RotateEffect
+            : BitmapTransformEffect
+        {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
+            public RotateEffect()
+                : this(0)
+            {
+            }
+
+            /// <summary>
+            /// Creates a new instance with the given angle
+            /// </summary>
+            /// <param name="φ">The rotation angle [0...2π]</param>
+            public RotateEffect(double φ)
+                : base(new double[2, 2] {
+                    { Cos(φ), -Sin(φ) },
+                    { Sin(φ), Cos(φ) },
+                })
+            {
+            }
+        }
+
+        /// <summary>
+        /// Represents a bitmap zoom effect
+        /// </summary>
+        [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
+        public sealed class ZoomEffect
+            : BitmapTransformEffect
+        {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
+            public ZoomEffect()
+                : this(1)
+            {
+            }
+
+            /// <summary>
+            /// Creates a new instance with the given zoom factor
+            /// </summary>
+            /// <param name="factor">The zoom factor (0...]</param>
+            public ZoomEffect(double factor)
+                : base(new double[2, 2] {
+                    { factor, 0 },
+                    { 0, factor },
+                })
+            {
+            }
+        }
+
+        /// <summary>
+        /// Represents a horizontal bitmap flip effect
+        /// </summary>
+        [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
+        public sealed class HorizontalFlipEffect
+            : BitmapTransformEffect
+        {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
+            public HorizontalFlipEffect()
+                : base(new double[2, 2] {
+                    { -1, 0 },
+                    { 0, 1 },
+                })
+            {
+            }
+        }
+
+        /// <summary>
+        /// Represents a vertical bitmap flip effect
+        /// </summary>
+        [Serializable, DebuggerStepThrough, DebuggerNonUserCode]
+        public sealed class VerticalFlipEffect
+            : BitmapTransformEffect
+        {
+            /// <summary>
+            /// Creates a new instance
+            /// </summary>
+            public VerticalFlipEffect()
+                : base(new double[2, 2] {
+                    { 1, 0 },
+                    { 0, -1 },
+                })
+            {
+            }
+        }
+
         #endregion
         #region OTHER EFFECTS
 
@@ -2984,6 +3101,8 @@ namespace SeeSharp
             if (Grayscale)
                 bmp = new GrayscaleBitmapEffect().Apply(bmp);
 
+            bmp = bmp.ToARGB32();
+
             BitmapLockInfo src = bmp.LockBitmap();
             BitmapLockInfo dst = new Bitmap(bmp.Width, bmp.Height, bmp.PixelFormat).LockBitmap();
             Func<int, int, bool> inrange;
@@ -3005,8 +3124,6 @@ namespace SeeSharp
             double r, g, b, a, m, fac, bia;
             double[,] mat = Matrix;
 
-            if (psz < 3)
-                throw new ArgumentException("The bitmap must have a minimum pixel depth of 24 Bits.", nameof(bmp));
             if (mat.GetLength(0) != mat.GetLength(1))
                 throw new InvalidProgramException("The horizontal convolution matrix must be symertical.");
 
@@ -3042,12 +3159,10 @@ namespace SeeSharp
 
                                     m = mat[fy + fo, fx + fo];
 
-                                    b += sptr[so] * m;
+                                    b += sptr[so + 0] * m;
                                     g += sptr[so + 1] * m;
                                     r += sptr[so + 2] * m;
-
-                                    if (psz > 3)
-                                        a += sptr[so + 3] * m;
+                                    a += sptr[so + 3] * m;
                                 }
 
                             b = (fac * b) + bia;
@@ -3055,12 +3170,10 @@ namespace SeeSharp
                             r = (fac * r) + bia;
                             a = (fac * a) + bia;
 
-                            dptr[to + 0] = (byte)(b > 255 ? 255 : b < 0 ? 0 : b);
-                            dptr[to + 1] = (byte)(g > 255 ? 255 : g < 0 ? 0 : g);
-                            dptr[to + 2] = (byte)(r > 255 ? 255 : r < 0 ? 0 : r);
-
-                            if (psz > 3)
-                                dptr[to + 3] = (byte)(a > 255 ? 255 : a < 0 ? 0 : a);
+                            dptr[to + 0] = (byte)b.Constrain(0, 255);
+                            dptr[to + 1] = (byte)g.Constrain(0, 255);
+                            dptr[to + 2] = (byte)r.Constrain(0, 255);
+                            dptr[to + 3] = (byte)a.Constrain(0, 255);
                         }
                         else
                         {

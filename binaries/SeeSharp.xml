@@ -1554,6 +1554,68 @@
             </summary>
             <param name="grayscale">Determines whether the effect should grayscale the image before processing</param>
         </member>
+        <member name="T:SeeSharp.Effects.ExcessiveSharpenerBitmapEffect">
+            <summary>
+            Represents an excessive sharpener bitmap effect which sharpens the edges but blurs the rest
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.ExcessiveSharpenerBitmapEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="T:SeeSharp.Effects.RotateEffect">
+            <summary>
+            Represents a bitmap rotating effect
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.RotateEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.RotateEffect.#ctor(System.Double)">
+            <summary>
+            Creates a new instance with the given angle
+            </summary>
+            <param name="φ">The rotation angle [0...2π]</param>
+        </member>
+        <member name="T:SeeSharp.Effects.ZoomEffect">
+            <summary>
+            Represents a bitmap zoom effect
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.ZoomEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.ZoomEffect.#ctor(System.Double)">
+            <summary>
+            Creates a new instance with the given zoom factor
+            </summary>
+            <param name="factor">The zoom factor (0...]</param>
+        </member>
+        <member name="T:SeeSharp.Effects.HorizontalFlipEffect">
+            <summary>
+            Represents a horizontal bitmap flip effect
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.HorizontalFlipEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
+        <member name="T:SeeSharp.Effects.VerticalFlipEffect">
+            <summary>
+            Represents a vertical bitmap flip effect
+            </summary>
+        </member>
+        <member name="M:SeeSharp.Effects.VerticalFlipEffect.#ctor">
+            <summary>
+            Creates a new instance
+            </summary>
+        </member>
         <member name="T:SeeSharp.Effects.NormalMapBitmapEffect">
             <summary>
             Represents the normal bump map bitmap effect

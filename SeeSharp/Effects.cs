@@ -2637,7 +2637,7 @@ namespace SeeSharp
     {
         internal const int MATRIX_SIZE = BitmapColorEffect.MATRIX_SIZE;
         /// <summary>
-        /// 
+        /// Color matrix to be applied to the bitmap
         /// </summary>
         public double[,] ColorMatrix { internal set; get; }
 
@@ -2776,7 +2776,7 @@ namespace SeeSharp
     {
         internal const int MATRIX_SIZE = BitmapColorEffect.MATRIX_SIZE;
         /// <summary>
-        /// 
+        /// Color matrix to be applied to the bitmap
         /// </summary>
         public double[,] ColorMatrix { internal set; get; }
 
@@ -3218,7 +3218,7 @@ namespace SeeSharp
         /// </summary>
         public const int MATRIX_SIZE = 5;
         /// <summary>
-        /// 
+        /// Color matrix to be applied to the bitmap
         /// </summary>
         public double[,] ColorMatrix { protected internal set; get; }
 
@@ -3335,7 +3335,7 @@ namespace SeeSharp
         /// </summary>
         public const int MATRIX_SIZE = 5;
         /// <summary>
-        /// 
+        /// Color matrix to be applied to the bitmap
         /// </summary>
         public double[,] ColorMatrix { protected internal set; get; }
 

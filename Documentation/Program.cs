@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using System.IO;
 using System;
 
@@ -25,6 +26,11 @@ namespace Documentation
                 Assembly asm = Assembly.LoadFrom(args[0]);
                 FileInfo targ = new FileInfo(args[1]);
                 string targdir = targ.Directory.FullName;
+
+                XmlDocument xdoc = new XmlDocument();
+
+                xdoc.Load($"{asm.Location}/../{asm.GetName().Name}.xml");
+
                 Type fx_base = asm.GetType("SeeSharp.BitmapEffect");
                 Type fx_inst = asm.GetType("SeeSharp.InstagramEffect");
                 Type fx_scol = asm.GetType("SeeSharp.BitmapColorEffect");
@@ -34,6 +40,7 @@ namespace Documentation
                 Type fx_blendc = asm.GetType("SeeSharp.ColorBlendEffect");
                 Type fx_transf = asm.GetType("SeeSharp.BitmapTransformEffect");
                 Type fx_icolor = asm.GetType("SeeSharp.IColorEffect");
+
                 IEnumerable<(object, Type)> effects = from t in asm.GetTypes()
                                                       where !t.IsAbstract
                                                       where t.IsClass
@@ -126,7 +133,7 @@ Effect list:
                             double[,] hmat = fx_conv.GetProperty("HorizontalMatrix").GetValue(fx) as double[,];
                             double[,] vmat = fx_conv.GetProperty("VerticalMatrix").GetValue(fx) as double[,];
 
-                            sb.AppendLine($@"   <br/>The effect <code>{type.FullName}</code> uses two <a href=""https://en.wikipedia.org/wiki/Convolution"">convolution matrices</a> to calculate the resulting image:<br/>
+                            sb.AppendLine($@"   <p>The effect <code>{type.FullName}</code> uses two <a href=""https://en.wikipedia.org/wiki/Convolution"">convolution matrices</a> to calculate the resulting image:<br/>
 <table>
     <tbody>
         <tr>
@@ -143,26 +150,29 @@ Effect list:
         </tr>
     </tbody>
 </table>
-");
+</p>");
                         }
                         else if (fx_matr.IsAssignableFrom(type) && type.Name != "ED88BitmapEffect")
-                            sb.AppendLine($@"   <br/>The effect <code>{type.FullName}</code> uses a single <a href=""https://en.wikipedia.org/wiki/Convolution"">convolution matrix</a> to calculate the resulting image:<br/>")
-                              .Append(printmatrix(fx_matr.GetProperty("Matrix").GetValue(fx) as double[,]));
+                            sb.AppendLine($@"   <p>The effect <code>{type.FullName}</code> uses a single <a href=""https://en.wikipedia.org/wiki/Convolution"">convolution matrix</a> to calculate the resulting image:<br/>")
+                              .Append(printmatrix(fx_matr.GetProperty("Matrix").GetValue(fx) as double[,]))
+                              .AppendLine("   </p>");
 
                         if (fx_icolor.IsAssignableFrom(type))
-                            sb.AppendLine($@"   <br/>The effect <code>{type.FullName}</code> uses the following color matrix multiplied with each pixel information to calculate the output color at any given pixel coordinated:<br/>")
-                              .AppendLine(printcolormatrix(fx_icolor.GetProperty("ColorMatrix").GetValue(fx) as double[,]));
+                            sb.AppendLine($@"   <p>The effect <code>{type.FullName}</code> uses the following color matrix multiplied with each pixel information to calculate the output color at any given pixel coordinated:<br/>")
+                              .AppendLine(printcolormatrix(fx_icolor.GetProperty("ColorMatrix").GetValue(fx) as double[,]))
+                              .AppendLine("   </p>");
 
                         if (fx_transf.IsAssignableFrom(type))
-                            sb.AppendLine($@"   <br/>The effect <code>{type.FullName}</code> uses the following transformation matrix to calculate any pixel's new coordinates:<br/>")
-                              .AppendLine(printmatrix(fx_transf.GetProperty("TransformMatrix").GetValue(fx) as double[,]));
+                            sb.AppendLine($@"   <p>The effect <code>{type.FullName}</code> uses the following transformation matrix to calculate any pixel's new coordinates:<br/>")
+                              .AppendLine(printmatrix(fx_transf.GetProperty("TransformMatrix").GetValue(fx) as double[,]))
+                              .AppendLine("   </p>");
 
                         #endregion
                         #region TINT
 
                         if (type.Name == "TintBitmapEffect")
                         {
-                            sb.AppendLine(@"   <br/>Effect applied to ...<br/>
+                            sb.AppendLine(@"   <p>Effect applied to ...<br/>
 <table>
     <tbody>
         <tr>");
@@ -198,17 +208,17 @@ Effect list:
                                     sb.AppendLine("<td></td>");
                             }
 
-                            sb.AppendLine(@"</tr></tbody></table>");
+                            sb.AppendLine(@"</tr></tbody></table></p>");
                         }
                         #endregion
                         #region 'NORMAL' EFFECTS
                         else if (fx_matr.IsAssignableFrom(type) || fx_transf.IsAssignableFrom(type) || insta || add.Contains(type.Name))
-                            sb.AppendLine($@"   <br/>{(insta ? "This is a bitmap effect ported from Instagram's CSS code<br/>" : "")}<img src=""{render()}"" height=""200""/>");
+                            sb.AppendLine($@"   <p>{(insta ? "This is a bitmap effect ported from Instagram's CSS code<br/>" : "")}<img src=""{render()}"" height=""200""/></p>");
                         #endregion
                         #region 0..100% EFFECTS
                         else if (fx_scol.IsAssignableFrom(type))
                         {
-                            sb.AppendLine(@"   <br/>Effect applied to ...<br/>
+                            sb.AppendLine(@"   <p>Effect applied to ...<br/>
 <table>
     <tbody>
         <tr>
@@ -226,13 +236,13 @@ Effect list:
                                 sb.Append($@"<td><img src=""{render(false, type == fx_opac ? 1 - v : v)}"" height=""90""/></td>");
                             }
 
-                            sb.AppendLine(@"</tr></tbody></table>");
+                            sb.AppendLine(@"</tr></tbody></table></p>");
                         }
                         #endregion
                         #region COLOR BLENDING EFFECTS
                         else if (fx_blendc.IsAssignableFrom(type))
-                            sb.AppendLine("   <br/>This effect is identical to it's bitmap blending counterpart -- except for the fact, that it does not blend two bitmaps, but one bitmap and a color.")
-                              .AppendLine($@"   <br/><a href=""#{type.Name.Replace("Color", "Bitmap")}"">Click here</a> to jump to the corresponding bitmap blending effect.");
+                            sb.AppendLine("   <p>This effect is identical to it's bitmap blending counterpart -- except for the fact, that it does not blend two bitmaps, but one bitmap and a color.")
+                              .AppendLine($@"   <br/><a href=""#{type.Name.Replace("Color", "Bitmap")}"">Click here</a> to jump to the corresponding bitmap blending effect.</p>");
                         #endregion
                         #region BITMAP BLENDING EFFECTS
                         else if (fx_blendb.IsAssignableFrom(type))
@@ -240,7 +250,7 @@ Effect list:
                             Bitmap b1 = blend(bmp, bmp2);
                             Bitmap b2 = blend(bmp2, bmp);
 
-                            sb.AppendLine($@"   <br/>
+                            sb.AppendLine($@"   <p>
 <table>
     <tbody>
         <tr>
@@ -256,9 +266,37 @@ Effect list:
             </td>
         </tr>
     </tbody>
-</table>");
+</table>
+</p>");
                         }
                         #endregion
+                    }
+
+                    var constr = from c in type.GetConstructors()
+                                 let p = c.GetParameters()
+                                 where p.Length > 0
+                                 select (c, p);
+
+                    if (constr.Any())
+                    {
+                        sb.AppendLine("<p>The effect can be initialized using one of the following constructors (besides from the default-constructor):<ul>");
+
+                        foreach ((ConstructorInfo c, ParameterInfo[] par) in constr)
+                        {
+                            string xpath = $@"//member[contains(@name,'M:{type.FullName}.#ctor({string.Join(",", from p in par select p.ParameterType.FullName)})')]";
+                            XmlNode elem = xdoc.SelectSingleNode(xpath);
+
+                            sb.AppendLine($@"<li><b><code>{type.Name}({string.Join(", ", from p in par select $"{p.ParameterType} {p.Name}")})</code></b><br/>");
+
+                            if (elem == null)
+                                sb.AppendLine("<i>No XML documentation could be found.</i>");
+                            else
+                                sb.AppendLine(string.Join("<br/>", from p in par select $"<i>{p.Name}:</i> {elem.SelectSingleNode($"//param[@name={p.Name}]")?.InnerText}"));
+
+                            sb.AppendLine("</li>");
+                        }
+
+                        sb.AppendLine("</ul></p>");
                     }
 
                     sb.AppendLine("</li>");

@@ -1745,7 +1745,7 @@
         </member>
         <member name="P:SeeSharp.MatrixConvolutionColorBitmapEffect.ColorMatrix">
             <summary>
-            
+            Color matrix to be applied to the bitmap
             </summary>
         </member>
         <member name="M:SeeSharp.MatrixConvolutionColorBitmapEffect.Dispose">
@@ -1776,7 +1776,7 @@
         </member>
         <member name="P:SeeSharp.SingleMatrixConvolutionColorBitmapEffect.ColorMatrix">
             <summary>
-            
+            Color matrix to be applied to the bitmap
             </summary>
         </member>
         <member name="M:SeeSharp.SingleMatrixConvolutionColorBitmapEffect.Dispose">
@@ -1906,7 +1906,7 @@
         </member>
         <member name="P:SeeSharp.BitmapColorEffect.ColorMatrix">
             <summary>
-            
+            Color matrix to be applied to the bitmap
             </summary>
         </member>
         <member name="M:SeeSharp.BitmapColorEffect.Dispose">
@@ -1944,7 +1944,7 @@
         </member>
         <member name="P:SeeSharp.HSLBitmapColorEffect.ColorMatrix">
             <summary>
-            
+            Color matrix to be applied to the bitmap
             </summary>
         </member>
         <member name="M:SeeSharp.HSLBitmapColorEffect.Dispose">

@@ -33,6 +33,7 @@ namespace Documentation
                 Type fx_blendb = asm.GetType("SeeSharp.BitmapBlendEffect");
                 Type fx_blendc = asm.GetType("SeeSharp.ColorBlendEffect");
                 Type fx_transf = asm.GetType("SeeSharp.BitmapTransformEffect");
+                Type fx_icolor = asm.GetType("SeeSharp.IColorEffect");
                 IEnumerable<(object, Type)> effects = from t in asm.GetTypes()
                                                       where !t.IsAbstract
                                                       where t.IsClass
@@ -108,6 +109,7 @@ Effect list:
 
                 Type fx_opac = asm.GetType("SeeSharp.Effects.OpacityBitmapEffect");
                 string[] ignore = { "ZoomEffect", "RotateEffect" };
+                string[] add = { "NormalMapBitmapEffect", "SimpleGlowBitmapEffect" };
 
                 foreach ((object fx, Type type) in effects)
                 {
@@ -144,8 +146,16 @@ Effect list:
 ");
                         }
                         else if (fx_matr.IsAssignableFrom(type) && type.Name != "ED88BitmapEffect")
-                            sb.AppendLine($@"   <br/>The effect <code>{type.FullName}</code> uses a single<a href=""https://en.wikipedia.org/wiki/Convolution"">convolution matrix</a> to calculate the resulting image:<br/>")
-                              .AppendLine(printmatrix(fx_matr.GetProperty("Matrix").GetValue(fx) as double[,]));
+                            sb.AppendLine($@"   <br/>The effect <code>{type.FullName}</code> uses a single <a href=""https://en.wikipedia.org/wiki/Convolution"">convolution matrix</a> to calculate the resulting image:<br/>")
+                              .Append(printmatrix(fx_matr.GetProperty("Matrix").GetValue(fx) as double[,]));
+
+                        if (fx_icolor.IsAssignableFrom(type))
+                            sb.AppendLine($@"   <br/>The effect <code>{type.FullName}</code> uses the following color matrix multiplied with each pixel information to calculate the output color at any given pixel coordinated:<br/>")
+                              .AppendLine(printcolormatrix(fx_icolor.GetProperty("ColorMatrix").GetValue(fx) as double[,]));
+
+                        if (fx_transf.IsAssignableFrom(type))
+                            sb.AppendLine($@"   <br/>The effect <code>{type.FullName}</code> uses the following transformation matrix to calculate any pixel's new coordinates:<br/>")
+                              .AppendLine(printmatrix(fx_transf.GetProperty("TransformMatrix").GetValue(fx) as double[,]));
 
                         #endregion
                         #region TINT
@@ -192,7 +202,7 @@ Effect list:
                         }
                         #endregion
                         #region 'NORMAL' EFFECTS
-                        else if (fx_matr.IsAssignableFrom(type) || fx_transf.IsAssignableFrom(type) || insta)
+                        else if (fx_matr.IsAssignableFrom(type) || fx_transf.IsAssignableFrom(type) || insta || add.Contains(type.Name))
                             sb.AppendLine($@"   <br/>{(insta ? "This is a bitmap effect ported from Instagram's CSS code<br/>" : "")}<img src=""{render()}"" height=""200""/>");
                         #endregion
                         #region 0..100% EFFECTS
@@ -305,6 +315,16 @@ Effect list:
                         select $"<tr>{string.Join("", from col in Enumerable.Range(0, matr.GetLength(1)) select $"<td>{matr[row, col].RoundToSignificantDigits(3)}</td>")}</tr>";
 
             return $"<table><tbody>{string.Join("", lines)}</tbody></table>";
+        }
+
+        private static string printcolormatrix(double[,] matr)
+        {
+            const string DESC = "RGBAF";
+
+            var lines = from row in Enumerable.Range(0, 5)
+                        select $"<tr><th>{DESC[row]}</th>{string.Join("", from col in Enumerable.Range(0, 5) select $"<td>{matr[row, col].RoundToSignificantDigits(3)}</td>")}</tr>";
+
+            return $"<table><tbody><tr><th></th><th>R</th><th>G</th><th>B</th><th>A</th><th>O</th></tr>{string.Join("", lines)}</tbody></table>";
         }
 
         private static double RoundToSignificantDigits(this double d, int digits)

@@ -291,7 +291,7 @@ Effect list:
                             if (elem == null)
                                 sb.AppendLine("<i>No XML documentation could be found.</i>");
                             else
-                                sb.AppendLine(string.Join("<br/>", from p in par select $"<i>{p.Name}:</i> {elem.SelectSingleNode($"//param[@name={p.Name}]")?.InnerText}"));
+                                sb.AppendLine(string.Join("<br/>", from p in par select $"<i>{p.Name}:</i> {elem.SelectSingleNode($"param[@name='{p.Name}']")?.InnerText}"));
 
                             sb.AppendLine("</li>");
                         }

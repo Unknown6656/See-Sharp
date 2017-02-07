@@ -57,6 +57,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)*.*" "$(SolutionDir)binaries"
+del "$(SolutionDir)binaries\*.tmp"
 "$(SolutionDir)Documentation\bin\Debug\doc.exe" "$(SolutionDir)binaries\$(TargetFileName)" "$(SolutionDir)\docs\readme.md" "../"</PostBuildEvent>
   </PropertyGroup>
 </Project>
